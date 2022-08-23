@@ -20,6 +20,9 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: db
+  password: postgres
+  username: postgres
 
 development:
   <<: *default
@@ -82,5 +85,5 @@ test:
 production:
   <<: *default
   database: home_care_navi_second_production
-  username: home_care_navi_second
-  password: <%= ENV["HOME_CARE_NAVI_SECOND_DATABASE_PASSWORD"] %>
+  password: <%= Rails.application.credentials.dig(:db, :password) %>
+  host: <%= Rails.application.credentials.dig(:db, :host) %>
