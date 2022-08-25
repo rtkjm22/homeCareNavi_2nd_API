@@ -1,24 +1,19 @@
-# README
+# PRUMアカデミー
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## ホームケアナビ作成用PJ(API)
 
-Things you may want to cover:
+### 環境構築
+1. `git clone https://github.com/rtkjm22/homeCareNavi_2nd_API.git`
+2. `cd homeCareNavi_2nd_API`
+3. `docker compose build`
+4. `dokcer compose up -d`
 
-* Ruby version
+#### 以下環境が立ち上がっていればOK
+- http://localhost:3000
 
-* System dependencies
+### 詳細情報
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+name|version
+--|--
+Ruby | 3.1.1
+Ruby on Rails | 7.0.2.3
