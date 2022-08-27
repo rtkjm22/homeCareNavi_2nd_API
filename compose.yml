@@ -13,6 +13,7 @@ services:
   api:
     build:
       context: .
+    image: home-care-navi-second-api
     container_name: home-care-navi-second-api-container
     volumes:
       - .:/api
