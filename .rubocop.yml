@@ -9,6 +9,7 @@ AllCops:
     - 'db/**/*'
     - 'bin/**/*'
     - 'config/**/*'
+    - 'spec/*.rb'
 
 Style/Documentation:
   Enabled: false
