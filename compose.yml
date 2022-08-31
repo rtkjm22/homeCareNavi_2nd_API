@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:14.4
+    container_name: home-care-navi-second-db-container
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PORT=5432
+      - TZ=Asia/Tokyo
+    ports:
+      - "5432:5432"
+
+  api:
+    build:
+      context: .
+    image: home-care-navi-second-api
+    container_name: home-care-navi-second-api-container
+    volumes:
+      - .:/api
+      - ../homeCareNavi_2nd_OpenAPI/reference:/reference
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    command: rails s -b 0.0.0.0
+    tty: true

@@ -1,0 +1,46 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'db/**/*'
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'spec/*.rb'
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/ExampleWording:
+  Enabled: false
+
+RSpec/MessageChain:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 10
+
+RSpec/DescribedClass:
+  Enabled: false
