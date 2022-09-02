@@ -30,6 +30,6 @@
 
 .idea
 lsp
-.ash_historycoverage
 coverage
 .ash_history
+.irb_history
