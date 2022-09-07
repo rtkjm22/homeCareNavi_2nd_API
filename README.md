@@ -36,7 +36,9 @@ Ruby on Rails | 7.0.2.3
 ```mermaid
 erDiagram
     users ||--o{ offfices: ""
+    users ||--o{ clients: ""
     offfices ||--o{ staffs: ""
+    offfices ||--o{ clients: ""
 
 users {
   id bigint
@@ -86,5 +88,17 @@ offfices {
   share_facilities string
   company_name string
   office_site string
+}
+
+clients {
+  id bigint
+  user_id bigint
+  staff_id bigint
+  name string
+  name_frigana string
+  age string
+  postcode string
+  address string
+  family string
 }
 ```
