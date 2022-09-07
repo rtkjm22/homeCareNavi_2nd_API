@@ -37,8 +37,10 @@ Ruby on Rails | 7.0.2.3
 erDiagram
     users ||--o{ offfices: ""
     users ||--o{ clients: ""
+    users ||--o{ appointment: ""
     offfices ||--o{ staffs: ""
     offfices ||--o{ clients: ""
+    offfices ||--o{ appointment: ""
 
 users {
   id bigint
@@ -100,5 +102,18 @@ clients {
   postcode string
   address string
   family string
+}
+
+appointment {
+  id bigint
+  user_id bigint
+  staff_id bigint
+  interview_date date
+  interview_time time
+  receiver_name string
+  age string
+  phone_number string
+  trouble string
+  is_contact boolean
 }
 ```
