@@ -44,7 +44,7 @@ users {
 }
 
 articles {
-  string title
+  "名前" title
   text text
 }
 ```
