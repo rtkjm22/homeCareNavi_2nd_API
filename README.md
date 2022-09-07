@@ -35,7 +35,8 @@ Ruby on Rails | 7.0.2.3
 #### ER図
 ```mermaid
 erDiagram
-    users ||--o{ articles: ""
+    users ||--o{ offfices: ""
+    offfices ||--o{ staffs: ""
 
 users {
   id bigint
@@ -59,8 +60,31 @@ users {
   is_staff type
 }
 
-articles {
+staffs {
+  office_id bigint
   id bigint
   name string
+  kana string
+  introduction string
+  section tinyint
+}
+
+offfices {
+  id bigint
+  office_name string
+  title string
+  feature string
+  fax_number string
+  business_day tinyint
+  url string
+  business_day_details string
+  week integer
+  typology string
+  open_date datetime
+  room string
+  requirements string
+  share_facilities string
+  company_name string
+  office_site string
 }
 ```
