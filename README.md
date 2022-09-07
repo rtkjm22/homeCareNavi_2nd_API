@@ -44,7 +44,7 @@ users {
 }
 
 articles {
-  "名前" title
+  名前 title
   text text
 }
 ```
