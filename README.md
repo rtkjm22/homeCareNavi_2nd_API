@@ -38,9 +38,25 @@ erDiagram
     users ||--o{ articles: ""
 
 users {
-  string name
-  string email
-  integer age
+  id bigint
+  name string
+  email string
+  adress string
+  postal string
+  tel string
+  provider string
+  uid string
+  encrypted_password string
+  reset_password_token string
+  reset_password_token_sent_at datetime
+  allow_password_change boolean
+  confirmation_token string
+  confirmed_at datetime
+  confirmation_sent_at datetime
+  tokens json
+  created_at datetime
+  updated_at datetime
+  is_staff type
 }
 
 articles {
