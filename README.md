@@ -31,3 +31,12 @@ name|version
 --|--
 Ruby | 3.1.1
 Ruby on Rails | 7.0.2.3
+
+#### ER図
+```mermaid
+erDiagram
+    EVENTS }|--|{ CONTES : plays
+    CONTES ||--o{ ITEMS : has
+    EVENTS ||--o{ DATES : bookings
+    EVENTS ||--o{ STAFFS : works
+```
