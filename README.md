@@ -43,6 +43,7 @@ erDiagram
     offfices ||--o{ clients: ""
     offfices ||--o{ appointment: ""
     offfices ||--o{ gratitude: ""
+    offfices ||--o{ office_images: ""
     staffs ||--o{ gratitude: ""
 
 users {
@@ -126,6 +127,19 @@ gratitude {
   office_id bigint
   staff_id bigint
   comment string
+  created_at datetime
+  updated_at datetime
+}
+office_images {
+  id bigint
+  office_id bigint
+  image_details string
+  key string
+  filename string
+  content_type string
+  metadata text
+  byte_size bigint
+  checksum string
   created_at datetime
   updated_at datetime
 }
