@@ -35,7 +35,7 @@ Ruby on Rails | 7.0.2.3
 #### ER図
 ```mermaid
 erDiagram
-    users }|--|{ CONTES
+    USERS }|--|{ CONTES
     CONTES ||--o{ ITEMS : has
     EVENTS ||--o{ DATES : bookings
     EVENTS ||--o{ STAFFS : works
