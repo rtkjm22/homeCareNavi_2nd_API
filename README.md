@@ -38,9 +38,12 @@ erDiagram
     users ||--o{ offfices: ""
     users ||--o{ clients: ""
     users ||--o{ appointment: ""
+    users ||--o{ gratitude: ""
     offfices ||--o{ staffs: ""
     offfices ||--o{ clients: ""
     offfices ||--o{ appointment: ""
+    offfices ||--o{ gratitude: ""
+    staffs ||--o{ gratitude: ""
 
 users {
   id bigint
@@ -107,7 +110,7 @@ clients {
 appointment {
   id bigint
   user_id bigint
-  staff_id bigint
+  office_id bigint
   interview_date date
   interview_time time
   receiver_name string
@@ -115,5 +118,15 @@ appointment {
   phone_number string
   trouble string
   is_contact boolean
+}
+
+gratitude {
+  id bigint
+  user_id bigint
+  office_id bigint
+  staff_id bigint
+  comment string
+  created_at datetime
+  updated_at datetime
 }
 ```
