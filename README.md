@@ -35,14 +35,16 @@ Ruby on Rails | 7.0.2.3
 #### ER図
 ```mermaid
 erDiagram
-    USERS }|--|{ CONTES : has
-    CONTES ||--o{ ITEMS : has
-    EVENTS ||--o{ DATES : bookings
-    EVENTS ||--o{ STAFFS : works
-    
-    users {
-      ID id
-      名前 name
-      メールアドレス email
-    }
+    users ||--o{ articles: ""
+
+users {
+  string name
+  string email
+  integer age
+}
+
+articles {
+  string title
+  text text
+}
 ```
