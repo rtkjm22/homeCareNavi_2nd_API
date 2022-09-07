@@ -44,6 +44,8 @@ erDiagram
     offfices ||--o{ appointment: ""
     offfices ||--o{ gratitude: ""
     offfices ||--o{ office_images: ""
+    offfices ||--o{ histories: ""
+    offfices ||--o{ bookmark: ""
     staffs ||--o{ gratitude: ""
 
 users {
@@ -140,6 +142,22 @@ office_images {
   metadata text
   byte_size bigint
   checksum string
+  created_at datetime
+  updated_at datetime
+}
+
+histories {
+  id bigint
+  office_id bigint
+  user_id bigint
+  created_at datetime
+  updated_at datetime
+}
+
+bookmark {
+  id bigint
+  office_id bigint
+  user_id bigint
   created_at datetime
   updated_at datetime
 }
