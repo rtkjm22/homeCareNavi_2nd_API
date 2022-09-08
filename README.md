@@ -35,7 +35,6 @@ Ruby on Rails | 7.0.2.3
 #### ER図
 ```mermaid
 erDiagram
-    users ||--o{ offfices: ""
     users ||--o{ clients: ""
     users ||--o{ appointment: ""
     users ||--o{ gratitude: ""
