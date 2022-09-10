@@ -38,7 +38,7 @@ erDiagram
     users ||--o{ clients: ""
     users ||--o{ appointment: ""
     users ||--o{ gratitude: ""
-    users ||--||{ offfices: ""
+    users ||--|| offfices: ""
     offfices ||--o{ staffs: ""
     offfices ||--o{ clients: ""
     offfices ||--o{ appointment: ""
