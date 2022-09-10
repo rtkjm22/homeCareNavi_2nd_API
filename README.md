@@ -38,6 +38,7 @@ erDiagram
     users ||--o{ clients: ""
     users ||--o{ appointment: ""
     users ||--o{ gratitude: ""
+    users ||--||{ offfices: ""
     offfices ||--o{ staffs: ""
     offfices ||--o{ clients: ""
     offfices ||--o{ appointment: ""
@@ -80,6 +81,7 @@ staffs {
 
 offfices {
   id bigint
+  user_id bigint
   office_name string
   title string
   feature string
