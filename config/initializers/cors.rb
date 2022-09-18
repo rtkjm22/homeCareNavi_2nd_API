@@ -8,7 +8,7 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     if Rails.env.production?
-      origins 'https://www.home-care-navi-second.work'
+      origins ENV['CORS_URL']
     else
       origins 'http://localhost:8080'
     end

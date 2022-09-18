@@ -6,8 +6,8 @@
       "cpu": 0,
       "portMappings": [
         {
-          "containerPort": 3000,
-          "hostPort": 3000,
+          "containerPort": 4000,
+          "hostPort": 4000,
           "protocol": "tcp"
         }
       ],
@@ -27,15 +27,15 @@
         },
         {
           "name": "CORS_URL",
-          "value": "https://www.home-care-navi-second.work"
+          "value": "https://www.home-care-navi-second-dev.work"
         },
         {
           "name": "DATABASE_NAME",
-          "value": "home_care_navi_second_production"
+          "value": "home_care_navi_second_development"
         },
         {
           "name": "SERVER_PORT",
-          "value": "3000"
+          "value": "4000"
         }
       ],
       "mountPoints": [],
@@ -49,14 +49,14 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "/ecs/api",
+          "awslogs-group": "/ecs/api_dev",
           "awslogs-region": "ap-northeast-1",
-          "awslogs-stream-prefix": "ecs-api"
+          "awslogs-stream-prefix": "ecs-api-dev"
         }
       }
     }
   ],
-  "family": "home_care_navi_second_api",
+  "family": "home_care_navi_second_api_dev",
   "taskRoleArn": "arn:aws:iam::299271904246:role/ecs-for-exec",
   "executionRoleArn": "arn:aws:iam::299271904246:role/ecs-task-execution",
   "networkMode": "awsvpc",
