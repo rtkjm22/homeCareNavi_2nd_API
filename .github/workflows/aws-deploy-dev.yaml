@@ -4,7 +4,7 @@ on:
       - develop
     types: [closed]
 
-name: Deploy to Amazon ECS WEB
+name: Deploy to Amazon ECS WEB Dev
 
 
 jobs:
