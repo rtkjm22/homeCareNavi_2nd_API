@@ -3,6 +3,7 @@ namespace :production do
   task start: :environment do
     sh 'rails db:create'
     sh 'rails db:migrate'
-    sh "rails s -b '0.0.0.0'"
+    port = ENV['SERVER_PORT']
+    sh "rails s -b '0.0.0.0' -p #{port}"
   end
 end
