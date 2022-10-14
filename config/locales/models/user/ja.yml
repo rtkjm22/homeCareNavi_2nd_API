@@ -1,0 +1,14 @@
+ja:
+  activerecord:
+    models:
+      user: 'ユーザー'
+      client: '事業所利用者'
+
+    attributes:
+      user:
+        name: '名前'
+        email: 'メールアドレス'
+        password: 'パスワード'
+        tel: '電話番号'
+        postal: '郵便番号'
+        address: '住所'
