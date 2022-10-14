@@ -15,6 +15,9 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
 
     resource "*",
       headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head]
+      methods: [:get, :post, :put, :patch, :delete, :options, :head],
+      # 認証に必要なヘッダーをホワイトリストに追加
+      # https://devise-token-auth.gitbook.io/devise-token-auth/config/cors
+      expose: %w[access-token expiry token-type uid client]
   end
 end
