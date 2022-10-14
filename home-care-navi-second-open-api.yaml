@@ -1,0 +1,1244 @@
+openapi: 3.0.3
+x-stoplight:
+  id: oyf2pt1k0zz67
+info:
+  title: home-care-navi-second
+  version: '1.0'
+  description: 2期のホームケアナビのAPI仕様書
+  contact:
+    name: 平林直樹
+    url: 'https://example.com'
+    email: test@example.com
+  license:
+    name: MIT
+    url: 'https://example.com'
+  termsOfService: hogehgoe@example.com
+servers:
+  - url: 'http://localhost:3000'
+    description: ローカル開発環境
+  - url: 'https://api.home-care-navi-second-api.fun:4000'
+    description: AWS開発環境
+  - url: 'https://api.home-care-navi-second-api.fun:3000'
+    description: AWS本番環境
+paths:
+  /health_check:
+    get:
+      summary: ヘルスチェック
+      tags:
+        - health_check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                properties:
+                  message:
+                    type: string
+                    example: API Health Check OK
+                    description: メッセージに意味は無し
+                required:
+                  - message
+      operationId: getHealthCheck
+      description: ECSのヘルスチェック用エンドポイント
+  /api/v1/auth:
+    post:
+      summary: ユーザー新規作成
+      operationId: signUp
+      description: ユーザーを新規登録する。typeの値によって、ユーザーの種別(事務所利用者等)が決定する。
+      responses:
+        '200':
+          $ref: '#/components/responses/AuthSuccess'
+        '422':
+          description: Unprocessable Entity (WebDAV)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  data:
+                    type: object
+                    required:
+                      - id
+                      - provider
+                      - uid
+                      - allow_password_change
+                      - name
+                      - email
+                      - tel
+                      - address
+                      - postal
+                      - created_at
+                      - updated_at
+                      - type
+                    properties:
+                      id:
+                        type: string
+                        nullable: true
+                      provider:
+                        type: string
+                        example: email
+                        nullable: true
+                      uid:
+                        type: string
+                        nullable: true
+                      allow_password_change:
+                        type: boolean
+                        default: false
+                      name:
+                        type: string
+                        example: テスト　太郎
+                        nullable: true
+                      email:
+                        type: string
+                        example: test@example.com
+                        nullable: true
+                      tel:
+                        type: string
+                        example: 000-1111-2222
+                        nullable: true
+                      address:
+                        type: string
+                        example: 東京都新宿区市ヶ谷本村町5番1号
+                        nullable: true
+                      postal:
+                        type: string
+                        example: '1234567'
+                        nullable: true
+                      created_at:
+                        type: string
+                        nullable: true
+                      updated_at:
+                        type: string
+                        nullable: true
+                      type:
+                        type: string
+                        example: Client
+                        nullable: true
+                  errors:
+                    type: object
+                    required:
+                      - full_messages
+                    properties:
+                      full_messages:
+                        type: array
+                        items:
+                          type: string
+                          example: メールアドレスはすでに存在します
+                required:
+                  - status
+                  - data
+                  - errors
+              examples:
+                example-1:
+                  value:
+                    status: error
+                    data:
+                      id: null
+                      provider: email
+                      uid: string
+                      allow_password_change: false
+                      name: テスト　太郎
+                      email: test@example.com
+                      tel: 000-1111-2222
+                      address: 東京都新宿区市ヶ谷本村町5番1号
+                      postal: '1234567'
+                      created_at: null
+                      updated_at: null
+                      type: Client
+                    errors:
+                      full_messages:
+                        - メールアドレスはすでに存在します
+      tags:
+        - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 名前
+                  example: テスト 太郎
+                email:
+                  type: string
+                  format: email
+                  example: test@example.com
+                  description: メールアドレス
+                tel:
+                  type: string
+                  description: 電話番号
+                  example: 090-1111-2222
+                  pattern: '^0[-0-9]{11,12}$'
+                postal:
+                  type: string
+                  example: '1234567'
+                  pattern: '^\d{7}$'
+                  description: 郵便番号
+                  maxLength: 7
+                address:
+                  type: string
+                  example: 東京都新宿区市ヶ谷本村町5番1号
+                  description: 住所
+                password:
+                  type: string
+                  example: password
+                  description: パスワード
+                type:
+                  type: string
+                  example: Client
+                  description: STIによるユーザー識別文字列
+                confirm_success_url:
+                  type: string
+                  format: uri
+                  example: 'https://www.home-care-navi-second'
+                  description: アカウント登録メールに記載されるURL
+              required:
+                - name
+                - email
+                - tel
+                - postal
+                - address
+                - password
+                - type
+                - confirm_success_url
+            examples:
+              example-1:
+                value:
+                  name: テスト 太郎
+                  email: test@example.com
+                  tel: 090-1111-2222
+                  postal: '1234567'
+                  address: 東京都新宿区市ヶ谷本村町5番1号
+                  password: password
+                  type: Client
+                  confirm_success_url: 'https://www.home-care-navi-second'
+    parameters: []
+    patch:
+      summary: 登録者情報更新
+      operationId: updateAuth
+      responses:
+        '200':
+          $ref: '#/components/responses/AuthSuccess'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                    description: 成功判定
+                  errors:
+                    type: array
+                    description: エラーメッセージ
+                    example:
+                      - ユーザーが見つかりません
+                    items:
+                      type: string
+                  status:
+                    type: string
+                    example: error
+                    description: エラー表示
+                required:
+                  - success
+                  - errors
+                  - status
+        '422':
+          description: Unprocessable Entity (WebDAV)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  errors:
+                    type: object
+                    required:
+                      - full_messages
+                    properties:
+                      full_messages:
+                        example:
+                          - 現在のパスワードを入力してください
+                        type: array
+                        items:
+                          type: string
+                required:
+                  - status
+                  - errors
+              examples:
+                example-1:
+                  value:
+                    status: error
+                    errors:
+                      full_messages:
+                        - 現在のパスワードを入力してください
+      tags:
+        - auth
+      description: 登録者情報を更新する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 新規　名前
+                email:
+                  type: string
+                  example: new@example.com
+                tel:
+                  type: string
+                  example: 111-2222-3333
+                postal:
+                  type: string
+                  example: '1112222'
+                address:
+                  type: string
+                  example: 東京都新宿区市ヶ谷本村町5番1号
+                password:
+                  type: string
+                  example: new-password
+                current_password:
+                  type: string
+                  example: password
+            examples:
+              example-1:
+                value:
+                  name: 新規　名前
+                  email: new@example.com
+                  tel: 111-2222-3333
+                  postal: '1112222'
+                  address: 東京都新宿区市ヶ谷本村町5番1号
+                  password: new-password
+                  current_password: password
+      security:
+        - access-token: []
+        - client: []
+        - expiry: []
+        - uid: []
+      parameters: []
+    delete:
+      summary: 退会
+      operationId: deleteAuth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: succss
+                    description: ステータス
+                  message:
+                    type: string
+                    example: von.heaney@example.org' のアカウントは削除されました。
+                    description: メッセージ
+                required:
+                  - status
+                  - message
+              examples:
+                example-1:
+                  value:
+                    status: succss
+                    message: von.heaney@example.org' のアカウントは削除されました。
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                      example: 削除するアカウントが見つかりません
+                  status:
+                    type: string
+                    example: error
+                required:
+                  - success
+                  - errors
+                  - status
+              examples:
+                example-1:
+                  value:
+                    success: false
+                    errors:
+                      - 削除するアカウントが見つかりません
+                    status: error
+      tags:
+        - auth
+      description: 退会する
+      security:
+        - access-token: []
+        - client: []
+        - expiry: []
+        - uid: []
+  /api/v1/auth/validate_token:
+    get:
+      summary: トークン検証
+      operationId: validateToken
+      description: 'ヘッダー内のaccess-token,client,expiry,uidを検証する'
+      parameters: []
+      security:
+        - access-token: []
+        - client: []
+        - expiry: []
+        - uid: []
+      responses:
+        '200':
+          $ref: '#/components/responses/AuthSuccess'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                      example: ログイン用の認証情報が正しくありません。
+                required:
+                  - success
+                  - errors
+              examples:
+                example-1:
+                  value:
+                    success: false
+                    errors:
+                      - ログイン用の認証情報が正しくありません。
+      tags:
+        - auth
+    parameters: []
+  /api/v1/auth/sign_in:
+    post:
+      summary: ユーザーログイン
+      operationId: signIn
+      description: ユーザーログイン
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: test1@example.com
+                  description: メールアドレス
+                password:
+                  type: string
+                  example: password
+                  description: パスワード
+              required:
+                - email
+                - password
+            examples:
+              example-1:
+                value:
+                  email: test1@example.com
+                  password: password
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+      responses:
+        '200':
+          $ref: '#/components/responses/AuthSuccess'
+          additionalProperties: false
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                      example: ログイン用の認証情報が正しくありません。再度お試しください
+                required:
+                  - success
+                  - errors
+              examples:
+                example-1:
+                  value:
+                    success: false
+                    errors:
+                      - ログイン用の認証情報が正しくありません。再度お試しください
+      tags:
+        - auth
+    parameters: []
+  /api/v1/auth/sign_out:
+    delete:
+      summary: 事業所利用者ログアウト
+      operationId: signOut
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                    description: 成功判定
+                    readOnly: true
+                required:
+                  - success
+      description: 'ヘッダーに`access-token`,`uid`,`client`必須。ログアウトする。'
+      security:
+        - access-token: []
+        - client: []
+        - expiry: []
+        - uid: []
+      tags:
+        - auth
+    parameters: []
+  /api/v1/auth/password:
+    post:
+      summary: パスワードリセット要求
+      operationId: requestPasswordReset
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  message:
+                    type: string
+                    example: '''venita@example.org'' にパスワードリセットの案内が送信されました。'
+                required:
+                  - success
+                  - message
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    message: '''venita@example.org'' にパスワードリセットの案内が送信されました。'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                      example: メールアドレス 'invalid@example.com' のユーザーが見つかりません。
+                required:
+                  - success
+                  - errors
+              examples:
+                example-1:
+                  value:
+                    success: false
+                    errors:
+                      - メールアドレス 'invalid@example.com' のユーザーが見つかりません。
+      description: パラメータのメールアドレスにパスワードリセットメールを送信する。
+      tags:
+        - auth
+    parameters: []
+    patch:
+      summary: パスワードリセット
+      operationId: confirmPasswordReset
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  data:
+                    $ref: '#/components/schemas/User'
+                  message:
+                    type: string
+                    example: パスワードの更新に成功しました
+                    description: 成功メッセージ
+                required:
+                  - success
+                  - data
+                  - message
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      id: 1
+                      name: テスト 太郎
+                      email: test@example.com
+                      tel: 090-1111-2222
+                      postal: '1234567'
+                      address: 東京都新宿区市ヶ谷本村町5番1号
+                      type: Client
+                      provider: email
+                      uid: test1@example.com
+                      allow_password_change: false
+                      created_at: '2022-09-23T00:33:53.961+09:00'
+                      updated_at: '2022-09-23T00:33:53.961+09:00'
+                    message: パスワードの更新に成功しました
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  errors:
+                    type: array
+                    example:
+                      - Unauthorized
+                    items:
+                      type: string
+                required:
+                  - success
+                  - errors
+              examples:
+                example-1:
+                  value:
+                    success: false
+                    errors:
+                      - Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  errors:
+                    type: object
+                    properties:
+                      full_messages:
+                        type: array
+                        example: [パスワード（確認用）とパスワードの入力が一致しません]
+                        description: エラーメッセージ
+                        items:
+                          type: string
+                    required:
+                      - full_messages
+                required:
+                  - success
+      tags:
+        - auth
+      description: パスワードリセットを確定する。
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: new_password
+                  description: 新規パスワード
+                password_confirmation:
+                  type: string
+                  example: new_password
+                  description: 新規パスワード確認
+              required:
+                - password
+                - password_confirmation
+        description: 'ヘッダーにclient,access-token,uid。ボディにpassword,password_confirmationが必須。'
+  /api/v1/client/offices:
+    get:
+      summary: 事業所一覧取得(事業所利用者)
+      tags:
+        - office
+      operationId: getClientOffices
+      description: 事業所一覧を取得する。
+      parameters:
+        - schema:
+            type: string
+            example: 東京 大阪 群馬
+          in: query
+          name: q
+          description: addressを前方一致検索する。OR検索は半角スペースで区切る。
+        - schema:
+            type: string
+          in: query
+          name: page
+          description: ページネーション
+      responses:
+        '200':
+          description: OK
+    parameters: []
+  '/api/v1/client/office/{id}':
+    get:
+      summary: 事業所詳細取得(事業所利用者)
+      tags:
+        - office
+      responses:
+        '200':
+          description: OK
+      operationId: getClientOffice
+      description: 単一の事務所の詳細を取得する
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 1
+          format: int64
+        description: 対象のid
+  '/api/v1/manager/office/{id}':
+    get:
+      summary: 事業所詳細取得(ケアマネ)
+      tags:
+        - office
+      responses:
+        '200':
+          description: OK
+      operationId: getManagerOffice
+      description: 単一の事務所の詳細を取得する
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 1
+          format: int64
+        description: 対象のid
+    patch:
+      summary: 事業所更新(ケアマネ)
+      operationId: updateManagerOffice
+      responses:
+        '200':
+          description: OK
+      tags:
+        - office
+      description: 単一の事務所を更新する
+  /api/v1/client/appointments:
+    post:
+      summary: 予約作成(事業所利用者)
+      operationId: createClientAppointment
+      responses:
+        '200':
+          description: OK
+      tags:
+        - appointment
+      description: ホームケアを予約する
+    get:
+      summary: 予約一覧取得(事業所利用者)
+      operationId: getClientAppointments
+      responses:
+        '200':
+          description: OK
+      description: 予約一覧を取得する
+      tags:
+        - appointment
+    parameters: []
+  /api/v1/manager/appointments:
+    get:
+      summary: 予約一覧取得(ケアマネ)
+      operationId: getManagerAppointments
+      responses:
+        '200':
+          description: OK
+      description: 予約一覧を取得する
+      tags:
+        - appointment
+    parameters: []
+  '/api/v1/manager/appointment/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 1
+          format: int64
+        description: 対象のid
+    patch:
+      summary: 予約更新(ケアマネ)
+      operationId: updateManagerAppointment
+      responses:
+        '200':
+          description: OK
+      description: 予約を更新する
+      tags:
+        - appointment
+  /api/v1/client/thanks:
+    post:
+      summary: お礼投稿(事業所利用者)
+      operationId: createClientThank
+      responses:
+        '200':
+          description: OK
+      tags:
+        - thank
+      description: お礼を投稿する
+    get:
+      summary: お礼一覧取得(事業所利用者)
+      operationId: getClientThanks
+      responses:
+        '200':
+          description: OK
+      description: お礼一覧を取得する
+      tags:
+        - thank
+    parameters: []
+  /api/v1/manager/thanks:
+    get:
+      summary: お礼一覧取得(ケアマネ)
+      operationId: getManagerThanks
+      responses:
+        '200':
+          description: OK
+      description: お礼一覧を取得する
+      tags:
+        - thank
+    parameters: []
+  '/api/v1/client/thank/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 1
+          format: int64
+        description: 対象のid
+    delete:
+      summary: お礼削除(事業所利用者)
+      operationId: deleteClientThank
+      responses:
+        '200':
+          description: OK
+      description: お礼を削除する
+      tags:
+        - thank
+    patch:
+      summary: お礼更新(事業所利用者)
+      operationId: updateClientThank
+      responses:
+        '200':
+          description: OK
+      tags:
+        - thank
+      description: お礼を更新する
+  '/api/v1/manager/thank/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 1
+          format: int64
+        description: 対象のid
+    delete:
+      summary: お礼削除(ケアマネ)
+      operationId: deleteManagerThank
+      responses:
+        '200':
+          description: OK
+      description: お礼を削除する
+      tags:
+        - thank
+  /api/v1/client/histories:
+    get:
+      summary: 閲覧履歴一覧取得(事業所利用者)
+      tags:
+        - history
+      responses:
+        '200':
+          description: OK
+      operationId: getClientHistories
+      description: 事業所の閲覧履歴を取得する
+    parameters: []
+  /api/v1/client/bookmarks:
+    get:
+      summary: ブックマーク一覧取得(事業所利用者)
+      tags:
+        - book_mark
+      responses:
+        '200':
+          description: OK
+      operationId: getClientBookmarks
+      description: ブックマークをつけた事業所一覧を取得する
+    post:
+      summary: ブックマーク作成(事業所利用者)
+      operationId: createClientBookmark
+      responses:
+        '200':
+          description: OK
+      tags:
+        - book_mark
+      description: ブックマークを作成する
+    parameters: []
+  '/api/v1/client/book_mark/{id}':
+    delete:
+      summary: ブックマーク削除(事業所利用者)
+      operationId: deleteClientBookmark
+      responses:
+        '200':
+          description: OK
+      tags:
+        - book_mark
+      description: ブックマークを削除する
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 1
+          format: int64
+        description: 対象のid
+  /api/v1/client/staffs:
+    get:
+      summary: スタッフ一覧取得(事業所利用者)
+      responses:
+        '200':
+          description: OK
+      operationId: getClientStaffs
+      tags:
+        - staff
+      description: スタッフ一覧を取得する
+    parameters: []
+  /api/v1/manager/staffs:
+    get:
+      summary: スタッフ一覧取得(ケアマネ)
+      responses:
+        '200':
+          description: OK
+      operationId: getManagerStaffs
+      tags:
+        - staff
+      description: スタッフ一覧を取得する
+    post:
+      summary: スタッフ作成(ケアマネ)
+      operationId: createManagerStaff
+      responses:
+        '200':
+          description: OK
+      tags:
+        - staff
+      description: スタッフを追加する
+    parameters: []
+  '/api/v1/manager/staff/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 1
+          format: int64
+        description: 対象のid
+    delete:
+      summary: スタッフ削除(ケアマネ)
+      operationId: deleteManagerStaff
+      responses:
+        '200':
+          description: OK
+      tags:
+        - staff
+      description: スタッフを削除する
+    patch:
+      summary: スタッフ更新(ケアマネ)
+      operationId: updateManagerStaff
+      responses:
+        '200':
+          description: OK
+      tags:
+        - staff
+      description: スタッフを更新する
+  /api/v1/manager/office_clients:
+    get:
+      summary: 事業所管理の事業所利用者一覧取得(ケアマネ)
+      responses:
+        '200':
+          description: OK
+      operationId: getManagerOfficeClients
+      tags:
+        - office_client
+      description: 事業所で管理している事業所利用者一覧を取得する
+    parameters: []
+    post:
+      summary: 事業所管理の事業所利用者作成(ケアマネ)
+      operationId: createManagerOfficeClient
+      responses:
+        '200':
+          description: OK
+      tags:
+        - office_client
+      description: 事業所で管理している事業所利用者を作成する
+  '/api/v1/manager/office_client/{id}':
+    patch:
+      summary: 事業所管理の事業所利用者更新(ケアマネ)
+      operationId: updateManagerOfficeClient
+      responses:
+        '200':
+          description: OK
+      tags:
+        - office_client
+      description: 事業所で管理している事業所利用者一覧を更新する
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 1
+          format: int64
+        description: 対象のid
+    delete:
+      summary: 事業所管理の事業所利用者削除(ケアマネ)
+      operationId: deleteManagerOfficeClient
+      responses:
+        '200':
+          description: OK
+      tags:
+        - office_client
+      description: 事業所で管理している事業所利用者一覧を削除する
+components:
+  schemas:
+    User:
+      type: object
+      title: User
+      x-stoplight:
+        id: ygtg1gffnd7xu
+      description: 事業所利用者及び事業所代表者
+      x-examples:
+        example-1:
+          id: 1
+          name: テスト 太郎
+          email: test@example.com
+          tel: 090-1111-2222
+          postal: '1234567'
+          address: 東京都新宿区市ヶ谷本村町5番1号
+          type: Client
+          provider: email
+          uid: test1@example.com
+          allow_password_change: false
+      additionalProperties: false
+      properties:
+        id:
+          type: number
+          example: 1
+          description: ID
+        name:
+          type: string
+          description: 名前
+          example: テスト 太郎
+        email:
+          type: string
+          format: email
+          example: test@example.com
+          description: メールアドレス
+        tel:
+          type: string
+          description: 電話番号
+          example: 090-1111-2222
+          pattern: '^0[-0-9]{11,12}$'
+        postal:
+          type: string
+          example: '1234567'
+          pattern: '^\d{7}$'
+          description: 郵便番号
+          maxLength: 7
+        address:
+          type: string
+          example: 東京都新宿区市ヶ谷本村町5番1号
+          description: 住所
+        type:
+          type: string
+          example: Client
+          description: STIによるユーザー識別文字列
+        provider:
+          type: string
+          example: email
+          default: email
+          description: emailやOmniauth等の認証方式
+        uid:
+          type: string
+          format: email
+          example: test1@example.com
+          description: ユーザー識別子
+        allow_password_change:
+          type: boolean
+          default: false
+          description: パスワード変更中判定
+        created_at:
+          type: string
+          format: date-time
+          example: '2022-09-23T00:33:53.961+09:00'
+          description: 作成日時(新規作成時のみ返ってくる)
+        updated_at:
+          type: string
+          example: '2022-09-23T00:33:53.961+09:00'
+          format: date-time
+          description: 更新日時(新規作成時のみ返ってくる)
+      required:
+        - id
+        - name
+        - email
+        - tel
+        - postal
+        - address
+        - type
+        - provider
+        - uid
+        - allow_password_change
+  responses:
+    AuthSuccess:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: success
+                description: successまたはerror
+                readOnly: true
+              data:
+                $ref: '#/components/schemas/User'
+            required:
+              - data
+          examples:
+            example-1:
+              value:
+                status: success
+                data:
+                  id: 1
+                  name: テスト 太郎
+                  email: test@example.com
+                  tel: 090-1111-2222
+                  postal: '1234567'
+                  address: 東京都新宿区市ヶ谷本村町5番1号
+                  type: Client
+                  provider: email
+                  uid: test1@example.com
+                  allow_password_change: false
+      headers:
+        access-token:
+          schema:
+            type: string
+            example: 7sbMLu90-fDnajzasuhOTQ
+          description: トークン認証に必要なヘッダー(1/4)
+        client:
+          schema:
+            type: string
+            example: xJ-BFLHzY_XNMX_cjsQnPw
+          description: トークン認証に必要なヘッダー(2/4)
+        expiry:
+          schema:
+            type: string
+            example: '1660145125'
+          description: トークン認証に必要なヘッダー(3/4)
+        uid:
+          schema:
+            type: string
+            example: test1@example.com
+          description: トークン認証に必要なヘッダー(4/4)
+  requestBodies: {}
+  parameters: {}
+  securitySchemes:
+    access-token:
+      name: access-token
+      type: apiKey
+      in: header
+      description: トークン認証に必要なヘッダー(1/4)
+    client:
+      name: client
+      type: apiKey
+      in: header
+      description: トークン認証に必要なヘッダー(2/4)
+    expiry:
+      name: expiry
+      type: apiKey
+      in: header
+      description: トークン認証に必要なヘッダー(3/4)
+    uid:
+      name: uid
+      type: apiKey
+      in: header
+      description: トークン認証に必要なヘッダー(4/4)
+tags:
+  - name: appointment
+    description: 予約
+  - name: auth
+    description: 認証
+  - name: book_mark
+    description: ブックマーク
+  - name: client
+    description: 事業所利用者が使用するエンドポイント
+  - name: health_check
+    description: ヘルスチェック関連
+  - name: HeartRailsGeoAPI
+    description: 外部APIサービスであるHearRailsGeoAPI関連
+  - name: history
+    description: 閲覧履歴
+  - name: office
+    description: 事業所
+  - name: office_client
+    description: 事業所で管理しているクライアント
+  - name: staff
+    description: 事業所スタッフ
+  - name: thank
+    description: お礼
