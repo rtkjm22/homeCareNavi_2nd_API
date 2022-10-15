@@ -22,4 +22,10 @@ class User < ApplicationRecord
 
     super(options.merge(methods: :type))
   end
+
+  # 論理削除されている場合は、devise_token_authのログイン判定でfalseを返すようにする
+  # @see https://github.com/jhawthorn/discard#working-with-devise
+  def active_for_authentication?
+    super && !discarded?
+  end
 end

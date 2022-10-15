@@ -66,14 +66,14 @@ RSpec.describe 'DeviseTokenAuth::Registrations', type: :request do
   describe 'ユーザー削除' do
     let!(:client) { create(:client) }
 
-    it 'ログイン済みの場合、自分自身を削除出来ること' do
+    it 'ログイン済みの場合、自分自身を論理削除出来ること' do
       login client
-      expect { delete api_v1_user_registration_path }.to change(Client, :count).by(-1)
+      expect { delete api_v1_user_registration_path }.to change { client.reload.discarded? }.to(true)
       assert_response_schema_confirm(200)
     end
 
-    it '未ログインの場合、自分自身を削除できないこと' do
-      expect { delete api_v1_user_registration_path }.not_to change(Client, :count)
+    it '未ログインの場合、自分自身を論理削除できないこと' do
+      expect { delete api_v1_user_registration_path }.not_to change { client.reload.discarded? }
       assert_response_schema_confirm(404)
     end
   end
