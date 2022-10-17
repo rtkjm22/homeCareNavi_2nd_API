@@ -33,3 +33,6 @@ lsp
 coverage
 .ash_history
 .irb_history
+.rdbg_history
+spec/examples.txt
+

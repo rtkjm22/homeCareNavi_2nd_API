@@ -15,7 +15,11 @@ info:
   termsOfService: hogehgoe@example.com
 servers:
   - url: 'http://localhost:3000'
-    description: 平林直樹
+    description: ローカル開発環境
+  - url: 'https://api.home-care-navi-second-api.fun:4000'
+    description: AWS開発環境
+  - url: 'https://api.home-care-navi-second-api.fun:3000'
+    description: AWS本番環境
 paths:
   /health_check:
     get:
@@ -44,34 +48,351 @@ paths:
       summary: ユーザー新規作成
       operationId: signUp
       description: ユーザーを新規登録する。typeの値によって、ユーザーの種別(事務所利用者等)が決定する。
-      requestBody:
-        $ref: '#/components/requestBodies/Registration'
       responses:
         '200':
           $ref: '#/components/responses/AuthSuccess'
         '422':
-          $ref: '#/components/responses/Error'
+          description: Unprocessable Entity (WebDAV)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  data:
+                    type: object
+                    required:
+                      - id
+                      - provider
+                      - uid
+                      - allow_password_change
+                      - name
+                      - email
+                      - tel
+                      - address
+                      - postal
+                      - created_at
+                      - updated_at
+                      - type
+                    properties:
+                      id:
+                        type: string
+                        nullable: true
+                      provider:
+                        type: string
+                        example: email
+                        nullable: true
+                      uid:
+                        type: string
+                        nullable: true
+                      allow_password_change:
+                        type: boolean
+                        default: false
+                      name:
+                        type: string
+                        example: テスト　太郎
+                        nullable: true
+                      email:
+                        type: string
+                        example: test@example.com
+                        nullable: true
+                      tel:
+                        type: string
+                        example: 000-1111-2222
+                        nullable: true
+                      address:
+                        type: string
+                        example: 東京都新宿区市ヶ谷本村町5番1号
+                        nullable: true
+                      postal:
+                        type: string
+                        example: '1234567'
+                        nullable: true
+                      created_at:
+                        type: string
+                        nullable: true
+                      updated_at:
+                        type: string
+                        nullable: true
+                      type:
+                        type: string
+                        example: Client
+                        nullable: true
+                  errors:
+                    type: object
+                    required:
+                      - full_messages
+                    properties:
+                      full_messages:
+                        type: array
+                        items:
+                          type: string
+                          example: メールアドレスはすでに存在します
+                required:
+                  - status
+                  - data
+                  - errors
+              examples:
+                example-1:
+                  value:
+                    status: error
+                    data:
+                      id: null
+                      provider: email
+                      uid: string
+                      allow_password_change: false
+                      name: テスト　太郎
+                      email: test@example.com
+                      tel: 000-1111-2222
+                      address: 東京都新宿区市ヶ谷本村町5番1号
+                      postal: '1234567'
+                      created_at: null
+                      updated_at: null
+                      type: Client
+                    errors:
+                      full_messages:
+                        - メールアドレスはすでに存在します
       tags:
         - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 名前
+                  example: テスト 太郎
+                email:
+                  type: string
+                  format: email
+                  example: test@example.com
+                  description: メールアドレス
+                tel:
+                  type: string
+                  description: 電話番号
+                  example: 090-1111-2222
+                  pattern: '^0[-0-9]{11,12}$'
+                postal:
+                  type: string
+                  example: '1234567'
+                  pattern: '^\d{7}$'
+                  description: 郵便番号
+                  maxLength: 7
+                address:
+                  type: string
+                  example: 東京都新宿区市ヶ谷本村町5番1号
+                  description: 住所
+                password:
+                  type: string
+                  example: password
+                  description: パスワード
+                type:
+                  type: string
+                  example: Client
+                  description: STIによるユーザー識別文字列
+                confirm_success_url:
+                  type: string
+                  format: uri
+                  example: 'https://www.home-care-navi-second'
+                  description: アカウント登録メールに記載されるURL
+              required:
+                - name
+                - email
+                - tel
+                - postal
+                - address
+                - password
+                - type
+                - confirm_success_url
+            examples:
+              example-1:
+                value:
+                  name: テスト 太郎
+                  email: test@example.com
+                  tel: 090-1111-2222
+                  postal: '1234567'
+                  address: 東京都新宿区市ヶ谷本村町5番1号
+                  password: password
+                  type: Client
+                  confirm_success_url: 'https://www.home-care-navi-second'
     parameters: []
     patch:
       summary: 登録者情報更新
       operationId: updateAuth
       responses:
         '200':
-          description: OK
+          $ref: '#/components/responses/AuthSuccess'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                    description: 成功判定
+                  errors:
+                    type: array
+                    description: エラーメッセージ
+                    example:
+                      - ユーザーが見つかりません
+                    items:
+                      type: string
+                  status:
+                    type: string
+                    example: error
+                    description: エラー表示
+                required:
+                  - success
+                  - errors
+                  - status
+        '422':
+          description: Unprocessable Entity (WebDAV)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  errors:
+                    type: object
+                    required:
+                      - full_messages
+                    properties:
+                      full_messages:
+                        example:
+                          - 現在のパスワードを入力してください
+                        type: array
+                        items:
+                          type: string
+                required:
+                  - status
+                  - errors
+              examples:
+                example-1:
+                  value:
+                    status: error
+                    errors:
+                      full_messages:
+                        - 現在のパスワードを入力してください
       tags:
         - auth
       description: 登録者情報を更新する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: 新規　名前
+                email:
+                  type: string
+                  example: new@example.com
+                tel:
+                  type: string
+                  example: 111-2222-3333
+                postal:
+                  type: string
+                  example: '1112222'
+                address:
+                  type: string
+                  example: 東京都新宿区市ヶ谷本村町5番1号
+                password:
+                  type: string
+                  example: new-password
+                current_password:
+                  type: string
+                  example: password
+            examples:
+              example-1:
+                value:
+                  name: 新規　名前
+                  email: new@example.com
+                  tel: 111-2222-3333
+                  postal: '1112222'
+                  address: 東京都新宿区市ヶ谷本村町5番1号
+                  password: new-password
+                  current_password: password
+      security:
+        - access-token: []
+        - client: []
+        - expiry: []
+        - uid: []
+      parameters: []
     delete:
       summary: 退会
       operationId: deleteAuth
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: succss
+                    description: ステータス
+                  message:
+                    type: string
+                    example: von.heaney@example.org' のアカウントは削除されました。
+                    description: メッセージ
+                required:
+                  - status
+                  - message
+              examples:
+                example-1:
+                  value:
+                    status: succss
+                    message: von.heaney@example.org' のアカウントは削除されました。
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                      example: 削除するアカウントが見つかりません
+                  status:
+                    type: string
+                    example: error
+                required:
+                  - success
+                  - errors
+                  - status
+              examples:
+                example-1:
+                  value:
+                    success: false
+                    errors:
+                      - 削除するアカウントが見つかりません
+                    status: error
       tags:
         - auth
       description: 退会する
+      security:
+        - access-token: []
+        - client: []
+        - expiry: []
+        - uid: []
   /api/v1/auth/validate_token:
     get:
       summary: トークン検証
@@ -86,8 +407,30 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/AuthSuccess'
-        '422':
-          $ref: '#/components/responses/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                      example: ログイン用の認証情報が正しくありません。
+                required:
+                  - success
+                  - errors
+              examples:
+                example-1:
+                  value:
+                    success: false
+                    errors:
+                      - ログイン用の認証情報が正しくありません。
       tags:
         - auth
     parameters: []
@@ -103,28 +446,23 @@ paths:
               type: object
               additionalProperties: false
               properties:
-                session:
-                  type: object
-                  additionalProperties: false
-                  properties:
-                    email:
-                      type: string
-                      format: email
-                      example: test1@example.com
-                      description: メールアドレス
-                    password:
-                      type: string
-                      example: password
-                      description: パスワード
-                  required:
-                    - email
-                    - password
+                email:
+                  type: string
+                  format: email
+                  example: test1@example.com
+                  description: メールアドレス
+                password:
+                  type: string
+                  example: password
+                  description: パスワード
+              required:
+                - email
+                - password
             examples:
               example-1:
                 value:
-                  session:
-                    email: test1@example.com
-                    password: password
+                  email: test1@example.com
+                  password: password
           application/xml:
             schema:
               type: object
@@ -133,6 +471,30 @@ paths:
         '200':
           $ref: '#/components/responses/AuthSuccess'
           additionalProperties: false
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                      example: ログイン用の認証情報が正しくありません。再度お試しください
+                required:
+                  - success
+                  - errors
+              examples:
+                example-1:
+                  value:
+                    success: false
+                    errors:
+                      - ログイン用の認証情報が正しくありません。再度お試しください
       tags:
         - auth
     parameters: []
@@ -166,58 +528,182 @@ paths:
     parameters: []
   /api/v1/auth/password:
     post:
-      summary: パスワード変更
-      operationId: passwordReset
-      responses:
-        '200':
-          description: OK
-      description: パスワードをリセットし、新しいパスワードをDBに保存する
-      tags:
-        - auth
-  /api/v1/client/offices:
-    get:
-      summary: 事業所一覧取得(事業所利用者)
-      tags:
-        - office
+      summary: パスワードリセット要求
+      operationId: requestPasswordReset
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  message:
+                    type: string
+                    example: '''venita@example.org'' にパスワードリセットの案内が送信されました。'
+                required:
+                  - success
+                  - message
               examples:
                 example-1:
                   value:
-                    - id: 1
-                      name: 田中　太郎
-                      email: office1@example.com
+                    success: true
+                    message: '''venita@example.org'' にパスワードリセットの案内が送信されました。'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                      example: メールアドレス 'invalid@example.com' のユーザーが見つかりません。
+                required:
+                  - success
+                  - errors
+              examples:
+                example-1:
+                  value:
+                    success: false
+                    errors:
+                      - メールアドレス 'invalid@example.com' のユーザーが見つかりません。
+      description: パラメータのメールアドレスにパスワードリセットメールを送信する。
+      tags:
+        - auth
+    parameters: []
+    patch:
+      summary: パスワードリセット
+      operationId: confirmPasswordReset
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: true
+                  data:
+                    $ref: '#/components/schemas/User'
+                  message:
+                    type: string
+                    example: パスワードの更新に成功しました
+                    description: 成功メッセージ
+                required:
+                  - success
+                  - data
+                  - message
+              examples:
+                example-1:
+                  value:
+                    success: true
+                    data:
+                      id: 1
+                      name: テスト 太郎
+                      email: test@example.com
                       tel: 090-1111-2222
                       postal: '1234567'
                       address: 東京都新宿区市ヶ谷本村町5番1号
-                      type: OfficeRepresentative
-                      created_at: '2022-08-03T00:06:06.514+09:00'
-                      updated_at: '2022-08-03T00:06:06.514+09:00'
-                    - id: 2
-                      name: 鈴木　次郎
-                      email: office2@example.com
-                      tel: 080-1234-4444
-                      postal: '3210232'
-                      address: 栃木県下都賀郡壬生町中泉1-14-2
-                      type: OfficeRepresentative
-                      created_at: '2022-08-03T00:06:06.514+09:00'
-                      updated_at: '2022-08-03T00:06:06.514+09:00'
-                    - id: 3
-                      name: 加藤　三郎
-                      email: office3@example.com
-                      tel: 070-1242-1296
-                      postal: '0850013'
-                      address: 北海道釧路市栄町4519
-                      type: OfficeRepresentative
-                      created_at: '2022-08-03T00:06:06.514+09:00'
-                      updated_at: '2022-08-03T00:06:06.514+09:00'
+                      type: Client
+                      provider: email
+                      uid: test1@example.com
+                      allow_password_change: false
+                      created_at: '2022-09-23T00:33:53.961+09:00'
+                      updated_at: '2022-09-23T00:33:53.961+09:00'
+                    message: パスワードの更新に成功しました
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  errors:
+                    type: array
+                    example:
+                      - Unauthorized
+                    items:
+                      type: string
+                required:
+                  - success
+                  - errors
+              examples:
+                example-1:
+                  value:
+                    success: false
+                    errors:
+                      - Unauthorized
+        '422':
+          description: Unprocessable Entity (WebDAV)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    default: false
+                  errors:
+                    type: object
+                    properties:
+                      full_messages:
+                        type: array
+                        example: [パスワード（確認用）とパスワードの入力が一致しません]
+                        description: エラーメッセージ
+                        items:
+                          type: string
+                    required:
+                      - full_messages
+                required:
+                  - success
+      tags:
+        - auth
+      description: パスワードリセットを確定する。
+      security:
+        - access-token: []
+        - client: []
+        - uid: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: new_password
+                  description: 新規パスワード
+                password_confirmation:
+                  type: string
+                  example: new_password
+                  description: 新規パスワード確認
+              required:
+                - password
+                - password_confirmation
+        description: 'ヘッダーにclient,access-token,uid。ボディにpassword,password_confirmationが必須。'
+  /api/v1/client/offices:
+    get:
+      summary: 事業所一覧取得(事業所利用者)
+      tags:
+        - office
       operationId: getClientOffices
       description: 事業所一覧を取得する。
       parameters:
@@ -232,6 +718,9 @@ paths:
           in: query
           name: page
           description: ページネーション
+      responses:
+        '200':
+          description: OK
     parameters: []
   '/api/v1/client/office/{id}':
     get:
@@ -573,12 +1062,24 @@ components:
       x-stoplight:
         id: ygtg1gffnd7xu
       description: 事業所利用者及び事業所代表者
+      x-examples:
+        example-1:
+          id: 1
+          name: テスト 太郎
+          email: test@example.com
+          tel: 090-1111-2222
+          postal: '1234567'
+          address: 東京都新宿区市ヶ谷本村町5番1号
+          type: Client
+          provider: email
+          uid: test1@example.com
+          allow_password_change: false
+      additionalProperties: false
       properties:
         id:
           type: number
           example: 1
           description: ID
-          readOnly: true
         name:
           type: string
           description: 名前
@@ -607,16 +1108,30 @@ components:
           type: string
           example: Client
           description: STIによるユーザー識別文字列
+        provider:
+          type: string
+          example: email
+          default: email
+          description: emailやOmniauth等の認証方式
+        uid:
+          type: string
+          format: email
+          example: test1@example.com
+          description: ユーザー識別子
+        allow_password_change:
+          type: boolean
+          default: false
+          description: パスワード変更中判定
         created_at:
           type: string
           format: date-time
-          example: '2022-08-03T00:06:06.514+09:00'
-          description: 作成日時
+          example: '2022-09-23T00:33:53.961+09:00'
+          description: 作成日時(新規作成時のみ返ってくる)
         updated_at:
           type: string
+          example: '2022-09-23T00:33:53.961+09:00'
           format: date-time
-          example: '2022-08-03T00:06:06.514+09:00'
-          description: 更新日時
+          description: 更新日時(新規作成時のみ返ってくる)
       required:
         - id
         - name
@@ -625,8 +1140,9 @@ components:
         - postal
         - address
         - type
-        - created_at
-        - updated_at
+        - provider
+        - uid
+        - allow_password_change
   responses:
     AuthSuccess:
       description: ''
@@ -634,7 +1150,6 @@ components:
         application/json:
           schema:
             type: object
-            additionalProperties: false
             properties:
               status:
                 type: string
@@ -642,42 +1157,14 @@ components:
                 description: successまたはerror
                 readOnly: true
               data:
-                allOf:
-                  - type: object
-                    description: 認証情報
-                    properties:
-                      provider:
-                        type: string
-                        example: email
-                        default: email
-                        description: emailやOmniauth等の認証方式
-                      uid:
-                        type: string
-                        format: email
-                        example: test1@example.com
-                        description: ユーザー識別子
-                      allow_password_change:
-                        type: boolean
-                        default: false
-                        description: パスワード変更中判定
-                        readOnly: true
-                    required:
-                      - provider
-                      - uid
-                      - allow_password_change
-                  - $ref: '#/components/schemas/User'
-                description: ユーザー及び認証情報
+                $ref: '#/components/schemas/User'
             required:
-              - status
               - data
           examples:
             example-1:
               value:
                 status: success
                 data:
-                  provider: email
-                  uid: test1@example.com
-                  allow_password_change: false
                   id: 1
                   name: テスト 太郎
                   email: test@example.com
@@ -685,8 +1172,9 @@ components:
                   postal: '1234567'
                   address: 東京都新宿区市ヶ谷本村町5番1号
                   type: Client
-                  created_at: '2022-08-03T00:06:06.514+09:00'
-                  updated_at: '2022-08-03T00:06:06.514+09:00'
+                  provider: email
+                  uid: test1@example.com
+                  allow_password_change: false
       headers:
         access-token:
           schema:
@@ -700,133 +1188,15 @@ components:
           description: トークン認証に必要なヘッダー(2/4)
         expiry:
           schema:
-            type: number
-            example: 1660145125
+            type: string
+            example: '1660145125'
           description: トークン認証に必要なヘッダー(3/4)
         uid:
           schema:
             type: string
             example: test1@example.com
           description: トークン認証に必要なヘッダー(4/4)
-    Error:
-      description: Example response
-      content:
-        application/json:
-          schema:
-            allOf:
-              - properties:
-                  status:
-                    type: string
-                    default: error
-                    example: error
-                    description: エラーステータス
-                    readOnly: true
-                required:
-                  - status
-              - properties:
-                  data:
-                    type: object
-                    description: レスポンスによって異なる
-                required:
-                  - data
-              - properties:
-                  errors:
-                    type: object
-                    required:
-                      - full_messages
-                    description: エラー情報
-                    properties:
-                      full_messages:
-                        type: array
-                        description: すべてのエラーメッセージ
-                        items:
-                          type: string
-                          example: メールアドレスはすでに存在します
-                required:
-                  - errors
-            type: object
-          examples:
-            example-1:
-              value:
-                status: error
-                data: {}
-                errors:
-                  full_messages:
-                    - メールアドレスはすでに存在します
-  requestBodies:
-    Registration:
-      content:
-        application/json:
-          schema:
-            allOf:
-              - properties:
-                  registration:
-                    type: object
-                    required:
-                      - name
-                      - email
-                      - tel
-                      - postal
-                      - address
-                      - password
-                      - type
-                    properties:
-                      name:
-                        type: string
-                        description: 名前
-                        example: テスト 太郎
-                      email:
-                        type: string
-                        format: email
-                        example: test@example.com
-                        description: メールアドレス
-                      tel:
-                        type: string
-                        description: 電話番号
-                        example: 090-1111-2222
-                        pattern: '^0[-0-9]{11,12}$'
-                      postal:
-                        type: string
-                        example: '1234567'
-                        pattern: '^\d{7}$'
-                        description: 郵便番号
-                        maxLength: 7
-                      address:
-                        type: string
-                        example: 東京都新宿区市ヶ谷本村町5番1号
-                        description: 住所
-                      password:
-                        type: string
-                        example: password
-                        description: パスワード
-                      type:
-                        type: string
-                        example: Client
-                        description: STIによるユーザー識別文字列
-                required:
-                  - registration
-              - properties:
-                  confirm_success_url:
-                    type: string
-                    format: uri
-                    example: 'https://www.home-care-navi-second'
-                    description: アカウント登録メールに記載されるURL
-                required:
-                  - confirm_success_url
-            type: object
-          examples:
-            example-1:
-              value:
-                registration:
-                  name: テスト 太郎
-                  email: test@example.com
-                  tel: 090-1111-2222
-                  postal: '1234567'
-                  address: 東京都新宿区市ヶ谷本村町5番1号
-                  password: password
-                  type: Client
-                confirm_success_url: 'https://www.home-care-navi-second'
-      description: ''
+  requestBodies: {}
   parameters: {}
   securitySchemes:
     access-token:
@@ -860,6 +1230,8 @@ tags:
     description: 事業所利用者が使用するエンドポイント
   - name: health_check
     description: ヘルスチェック関連
+  - name: HeartRailsGeoAPI
+    description: 外部APIサービスであるHearRailsGeoAPI関連
   - name: history
     description: 閲覧履歴
   - name: office
