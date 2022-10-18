@@ -8,6 +8,5 @@ FactoryBot.define do
     password { Faker::Internet.password }
     type { 'Client' }
     confirmed_at { Date.current.in_time_zone }
-    discarded_at { nil }
   end
 end

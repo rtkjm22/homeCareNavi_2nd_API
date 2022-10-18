@@ -3,7 +3,7 @@ namespace :production do
   task start: :environment do
     sh 'rails db:create'
     sh 'rails db:migrate'
-    port = ENV['SERVER_PORT']
+    port = ENV.fetch('SERVER_PORT', nil)
     sh "rails s -b '0.0.0.0' -p #{port}"
   end
 end
