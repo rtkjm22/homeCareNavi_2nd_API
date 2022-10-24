@@ -36,3 +36,4 @@ coverage
 .rdbg_history
 spec/examples.txt
 
+.cache

@@ -30,19 +30,19 @@ RSpec.describe 'DeviseTokenAuth::Registrations', type: :request do
 
   describe 'ユーザー更新' do
     let!(:client) { create(:client) }
-    let!(:new_email) { 'new@example.com' }
-    let!(:new_password) { 'new-password' }
+    let!(:new_client) { attributes_for(:client) }
 
     it 'ログイン済みの場合、更新できること' do
       login client
 
       patch api_v1_user_registration_path,
-            params: { email: new_email, password: new_password, current_password: client.password }
+            params: { current_password: client.password, password_confirmation: new_client[:password], **new_client }
+
+      expect(response_symbolized_body[:data]).to include new_client.except(:password, :confirmed_at)
 
       client.reload
 
-      expect(client.email).to eq new_email
-      expect(client.valid_password?(new_password)).to be true
+      expect(client.valid_password?(new_client[:password])).to be true
       assert_response_schema_confirm(200)
     end
 
@@ -50,14 +50,15 @@ RSpec.describe 'DeviseTokenAuth::Registrations', type: :request do
       login client
 
       expect do
-        patch api_v1_user_registration_path, params: { email: new_email, password: new_password }
+        patch api_v1_user_registration_path, params: { password_confirmation: new_client[:password], **new_client }
       end.not_to change { client.reload.email }
       assert_response_schema_confirm(422)
     end
 
     it '未ログインの場合、更新できないこと' do
       expect do
-        patch api_v1_user_registration_path, params: { email: new_email, current_password: client.password }
+        patch api_v1_user_registration_path,
+              params: { current_password: client.password, password_confirmation: new_client[:password], **new_client }
       end.not_to change { client.reload.email }
       assert_response_schema_confirm(404)
     end
