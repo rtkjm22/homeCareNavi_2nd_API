@@ -1,0 +1,7 @@
+# module Warden::Mixins::Common
+#   def request: () -> untyped
+
+#   def reset_session!: () -> untyped
+
+#   def cookies: () -> untyped
+# end

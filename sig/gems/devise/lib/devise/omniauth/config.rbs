@@ -1,0 +1,27 @@
+module Devise
+  module OmniAuth
+    class StrategyNotFound < NameError[untyped]
+      def initialize: (untyped strategy) -> void
+    end
+
+    class Config
+      attr_accessor strategy: untyped
+
+      attr_reader args: untyped
+
+      attr_reader options: untyped
+
+      attr_reader provider: untyped
+
+      attr_reader strategy_name: untyped
+
+      def initialize: (untyped provider, untyped args) -> void
+
+      def strategy_class: () -> untyped
+
+      def find_strategy: () -> untyped
+
+      def autoload_strategy: () -> untyped
+    end
+  end
+end

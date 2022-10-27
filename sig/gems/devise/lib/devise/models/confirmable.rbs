@@ -1,0 +1,191 @@
+module Devise
+  module Models
+    # Confirmable is responsible to verify if an account is already confirmed to
+    # sign in, and to send emails with confirmation instructions.
+    # Confirmation instructions are sent to the user email after creating a
+    # record and when manually requested by a new confirmation instruction request.
+    #
+    # Confirmable tracks the following columns:
+    #
+    # * confirmation_token   - A unique random token
+    # * confirmed_at         - A timestamp when the user clicked the confirmation link
+    # * confirmation_sent_at - A timestamp when the confirmation_token was generated (not sent)
+    # * unconfirmed_email    - An email address copied from the email attr. After confirmation
+    #                          this value is copied to the email attr then cleared
+    #
+    # == Options
+    #
+    # Confirmable adds the following options to +devise+:
+    #
+    #   * +allow_unconfirmed_access_for+: the time you want to allow the user to access their account
+    #     before confirming it. After this period, the user access is denied. You can
+    #     use this to let your user access some features of your application without
+    #     confirming the account, but blocking it after a certain period (ie 7 days).
+    #     By default allow_unconfirmed_access_for is zero, it means users always have to confirm to sign in.
+    #   * +reconfirmable+: requires any email changes to be confirmed (exactly the same way as
+    #     initial account confirmation) to be applied. Requires additional unconfirmed_email
+    #     db field to be set up (t.reconfirmable in migrations). Until confirmed, new email is
+    #     stored in unconfirmed email column, and copied to email column on successful
+    #     confirmation. Also, when used in conjunction with `send_email_changed_notification`,
+    #     the notification is sent to the original email when the change is requested,
+    #     not when the unconfirmed email is confirmed.
+    #   * +confirm_within+: the time before a sent confirmation token becomes invalid.
+    #     You can use this to force the user to confirm within a set period of time.
+    #     Confirmable will not generate a new token if a repeat confirmation is requested
+    #     during this time frame, unless the user's email changed too.
+    #
+    # == Examples
+    #
+    #   User.find(1).confirm       # returns true unless it's already confirmed
+    #   User.find(1).confirmed?    # true/false
+    #   User.find(1).send_confirmation_instructions # manually send instructions
+    #
+    module Confirmable
+      extend ActiveSupport::Concern
+
+      def initialize: (*untyped args) ?{ () -> untyped } -> void
+
+      def self.required_fields: (untyped klass) -> untyped
+
+      # Confirm a user by setting it's confirmed_at to actual time. If the user
+      # is already confirmed, add an error to email field. If the user is invalid
+      # add errors
+      def confirm: (?::Hash[untyped, untyped] args) -> untyped
+
+      # Verifies whether a user is confirmed or not
+      def confirmed?: () -> untyped
+
+      def pending_reconfirmation?: () -> untyped
+
+      # Send confirmation instructions by email
+      def send_confirmation_instructions: () -> untyped
+
+      def send_reconfirmation_instructions: () -> untyped
+
+      # Resend confirmation token.
+      # Regenerates the token if the period is expired.
+      def resend_confirmation_instructions: () -> untyped
+
+      # Overwrites active_for_authentication? for confirmation
+      # by verifying whether a user is active to sign in or not. If the user
+      # is already confirmed, it should never be blocked. Otherwise we need to
+      # calculate if the confirm time has not expired for this user.
+      def active_for_authentication?: () -> untyped
+
+      # The message to be shown if the account is inactive.
+      def inactive_message: () -> (:unconfirmed | untyped)
+
+      # If you don't want confirmation to be sent on create, neither a code
+      # to be generated, call skip_confirmation!
+      def skip_confirmation!: () -> untyped
+
+      # Skips sending the confirmation/reconfirmation notification email after_create/after_update. Unlike
+      # #skip_confirmation!, record still requires confirmation.
+      def skip_confirmation_notification!: () -> untyped
+
+      # If you don't want reconfirmation to be sent, neither a code
+      # to be generated, call skip_reconfirmation!
+      def skip_reconfirmation!: () -> untyped
+
+      # To not require reconfirmation after creating with #save called in a
+      # callback call skip_create_confirmation!
+      def skip_reconfirmation_in_callback!: () -> untyped
+
+      # A callback method used to deliver confirmation
+      # instructions on creation. This can be overridden
+      # in models to map to a nice sign up e-mail.
+      def send_on_create_confirmation_instructions: () -> untyped
+
+      # Callback to overwrite if confirmation is required or not.
+      def confirmation_required?: () -> untyped
+
+      # Checks if the confirmation for the user is within the limit time.
+      # We do this by calculating if the difference between today and the
+      # confirmation sent date does not exceed the confirm in time configured.
+      # allow_unconfirmed_access_for is a model configuration, must always be an integer value.
+      #
+      # Example:
+      #
+      #   # allow_unconfirmed_access_for = 1.day and confirmation_sent_at = today
+      #   confirmation_period_valid?   # returns true
+      #
+      #   # allow_unconfirmed_access_for = 5.days and confirmation_sent_at = 4.days.ago
+      #   confirmation_period_valid?   # returns true
+      #
+      #   # allow_unconfirmed_access_for = 5.days and confirmation_sent_at = 5.days.ago
+      #   confirmation_period_valid?   # returns false
+      #
+      #   # allow_unconfirmed_access_for = 0.days
+      #   confirmation_period_valid?   # will always return false
+      #
+      #   # allow_unconfirmed_access_for = nil
+      #   confirmation_period_valid?   # will always return true
+      #
+      def confirmation_period_valid?: () -> (true | false | untyped)
+
+      # Checks if the user confirmation happens before the token becomes invalid
+      # Examples:
+      #
+      #   # confirm_within = 3.days and confirmation_sent_at = 2.days.ago
+      #   confirmation_period_expired?  # returns false
+      #
+      #   # confirm_within = 3.days and confirmation_sent_at = 4.days.ago
+      #   confirmation_period_expired?  # returns true
+      #
+      #   # confirm_within = nil
+      #   confirmation_period_expired?  # will always return false
+      #
+      def confirmation_period_expired?: () -> untyped
+
+      # Checks whether the record requires any confirmation.
+      def pending_any_confirmation: () { () -> untyped } -> (untyped | false)
+
+      # Generates a new random token for confirmation, and stores
+      # the time this token is being generated in confirmation_sent_at
+      def generate_confirmation_token: () -> untyped
+
+      def generate_confirmation_token!: () -> untyped
+
+      def postpone_email_change_until_confirmation_and_regenerate_confirmation_token: () -> untyped
+
+      def postpone_email_change?: () -> untyped
+
+      def reconfirmation_required?: () -> untyped
+
+      def send_confirmation_notification?: () -> untyped
+
+      # With reconfirmable, notify the original email when the user first
+      # requests the email change, instead of when the change is confirmed.
+      def send_email_changed_notification?: () -> untyped
+
+      # A callback initiated after successfully confirming. This can be
+      # used to insert your own logic that is only run after the user successfully
+      # confirms.
+      #
+      # Example:
+      #
+      #   def after_confirmation
+      #     self.update_attribute(:invite_code, nil)
+      #   end
+      #
+      def after_confirmation: () -> nil
+
+      module ClassMethods
+        # Attempt to find a user by its email. If a record is found, send new
+        # confirmation instructions to it. If not, try searching for a user by unconfirmed_email
+        # field. If no user is found, returns a new user with an email not found error.
+        # Options must contain the user email
+        def send_confirmation_instructions: (?::Hash[untyped, untyped] attributes) -> untyped
+
+        # Find a user by its confirmation token and try to confirm it.
+        # If no user is found, returns a new user with an error.
+        # If the user is already confirmed, create an error for the user
+        # Options must have the confirmation_token
+        def confirm_by_token: (untyped confirmation_token) -> untyped
+
+        # Find a record for confirmation by unconfirmed email field
+        def find_by_unconfirmed_email_with_errors: (?::Hash[untyped, untyped] attributes) -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,16 @@
+module Devise
+  class ParameterFilter
+    def initialize: (untyped case_insensitive_keys, untyped strip_whitespace_keys) -> void
+
+    def filter: (untyped conditions) -> untyped
+
+    def filtered_hash_by_method_for_given_keys: (untyped conditions, untyped method, untyped condition_keys) -> untyped
+
+    # Force keys to be string to avoid injection on mongoid related database.
+    def stringify_params: (untyped conditions) -> untyped
+
+    private
+
+    def param_requires_string_conversion?: (untyped value) -> true
+  end
+end

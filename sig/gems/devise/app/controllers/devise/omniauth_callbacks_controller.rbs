@@ -1,0 +1,13 @@
+class Devise::OmniauthCallbacksController < DeviseController
+  def passthru: () -> untyped
+
+  def failure: () -> untyped
+
+  def failed_strategy: () -> untyped
+
+  def failure_message: () -> untyped
+
+  def after_omniauth_failure_path_for: (untyped scope) -> untyped
+
+  def translation_scope: () -> "devise.omniauth_callbacks"
+end

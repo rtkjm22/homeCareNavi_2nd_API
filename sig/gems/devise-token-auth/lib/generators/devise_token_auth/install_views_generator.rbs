@@ -1,0 +1,5 @@
+module DeviseTokenAuth
+  class InstallViewsGenerator < Rails::Generators::Base
+    def copy_mailer_templates: () -> untyped
+  end
+end

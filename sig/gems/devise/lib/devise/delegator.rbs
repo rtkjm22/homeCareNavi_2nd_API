@@ -1,0 +1,8 @@
+module Devise
+  # Checks the scope in the given environment and returns the associated failure app.
+  class Delegator
+    def call: (untyped env) -> untyped
+
+    def failure_app: (untyped env) -> untyped
+  end
+end

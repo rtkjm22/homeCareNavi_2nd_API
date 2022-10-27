@@ -1,0 +1,14 @@
+module DeviseTokenAuth::Url
+  def self.generate: (untyped url, ?::Hash[untyped, untyped] params) -> untyped
+
+  def self.whitelisted?: (untyped url) -> untyped
+
+  # wildcard convenience class
+  class Wildcat
+    def self.parse_to_regex: (untyped str) -> untyped
+
+    def initialize: (untyped str) -> void
+
+    def match: (untyped str) -> untyped
+  end
+end

@@ -1,0 +1,5 @@
+module Devise
+  module TestHelpers
+    def self.included: (untyped base) -> untyped
+  end
+end

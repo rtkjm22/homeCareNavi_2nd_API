@@ -1,0 +1,7 @@
+module ActiveFlag
+  extend ActiveSupport::Concern
+
+  module ClassMethods
+    def flag: (untyped column, untyped keys) -> (::Array[untyped] | untyped)
+  end
+end

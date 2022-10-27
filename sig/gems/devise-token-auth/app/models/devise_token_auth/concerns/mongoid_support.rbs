@@ -1,0 +1,8 @@
+module DeviseTokenAuth::Concerns::MongoidSupport
+  extend ActiveSupport::Concern
+
+  def as_json: (?::Hash[untyped, untyped] options) -> untyped
+
+  # It's abstract replacement .find_by
+  def dta_find_by: (?::Hash[untyped, untyped] attrs) -> untyped
+end

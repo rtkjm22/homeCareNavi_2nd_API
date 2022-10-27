@@ -1,0 +1,94 @@
+module Devise
+  # Failure application that will be called every time :warden is thrown from
+  # any strategy or hook. It is responsible for redirecting the user to the sign
+  # in page based on current scope and mapping. If no scope is given, it
+  # redirects to the default_url.
+  class FailureApp < ActionController::Metal
+    include ActionController::UrlFor
+
+    include ActionController::Redirecting
+
+    include Devise::Controllers::StoreLocation
+
+    def self.call: (untyped env) -> untyped
+
+    # Try retrieving the URL options from the parent controller (usually
+    # ApplicationController). Instance methods are not supported at the moment,
+    # so only the class-level attribute is used.
+    def self.default_url_options: (*untyped args) -> (untyped | ::Hash[untyped, untyped])
+
+    def respond: () -> untyped
+
+    def http_auth: () -> untyped
+
+    def recall: () -> untyped
+
+    def redirect: () -> untyped
+
+    def i18n_options: (untyped options) -> untyped
+
+    def i18n_message: (?untyped? default) -> untyped
+
+    def redirect_url: () -> untyped
+
+    def route: (untyped scope) -> ::Symbol
+
+    def scope_url: () -> untyped
+
+    def skip_format?: () -> untyped
+
+    # Choose whether we should respond in an HTTP authentication fashion,
+    # including 401 and optional headers.
+    #
+    # This method allows the user to explicitly disable HTTP authentication
+    # on AJAX requests in case they want to redirect on failures instead of
+    # handling the errors on their own. This is useful in case your AJAX API
+    # is the same as your public API and uses a format like JSON (so you
+    # cannot mark JSON as a navigational format).
+    def http_auth?: () -> untyped
+
+    # It doesn't make sense to send authenticate headers in AJAX requests
+    # or if the user disabled them.
+    def http_auth_header?: () -> untyped
+
+    def http_auth_body: () -> untyped
+
+    def recall_app: (untyped app) -> untyped
+
+    def warden: () -> untyped
+
+    def warden_options: () -> untyped
+
+    def warden_message: () -> untyped
+
+    def scope: () -> untyped
+
+    def scope_class: () -> untyped
+
+    def attempted_path: () -> untyped
+
+    # Stores requested URI to redirect the user after signing in. We can't use
+    # the scoped session provided by warden here, since the user is not
+    # authenticated yet, but we still need to store the URI based on scope, so
+    # different scopes would never use the same URI to redirect.
+    def store_location!: () -> (untyped | nil)
+
+    def is_navigational_format?: () -> untyped
+
+    # Check if flash messages should be emitted. Default is to do it on
+    # navigational formats
+    def is_flashing_format?: () -> untyped
+
+    def request_format: () -> untyped
+
+    def relative_url_root: () -> untyped
+
+    def relative_url_root?: () -> untyped
+
+    private
+
+    def root_path_defined?: (untyped context) -> untyped
+
+    def rails_51_and_up?: () -> untyped
+  end
+end
