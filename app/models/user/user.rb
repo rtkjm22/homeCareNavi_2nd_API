@@ -12,6 +12,9 @@ class User < ApplicationRecord
   validates :postal, presence: true, length: { is: 7 }
   validates :address, presence: true, length: { maximum: 255 }
 
+  def client? = type == 'Client'
+  def manager? = type == 'Manager'
+
   # レスポンスから:discarded_atを除外し、:typeを含めるようにする
   def as_json(options = {})
     if options[:except]
