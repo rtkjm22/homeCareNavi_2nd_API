@@ -2,12 +2,19 @@ require 'rails_helper'
 
 RSpec.describe Office, type: :model do
   describe 'バリデーション' do
-    context 'manager_id' do
+    context '関連付け' do
       it { is_expected.to belong_to(:manager) }
+      it { is_expected.to have_one(:office_overview).dependent(:destroy) }
 
       it do
         create(:office)
         expect(subject).to validate_uniqueness_of(:manager_id)
+      end
+
+      it '親を削除しないと、削除できないこと' do
+        office = create(:office)
+        office.destroy
+        expect(office.errors.full_messages[0]).to eq 'このモデルのみを削除することはできません。削除する場合は、親を削除してください。'
       end
     end
 
