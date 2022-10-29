@@ -10,9 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_24_135504) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_29_054602) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "office_overviews", force: :cascade do |t|
+    t.bigint "office_id", null: false
+    t.string "classify", comment: "類型"
+    t.date "opening_date", comment: "開設年月"
+    t.integer "room_count", comment: "居室数"
+    t.string "requirements", comment: "入居時の要件"
+    t.string "shared_facilities", comment: "共用設備"
+    t.string "business_entity", comment: "経営・事業主体"
+    t.string "official_site_url", comment: "公式サイトのurl"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["office_id"], name: "index_office_overviews_on_office_id", unique: true
+  end
 
   create_table "offices", force: :cascade do |t|
     t.bigint "manager_id", null: false
@@ -65,5 +79,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_24_135504) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "office_overviews", "offices"
   add_foreign_key "offices", "users", column: "manager_id"
 end

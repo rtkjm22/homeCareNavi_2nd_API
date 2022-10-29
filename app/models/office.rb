@@ -1,4 +1,5 @@
 class Office < ApplicationRecord
+  has_one :office_overview, dependent: :destroy
   belongs_to :manager
 
   validates :manager_id, uniqueness: true
