@@ -1,0 +1,3 @@
+class HealthCheckController < ApplicationController
+  def index: () -> untyped
+end

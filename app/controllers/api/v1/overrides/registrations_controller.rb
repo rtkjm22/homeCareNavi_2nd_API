@@ -16,6 +16,14 @@ module Api
             render_destroy_error
           end
         end
+
+        protected
+
+        def build_resource
+          super
+          # User.typeがManagerの場合、Officeも同時に作成する
+          @resource.build_office_with_location if @resource&.manager?
+        end
       end
     end
   end

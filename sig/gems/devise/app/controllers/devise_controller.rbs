@@ -1,0 +1,93 @@
+# All Devise controllers are inherited from here.
+class DeviseController
+  include Devise::Controllers::ScopedViews
+
+  # Override prefixes to consider the scoped view.
+  # Notice we need to check for the request due to a bug in
+  # Action Controller tests that forces _prefixes to be
+  # loaded before even having a request object.
+  #
+  # This method should be public as it is in ActionPack
+  # itself. Changing its visibility may break other gems.
+  def _prefixes: () -> untyped
+
+  # Gets the actual resource stored in the instance variable
+  def resource: () -> untyped
+
+  # Proxy to devise map name
+  def resource_name: () -> untyped
+
+  alias scope_name resource_name
+
+  # Proxy to devise map class
+  def resource_class: () -> untyped
+
+  # Returns a signed in resource from session (if one exists)
+  def signed_in_resource: () -> untyped
+
+  # Attempt to find the mapped route for devise based on request path
+  def devise_mapping: () -> untyped
+
+  # Checks whether it's a devise mapped resource or not.
+  def assert_is_devise_resource!: () -> (untyped | nil)
+
+  # Returns real navigational formats which are supported by Rails
+  def navigational_formats: () -> untyped
+
+  def unknown_action!: (untyped msg) -> untyped
+
+  # Sets the resource creating an instance variable
+  def resource=: (untyped new_resource) -> untyped
+
+  # Helper for use in before_actions where no authentication is required.
+  #
+  # Example:
+  #   before_action :require_no_authentication, only: :new
+  def require_no_authentication: () -> (nil | untyped)
+
+  # Helper for use after calling send_*_instructions methods on a resource.
+  # If we are in paranoid mode, we always act as if the resource was valid
+  # and instructions were sent.
+  def successfully_sent?: (untyped resource) -> untyped
+
+  # Sets the flash message with :key, using I18n. By default you are able
+  # to set up your messages using specific resource scope, and if no message is
+  # found we look to the default scope. Set the "now" options key to a true
+  # value to populate the flash.now hash in lieu of the default flash hash (so
+  # the flash message will be available to the current action instead of the
+  # next action).
+  # Example (i18n locale file):
+  #
+  #   en:
+  #     devise:
+  #       passwords:
+  #         #default_scope_messages - only if resource_scope is not found
+  #         user:
+  #           #resource_scope_messages
+  #
+  # Please refer to README or en.yml locale file to check what messages are
+  # available.
+  def set_flash_message: (untyped key, untyped kind, ?::Hash[untyped, untyped] options) -> untyped
+
+  # Sets flash message if is_flashing_format? equals true
+  def set_flash_message!: (untyped key, untyped kind, ?::Hash[untyped, untyped] options) -> (untyped | nil)
+
+  # Sets minimum password length to show to user
+  def set_minimum_password_length: () -> (untyped | nil)
+
+  def devise_i18n_options: (untyped options) -> untyped
+
+  # Get message for given
+  def find_message: (untyped kind, ?::Hash[untyped, untyped] options) -> untyped
+
+  # Controllers inheriting DeviseController are advised to override this
+  # method so that other controllers inheriting from them would use
+  # existing translations.
+  def translation_scope: () -> ::String
+
+  def clean_up_passwords: (untyped object) -> (untyped | nil)
+
+  def respond_with_navigational: (*untyped args) ?{ () -> untyped } -> untyped
+
+  def resource_params: () -> untyped
+end

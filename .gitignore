@@ -37,3 +37,4 @@ coverage
 spec/examples.txt
 
 .cache
+.gem_rbs_collection

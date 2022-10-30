@@ -2,29 +2,59 @@ require 'rails_helper'
 
 RSpec.describe 'DeviseTokenAuth::Registrations', type: :request do
   describe 'ユーザー新規作成' do
-    let(:client_params) do
-      client_attr = attributes_for(:client)
-      client_attr.merge(confirm_success_url: 'test1@example.com')
+    context 'クライアントの場合' do
+      let(:client_params) do
+        attributes_for(:client, confirm_success_url: 'test1@example.com')
+      end
+
+      it '有効な属性値の場合、新規登録及びメール送信されること' do
+        expect(Client.count).to eq(0)
+        expect(ActionMailer::Base.deliveries.count).to eq(0)
+
+        post api_v1_user_registration_path, params: client_params
+
+        expect(Client.count).to eq(1)
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+        assert_response_schema_confirm(200)
+      end
+
+      it '無効な属性値の場合、新規登録及びメール送信されないこと' do
+        client_params[:name] = nil
+
+        post api_v1_user_registration_path, params: client_params
+        expect(Client.count).to eq(0)
+        expect(ActionMailer::Base.deliveries.count).to eq(0)
+        assert_response_schema_confirm(422)
+      end
     end
 
-    it '有効な属性値の場合、新規登録及びメール送信されること' do
-      expect(Client.count).to eq(0)
-      expect(ActionMailer::Base.deliveries.count).to eq(0)
+    context 'ケアマネの場合' do
+      let!(:manager_params) do
+        attributes_for(:manager, confirm_success_url: 'test1@example.com')
+      end
 
-      post api_v1_user_registration_path, params: client_params
+      it '有効な属性値の場合、Officeも一緒に作成されること', vcr: true do
+        expect(Manager.count).to eq(0)
+        expect(Office.count).to eq(0)
+        expect(ActionMailer::Base.deliveries.count).to eq(0)
 
-      expect(Client.count).to eq(1)
-      expect(ActionMailer::Base.deliveries.count).to eq(1)
-      assert_response_schema_confirm(200)
-    end
+        post api_v1_user_registration_path, params: manager_params
 
-    it '無効な属性値の場合、新規登録及びメール送信されないこと' do
-      client_params[:name] = nil
+        expect(Manager.count).to eq(1)
+        expect(Office.count).to eq(1)
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+        assert_response_schema_confirm(200)
+      end
 
-      post api_v1_user_registration_path, params: client_params
-      expect(Client.count).to eq(0)
-      expect(ActionMailer::Base.deliveries.count).to eq(0)
-      assert_response_schema_confirm(422)
+      it '無効な属性値の場合、新規登録及びメール送信されないこと', vcr: true do
+        manager_params[:name] = nil
+
+        post api_v1_user_registration_path, params: manager_params
+        expect(Manager.count).to eq(0)
+        expect(Office.count).to eq(0)
+        expect(ActionMailer::Base.deliveries.count).to eq(0)
+        assert_response_schema_confirm(422)
+      end
     end
   end
 

@@ -1,0 +1,23 @@
+module ActiveFlag
+  class Value < Set[untyped]
+    def with: (untyped `instance`, untyped definition) -> self
+
+    def raw: () -> untyped
+
+    def to_human: () -> untyped
+
+    def to_s: () -> untyped
+
+    def set: (untyped key) -> untyped
+
+    def unset: (untyped key) -> untyped
+
+    def set!: (untyped key, ?::Hash[untyped, untyped] options) -> untyped
+
+    def unset!: (untyped key, ?::Hash[untyped, untyped] options) -> untyped
+
+    def set?: (untyped key) -> untyped
+
+    def unset?: (untyped key) -> untyped
+  end
+end

@@ -1,0 +1,3 @@
+class Object
+  extend Devise::Models
+end

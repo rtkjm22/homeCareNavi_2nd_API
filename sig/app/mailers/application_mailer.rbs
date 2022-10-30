@@ -1,0 +1,7 @@
+class ApplicationMailer < ActionMailer::Base
+end
+
+module ActionMailer
+  class Base
+  end
+end

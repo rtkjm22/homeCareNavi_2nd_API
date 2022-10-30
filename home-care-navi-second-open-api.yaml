@@ -197,8 +197,8 @@ paths:
                 confirm_success_url:
                   type: string
                   format: uri
-                  example: 'https://www.home-care-navi-second'
-                  description: アカウント登録メールに記載されるURL
+                  example: 'http://localhost:8080'
+                  description: アカウント登録メールに記載されるURL。clientならトップページ、managerならスタッフ情報ページのURLとする。
               required:
                 - name
                 - email
@@ -218,7 +218,7 @@ paths:
                   address: 東京都新宿区市ヶ谷本村町5番1号
                   password: password
                   type: Client
-                  confirm_success_url: 'https://www.home-care-navi-second'
+                  confirm_success_url: 'http://localhost:8080'
     parameters: []
     patch:
       summary: 登録者情報更新
@@ -307,12 +307,22 @@ paths:
                 address:
                   type: string
                   example: 東京都新宿区市ヶ谷本村町5番1号
-                password:
-                  type: string
-                  example: new-password
                 current_password:
                   type: string
                   example: password
+                password:
+                  type: string
+                  example: new-password
+                password_confirmation:
+                  type: string
+                  example: new-password
+              required:
+                - name
+                - email
+                - tel
+                - postal
+                - address
+                - current_password
             examples:
               example-1:
                 value:
@@ -500,7 +510,7 @@ paths:
     parameters: []
   /api/v1/auth/sign_out:
     delete:
-      summary: 事業所利用者ログアウト
+      summary: ログアウト
       operationId: signOut
       responses:
         '200':
@@ -517,6 +527,10 @@ paths:
                     readOnly: true
                 required:
                   - success
+              examples:
+                example-1:
+                  value:
+                    success: true
       description: 'ヘッダーに`access-token`,`uid`,`client`必須。ログアウトする。'
       security:
         - access-token: []
@@ -579,6 +593,19 @@ paths:
       description: パラメータのメールアドレスにパスワードリセットメールを送信する。
       tags:
         - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: myaddress@example.com
+                  format: email
+                  description: ユーザーがメールアドレスフォームに入力した値
+              required:
+                - email
     parameters: []
     patch:
       summary: パスワードリセット
@@ -626,6 +653,19 @@ paths:
               schema:
                 type: object
                 properties: {}
+          headers:
+            access-token:
+              schema:
+                type: string
+            uid:
+              schema:
+                type: string
+            client:
+              schema:
+                type: string
+            expiry:
+              schema:
+                type: string
         '401':
           description: Unauthorized
           content:
@@ -666,7 +706,8 @@ paths:
                     properties:
                       full_messages:
                         type: array
-                        example: [パスワード（確認用）とパスワードの入力が一致しません]
+                        example:
+                          - パスワード（確認用）とパスワードの入力が一致しません
                         description: エラーメッセージ
                         items:
                           type: string
@@ -699,13 +740,13 @@ paths:
                 - password
                 - password_confirmation
         description: 'ヘッダーにclient,access-token,uid。ボディにpassword,password_confirmationが必須。'
-  /api/v1/client/offices:
+  /api/v1/client/offices/area:
     get:
-      summary: 事業所一覧取得(事業所利用者)
+      summary: 事業所エリア検索(事業所利用者)
       tags:
         - office
-      operationId: getClientOffices
-      description: 事業所一覧を取得する。
+      operationId: getClientOfficesArea
+      description: 事業所一覧を取得する。住所で絞り込む。
       parameters:
         - schema:
             type: string
@@ -713,6 +754,56 @@ paths:
           in: query
           name: q
           description: addressを前方一致検索する。OR検索は半角スペースで区切る。
+        - schema:
+            type: string
+          in: query
+          name: page
+          description: ページネーション
+      responses:
+        '200':
+          description: OK
+    parameters: []
+  /api/v1/client/offices/search:
+    get:
+      summary: 事業所全文一致検索(事業所利用者)
+      tags:
+        - office
+      operationId: getClientOfficesSearch
+      description: 事業所一覧を取得する。全文一致で絞り込む。
+      parameters:
+        - schema:
+            type: string
+            example: 東京 大阪 群馬
+          in: query
+          name: q
+          description: addressを全文検索する。OR検索は半角スペースで区切る。
+        - schema:
+            type: string
+          in: query
+          name: page
+          description: ページネーション
+      responses:
+        '200':
+          description: OK
+    parameters: []
+  /api/v1/client/offices/nearest:
+    get:
+      summary: 事業所現在地検索(事業所利用者)
+      tags:
+        - office
+      operationId: getClientOfficesNearest
+      description: 事業所一覧を取得する。現在地で絞り込む。
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: lat
+          description: 緯度
+        - schema:
+            type: number
+          in: query
+          name: lng
+          description: 経度
         - schema:
             type: string
           in: query
@@ -948,15 +1039,6 @@ paths:
           format: int64
         description: 対象のid
   /api/v1/client/staffs:
-    get:
-      summary: スタッフ一覧取得(事業所利用者)
-      responses:
-        '200':
-          description: OK
-      operationId: getClientStaffs
-      tags:
-        - staff
-      description: スタッフ一覧を取得する
     parameters: []
   /api/v1/manager/staffs:
     get:

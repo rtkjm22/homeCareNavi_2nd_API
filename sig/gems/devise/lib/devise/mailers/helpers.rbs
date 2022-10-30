@@ -1,0 +1,49 @@
+module Devise
+  module Mailers
+    module Helpers
+      extend ActiveSupport::Concern
+
+      include Devise::Controllers::ScopedViews
+
+      attr_reader scope_name: untyped
+
+      attr_reader resource: untyped
+
+      # Configure default email options
+      def devise_mail: (untyped record, untyped action, ?::Hash[untyped, untyped] opts) ?{ () -> untyped } -> untyped
+
+      def initialize_from_record: (untyped record) -> untyped
+
+      def devise_mapping: () -> untyped
+
+      def headers_for: (untyped action, untyped opts) -> untyped
+
+      def mailer_reply_to: (untyped mapping) -> untyped
+
+      def mailer_from: (untyped mapping) -> untyped
+
+      def mailer_sender: (untyped mapping, ?::Symbol sender) -> untyped
+
+      def template_paths: () -> untyped
+
+      # Set up a subject doing an I18n lookup. At first, it attempts to set a subject
+      # based on the current mapping:
+      #
+      #   en:
+      #     devise:
+      #       mailer:
+      #         confirmation_instructions:
+      #           user_subject: '...'
+      #
+      # If one does not exist, it fallbacks to ActionMailer default:
+      #
+      #   en:
+      #     devise:
+      #       mailer:
+      #         confirmation_instructions:
+      #           subject: '...'
+      #
+      def subject_for: (untyped key) -> untyped
+    end
+  end
+end

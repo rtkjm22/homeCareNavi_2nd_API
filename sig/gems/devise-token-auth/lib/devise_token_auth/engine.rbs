@@ -1,0 +1,6 @@
+module DeviseTokenAuth
+  class Engine < ::Rails::Engine
+  end
+
+  def self.setup: () { (untyped) -> untyped } -> untyped
+end

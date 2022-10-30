@@ -1,0 +1,25 @@
+module Devise
+  module Controllers
+    # A module that may be optionally included in a controller in order
+    # to provide remember me behavior. Useful when signing in is done
+    # through a callback, like in OmniAuth.
+    module Rememberable
+      # Return default cookie values retrieved from session options.
+      def self.cookie_values: () -> untyped
+
+      def remember_me_is_active?: (untyped resource) -> (false | untyped)
+
+      # Remembers the given resource by setting up a cookie
+      def remember_me: (untyped resource) -> (nil | untyped)
+
+      # Forgets the given resource by deleting a cookie
+      def forget_me: (untyped resource) -> untyped
+
+      def forget_cookie_values: (untyped resource) -> untyped
+
+      def remember_cookie_values: (untyped resource) -> untyped
+
+      def remember_key: (untyped resource, untyped scope) -> untyped
+    end
+  end
+end

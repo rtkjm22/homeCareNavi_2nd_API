@@ -1,0 +1,98 @@
+module Devise
+  module Models
+    # Handles blocking a user access after a certain number of attempts.
+    # Lockable accepts two different strategies to unlock a user after it's
+    # blocked: email and time. The former will send an email to the user when
+    # the lock happens, containing a link to unlock its account. The second
+    # will unlock the user automatically after some configured time (ie 2.hours).
+    # It's also possible to set up lockable to use both email and time strategies.
+    #
+    # == Options
+    #
+    # Lockable adds the following options to +devise+:
+    #
+    #   * +maximum_attempts+: how many attempts should be accepted before blocking the user.
+    #   * +lock_strategy+: lock the user account by :failed_attempts or :none.
+    #   * +unlock_strategy+: unlock the user account by :time, :email, :both or :none.
+    #   * +unlock_in+: the time you want to lock the user after to lock happens. Only available when unlock_strategy is :time or :both.
+    #   * +unlock_keys+: the keys you want to use when locking and unlocking an account
+    #
+    module Lockable
+      extend ActiveSupport::Concern
+
+      def self.required_fields: (untyped klass) -> untyped
+
+      # Lock a user setting its locked_at to actual time.
+      # * +opts+: Hash options if you don't want to send email
+      #   when you lock access, you could pass the next hash
+      #   `{ send_instructions: false } as option`.
+      def lock_access!: (?::Hash[untyped, untyped] opts) -> untyped
+
+      # Unlock a user by cleaning locked_at and failed_attempts.
+      def unlock_access!: () -> untyped
+
+      # Resets failed attempts counter to 0.
+      def reset_failed_attempts!: () -> (untyped | nil)
+
+      # Verifies whether a user is locked or not.
+      def access_locked?: () -> untyped
+
+      # Send unlock instructions by email
+      def send_unlock_instructions: () -> untyped
+
+      # Resend the unlock instructions if the user is locked.
+      def resend_unlock_instructions: () -> untyped
+
+      # Overwrites active_for_authentication? from Devise::Models::Activatable for locking purposes
+      # by verifying whether a user is active to sign in or not based on locked?
+      def active_for_authentication?: () -> untyped
+
+      # Overwrites invalid_message from Devise::Models::Authenticatable to define
+      # the correct reason for blocking the sign in.
+      def inactive_message: () -> (:locked | untyped)
+
+      # Overwrites valid_for_authentication? from Devise::Models::Authenticatable
+      # for verifying whether a user is allowed to sign in or not. If the user
+      # is locked, it should never be allowed.
+      def valid_for_authentication?: () -> untyped
+
+      def increment_failed_attempts: () -> untyped
+
+      def unauthenticated_message: () -> (untyped | :locked | :last_attempt | untyped)
+
+      def attempts_exceeded?: () -> untyped
+
+      def last_attempt?: () -> untyped
+
+      # Tells if the lock is expired if :time unlock strategy is active
+      def lock_expired?: () -> (untyped | false)
+
+      # Checks whether the record is locked or not, yielding to the block
+      # if it's locked, otherwise adds an error to email.
+      def if_access_locked: () { () -> untyped } -> (untyped | false)
+
+      module ClassMethods
+        # List of strategies that are enabled/supported if :both is used.
+        BOTH_STRATEGIES: ::Array[:time | :email]
+
+        # Attempt to find a user by its unlock keys. If a record is found, send new
+        # unlock instructions to it. If not user is found, returns a new user
+        # with an email not found error.
+        # Options must contain the user's unlock keys
+        def send_unlock_instructions: (?::Hash[untyped, untyped] attributes) -> untyped
+
+        # Find a user by its unlock token and try to unlock it.
+        # If no user is found, returns a new user with an error.
+        # If the user is not locked, creates an error for the user
+        # Options must have the unlock_token
+        def unlock_access_by_token: (untyped unlock_token) -> untyped
+
+        # Is the unlock enabled for the given unlock strategy?
+        def unlock_strategy_enabled?: (untyped strategy) -> untyped
+
+        # Is the lock enabled for the given lock strategy?
+        def lock_strategy_enabled?: (untyped strategy) -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,6 @@
+module DeviseTokenAuth::Concerns::ActiveRecordSupport
+  extend ActiveSupport::Concern
+
+  # It's abstract replacement .find_by
+  def dta_find_by: (?::Hash[untyped, untyped] attrs) -> untyped
+end

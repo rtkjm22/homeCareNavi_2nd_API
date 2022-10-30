@@ -1,0 +1,17 @@
+module Devise
+  module Hooks
+    # A small warden proxy so we can remember, forget and
+    # sign out users from hooks.
+    class Proxy
+      include Devise::Controllers::Rememberable
+
+      include Devise::Controllers::SignInOut
+
+      attr_reader warden: untyped
+
+      def initialize: (untyped warden) -> void
+
+      def session: () -> untyped
+    end
+  end
+end

@@ -3,6 +3,7 @@ ja:
     models:
       user: 'ユーザー'
       client: '事業所利用者'
+      manager: 'ケアマネ'
 
     attributes:
       user:
@@ -12,3 +13,22 @@ ja:
         tel: '電話番号'
         postal: '郵便番号'
         address: '住所'
+        type: 'ユーザー種別'
+
+      client:
+        name: '名前'
+        email: 'メールアドレス'
+        password: 'パスワード'
+        tel: '電話番号'
+        postal: '郵便番号'
+        address: '住所'
+        type: 'ユーザー種別'
+
+      manager:
+        name: '名前'
+        email: 'メールアドレス'
+        password: 'パスワード'
+        tel: '電話番号'
+        postal: '郵便番号'
+        address: '住所'
+        type: 'ユーザー種別'

@@ -1,0 +1,34 @@
+# see http://www.emilsoman.com/blog/2013/05/18/building-a-tested/
+module DeviseTokenAuth
+  class SessionsController < DeviseTokenAuth::ApplicationController
+    def new: () -> untyped
+
+    def create: () { (untyped) -> untyped } -> untyped
+
+    def destroy: () { (untyped) -> untyped } -> untyped
+
+    def valid_params?: (untyped key, untyped val) -> untyped
+
+    def get_auth_params: () -> { key: untyped, val: untyped }
+
+    def render_new_error: () -> untyped
+
+    def render_create_success: () -> untyped
+
+    def render_create_error_not_confirmed: () -> untyped
+
+    def render_create_error_account_locked: () -> untyped
+
+    def render_create_error_bad_credentials: () -> untyped
+
+    def render_destroy_success: () -> untyped
+
+    def render_destroy_error: () -> untyped
+
+    private
+
+    def resource_params: () -> untyped
+
+    def create_and_assign_token: () -> untyped
+  end
+end

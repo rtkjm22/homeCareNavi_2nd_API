@@ -1,0 +1,66 @@
+class Devise::RegistrationsController < DeviseController
+  # GET /resource/sign_up
+  def new: () { (untyped) -> untyped } -> untyped
+
+  # POST /resource
+  def create: () { (untyped) -> untyped } -> untyped
+
+  # GET /resource/edit
+  def edit: () -> untyped
+
+  # PUT /resource
+  # We need to use a copy of the resource because we don't want to change
+  # the current user in place.
+  def update: () { (untyped) -> untyped } -> untyped
+
+  # DELETE /resource
+  def destroy: () { (untyped) -> untyped } -> untyped
+
+  # GET /resource/cancel
+  # Forces the session data which is usually expired after sign
+  # in to be expired now. This is useful if the user wants to
+  # cancel oauth signing in/up in the middle of the process,
+  # removing all OAuth session data.
+  def cancel: () -> untyped
+
+  def update_needs_confirmation?: (untyped resource, untyped previous) -> untyped
+
+  # By default we want to require a password checks on update.
+  # You can overwrite this method in your own RegistrationsController.
+  def update_resource: (untyped resource, untyped params) -> untyped
+
+  # Build a devise resource passing in the session. Useful to move
+  # temporary session data to the newly created user.
+  def build_resource: (?::Hash[untyped, untyped] hash) -> untyped
+
+  # Signs in a user on sign up. You can overwrite this method in your own
+  # RegistrationsController.
+  def sign_up: (untyped resource_name, untyped resource) -> untyped
+
+  # The path used after sign up. You need to overwrite this method
+  # in your own RegistrationsController.
+  def after_sign_up_path_for: (untyped resource) -> (untyped | nil)
+
+  # The path used after sign up for inactive accounts. You need to overwrite
+  # this method in your own RegistrationsController.
+  def after_inactive_sign_up_path_for: (untyped resource) -> untyped
+
+  # The default url to be used after updating a resource. You need to overwrite
+  # this method in your own RegistrationsController.
+  def after_update_path_for: (untyped resource) -> untyped
+
+  # Authenticates the current scope and gets the current resource from the session.
+  def authenticate_scope!: () -> untyped
+
+  def sign_up_params: () -> untyped
+
+  def account_update_params: () -> untyped
+
+  def translation_scope: () -> "devise.registrations"
+
+  private
+
+  def set_flash_message_for_update: (untyped resource, untyped prev_unconfirmed_email) -> (nil | untyped)
+
+  def sign_in_after_change_password?: () -> (true | untyped)
+end

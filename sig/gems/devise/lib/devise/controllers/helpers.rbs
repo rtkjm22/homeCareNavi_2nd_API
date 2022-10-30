@@ -1,0 +1,153 @@
+module Devise
+  module Controllers
+    # Those helpers are convenience methods added to ApplicationController.
+    module Helpers
+      extend ActiveSupport::Concern
+
+      include Devise::Controllers::SignInOut
+
+      include Devise::Controllers::StoreLocation
+
+      module ClassMethods
+        # Define authentication filters and accessor helpers for a group of mappings.
+        # These methods are useful when you are working with multiple mappings that
+        # share some functionality. They are pretty much the same as the ones
+        # defined for normal mappings.
+        #
+        # Example:
+        #
+        #   inside BlogsController (or any other controller, it doesn't matter which):
+        #     devise_group :blogger, contains: [:user, :admin]
+        #
+        #   Generated methods:
+        #     authenticate_blogger!  # Redirects unless user or admin are signed in
+        #     blogger_signed_in?     # Checks whether there is either a user or an admin signed in
+        #     current_blogger        # Currently signed in user or admin
+        #     current_bloggers       # Currently signed in user and admin
+        #
+        #   Use:
+        #     before_action :authenticate_blogger!              # Redirects unless either a user or an admin are authenticated
+        #     before_action ->{ authenticate_blogger! :admin }  # Redirects to the admin login page
+        #     current_blogger :user                             # Preferably returns a User if one is signed in
+        #
+        def devise_group: (untyped group_name, ?::Hash[untyped, untyped] opts) -> untyped
+
+        def log_process_action: (untyped payload) -> untyped
+      end
+
+      # Define authentication filters and accessor helpers based on mappings.
+      # These filters should be used inside the controllers as before_actions,
+      # so you can control the scope of the user who should be signed in to
+      # access that specific controller/action.
+      # Example:
+      #
+      #   Roles:
+      #     User
+      #     Admin
+      #
+      #   Generated methods:
+      #     authenticate_user!  # Signs user in or redirect
+      #     authenticate_admin! # Signs admin in or redirect
+      #     user_signed_in?     # Checks whether there is a user signed in or not
+      #     admin_signed_in?    # Checks whether there is an admin signed in or not
+      #     current_user        # Current signed in user
+      #     current_admin       # Current signed in admin
+      #     user_session        # Session data available only to the user scope
+      #     admin_session       # Session data available only to the admin scope
+      #
+      #   Use:
+      #     before_action :authenticate_user!  # Tell devise to use :user map
+      #     before_action :authenticate_admin! # Tell devise to use :admin map
+      #
+      def self.define_helpers: (untyped mapping) -> untyped
+
+      # The main accessor for the warden proxy instance
+      def warden: () -> untyped
+
+      # Return true if it's a devise_controller. false to all controllers unless
+      # the controllers defined inside devise. Useful if you want to apply a before
+      # filter to all controllers, except the ones in devise:
+      #
+      #   before_action :my_filter, unless: :devise_controller?
+      def devise_controller?: () -> untyped
+
+      # Set up a param sanitizer to filter parameters using strong_parameters. See
+      # lib/devise/parameter_sanitizer.rb for more info. Override this
+      # method in your application controller to use your own parameter sanitizer.
+      def devise_parameter_sanitizer: () -> untyped
+
+      # Tell warden that params authentication is allowed for that specific page.
+      def allow_params_authentication!: () -> untyped
+
+      # The scope root url to be used when they're signed in. By default, it first
+      # tries to find a resource_root_path, otherwise it uses the root_path.
+      def signed_in_root_path: (untyped resource_or_scope) -> untyped
+
+      # The default url to be used after signing in. This is used by all Devise
+      # controllers and you can overwrite it in your ApplicationController to
+      # provide a custom hook for a custom resource.
+      #
+      # By default, it first tries to find a valid resource_return_to key in the
+      # session, then it fallbacks to resource_root_path, otherwise it uses the
+      # root path. For a user scope, you can define the default url in
+      # the following way:
+      #
+      #   get '/users' => 'users#index', as: :user_root # creates user_root_path
+      #
+      #   namespace :user do
+      #     root 'users#index' # creates user_root_path
+      #   end
+      #
+      # If the resource root path is not defined, root_path is used. However,
+      # if this default is not enough, you can customize it, for example:
+      #
+      #   def after_sign_in_path_for(resource)
+      #     stored_location_for(resource) ||
+      #       if resource.is_a?(User) && resource.can_publish?
+      #         publisher_url
+      #       else
+      #         super
+      #       end
+      #   end
+      #
+      def after_sign_in_path_for: (untyped resource_or_scope) -> untyped
+
+      # Method used by sessions controller to sign out a user. You can overwrite
+      # it in your ApplicationController to provide a custom hook for a custom
+      # scope. Notice that differently from +after_sign_in_path_for+ this method
+      # receives a symbol with the scope, and not the resource.
+      #
+      # By default it is the root_path.
+      def after_sign_out_path_for: (untyped resource_or_scope) -> untyped
+
+      # Sign in a user and tries to redirect first to the stored location and
+      # then to the url specified by after_sign_in_path_for. It accepts the same
+      # parameters as the sign_in method.
+      def sign_in_and_redirect: (untyped resource_or_scope, *untyped args) -> untyped
+
+      # Sign out a user and tries to redirect to the url specified by
+      # after_sign_out_path_for.
+      def sign_out_and_redirect: (untyped resource_or_scope) -> untyped
+
+      # Overwrite Rails' handle unverified request to sign out all scopes,
+      # clear run strategies and remove cached variables.
+      def handle_unverified_request: () -> untyped
+
+      def request_format: () -> untyped
+
+      def is_navigational_format?: () -> untyped
+
+      # Check if flash messages should be emitted. Default is to do it on
+      # navigational formats
+      def is_flashing_format?: () -> untyped
+
+      private
+
+      def expire_data_after_sign_out!: () -> untyped
+    end
+  end
+
+  class MissingWarden < StandardError
+    def initialize: () -> void
+  end
+end
