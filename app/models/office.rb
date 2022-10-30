@@ -9,8 +9,8 @@ class Office < ApplicationRecord
   validates :feature_title, presence: true, length: { maximum: 200 }
   validates :feature_detail, presence: true
   validates :workday_detail, presence: true
-  validates :lat, numericality: true
-  validates :lng, numericality: true
+  validates :lat, numericality: true, allow_nil: true
+  validates :lng, numericality: true, allow_nil: true
   validates :fax, presence: true, length: { maximum: 200 }
   validates :nearest_station, presence: true
 

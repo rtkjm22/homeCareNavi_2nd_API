@@ -20,12 +20,12 @@ RSpec.describe Office, type: :model do
 
     context 'name' do
       it { is_expected.to validate_presence_of(:name) }
-      it { is_expected.to validate_length_of(:name).is_at_most(100) }
+      it { is_expected.to validate_length_of(:name).is_at_most(200) }
     end
 
     context 'feature_title' do
       it { is_expected.to validate_presence_of(:feature_title) }
-      it { is_expected.to validate_length_of(:feature_title).is_at_most(100) }
+      it { is_expected.to validate_length_of(:feature_title).is_at_most(200) }
     end
 
     context 'feature_detail' do

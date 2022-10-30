@@ -33,15 +33,17 @@ RSpec.describe 'DeviseTokenAuth::Registrations', type: :request do
         attributes_for(:manager, confirm_success_url: 'test1@example.com')
       end
 
-      it '有効な属性値の場合、Officeも一緒に作成されること', vcr: true do
+      it '有効な属性値の場合、OfficeとOfficeOverviewsも一緒に作成されること', vcr: true do
         expect(Manager.count).to eq(0)
         expect(Office.count).to eq(0)
+        expect(OfficeOverview.count).to eq(0)
         expect(ActionMailer::Base.deliveries.count).to eq(0)
 
         post api_v1_user_registration_path, params: manager_params
 
         expect(Manager.count).to eq(1)
         expect(Office.count).to eq(1)
+        expect(OfficeOverview.count).to eq(1)
         expect(ActionMailer::Base.deliveries.count).to eq(1)
         assert_response_schema_confirm(200)
       end
