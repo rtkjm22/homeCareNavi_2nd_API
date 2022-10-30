@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.1.2'
 
 gem 'active_flag'
+gem 'active_storage_validations'
 gem 'aws-sdk-s3'
 gem 'bootsnap', require: false
 gem 'devise-i18n'

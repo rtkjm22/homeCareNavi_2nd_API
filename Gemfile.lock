@@ -57,6 +57,11 @@ GEM
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
     active_flag (1.6.0)
       activerecord (>= 5)
+    active_storage_validations (1.0.0)
+      activejob (>= 5.2.0)
+      activemodel (>= 5.2.0)
+      activestorage (>= 5.2.0)
+      activesupport (>= 5.2.0)
     activejob (7.0.4)
       activesupport (= 7.0.4)
       globalid (>= 0.3.6)
@@ -351,6 +356,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_flag
+  active_storage_validations
   aws-sdk-s3
   bootsnap
   bullet

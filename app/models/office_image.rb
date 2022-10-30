@@ -4,6 +4,8 @@ class OfficeImage < ApplicationRecord
 
   validates :caption, length: { maximum: 200 }
   validates :role, presence: true
+  validates :image, attached: true, content_type: { in: %w[image/jpg image/jpeg image/png] },
+                    size: { less_than: 5.megabytes }
 
   # thumbnail: 一覧検索時のサムネイル
   # carousel: 詳細画面の5枚のカルーセル
