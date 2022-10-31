@@ -1,0 +1,284 @@
+class OfficeImage < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[OfficeImage, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def office_id: () -> Integer
+
+    def office_id=: (Integer) -> Integer
+
+    def office_id?: () -> bool
+
+    def office_id_changed?: () -> bool
+
+    def office_id_change: () -> [ Integer?, Integer? ]
+
+    def office_id_will_change!: () -> void
+
+    def office_id_was: () -> Integer?
+
+    def office_id_previously_changed?: () -> bool
+
+    def office_id_previous_change: () -> Array[Integer?]?
+
+    def office_id_previously_was: () -> Integer?
+
+    def office_id_before_last_save: () -> Integer?
+
+    def office_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def office_id_in_database: () -> Integer?
+
+    def saved_change_to_office_id: () -> Array[Integer?]?
+
+    def saved_change_to_office_id?: () -> bool
+
+    def will_save_change_to_office_id?: () -> bool
+
+    def restore_office_id!: () -> void
+
+    def clear_office_id_change: () -> void
+
+    def caption: () -> String?
+
+    def caption=: (String?) -> String?
+
+    def caption?: () -> bool
+
+    def caption_changed?: () -> bool
+
+    def caption_change: () -> [ String?, String? ]
+
+    def caption_will_change!: () -> void
+
+    def caption_was: () -> String?
+
+    def caption_previously_changed?: () -> bool
+
+    def caption_previous_change: () -> Array[String?]?
+
+    def caption_previously_was: () -> String?
+
+    def caption_before_last_save: () -> String?
+
+    def caption_change_to_be_saved: () -> Array[String?]?
+
+    def caption_in_database: () -> String?
+
+    def saved_change_to_caption: () -> Array[String?]?
+
+    def saved_change_to_caption?: () -> bool
+
+    def will_save_change_to_caption?: () -> bool
+
+    def restore_caption!: () -> void
+
+    def clear_caption_change: () -> void
+
+    def role: () -> String
+
+    def role=: (String) -> String
+
+    def role?: () -> bool
+
+    def role_changed?: () -> bool
+
+    def role_change: () -> [ String?, String? ]
+
+    def role_will_change!: () -> void
+
+    def role_was: () -> String?
+
+    def role_previously_changed?: () -> bool
+
+    def role_previous_change: () -> Array[String?]?
+
+    def role_previously_was: () -> String?
+
+    def role_before_last_save: () -> String?
+
+    def role_change_to_be_saved: () -> Array[String?]?
+
+    def role_in_database: () -> String?
+
+    def saved_change_to_role: () -> Array[String?]?
+
+    def saved_change_to_role?: () -> bool
+
+    def will_save_change_to_role?: () -> bool
+
+    def restore_role!: () -> void
+
+    def clear_role_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone
+
+    def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone
+
+    def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def image_attachment: () -> ActiveStorage::Attachment?
+  def image_attachment=: (ActiveStorage::Attachment?) -> ActiveStorage::Attachment?
+  def build_image_attachment: (untyped) -> ActiveStorage::Attachment
+  def create_image_attachment: (untyped) -> ActiveStorage::Attachment
+  def create_image_attachment!: (untyped) -> ActiveStorage::Attachment
+  def reload_image_attachment: () -> ActiveStorage::Attachment?
+  def image_blob: () -> ActiveStorage::Blob?
+  def image_blob=: (ActiveStorage::Blob?) -> ActiveStorage::Blob?
+  def build_image_blob: (untyped) -> ActiveStorage::Blob
+  def create_image_blob: (untyped) -> ActiveStorage::Blob
+  def create_image_blob!: (untyped) -> ActiveStorage::Blob
+  def reload_image_blob: () -> ActiveStorage::Blob?
+  def office: () -> Office
+  def office=: (Office?) -> Office?
+  def reload_office: () -> Office?
+  def build_office: (untyped) -> Office
+  def create_office: (untyped) -> Office
+  def create_office!: (untyped) -> Office
+  module GeneratedAssociationMethods
+    def image: () -> ActiveStorage::Attached::One
+
+    def image=: (ActionDispatch::Http::UploadedFile) -> ActionDispatch::Http::UploadedFile
+              | (Rack::Test::UploadedFile) -> Rack::Test::UploadedFile
+              | (ActiveStorage::Blob) -> ActiveStorage::Blob
+              | (String) -> String
+              | ({ io: IO, filename: String, content_type: String? }) -> { io: IO, filename: String, content_type: String? }
+              | (nil) -> nil
+  end
+  include GeneratedAssociationMethods
+
+  def thumbnail!: () -> bool
+  def thumbnail?: () -> bool
+  def carousel!: () -> bool
+  def carousel?: () -> bool
+  def feature!: () -> bool
+  def feature?: () -> bool
+  def self.thumbnail: () -> ActiveRecord_Relation
+  def self.carousel: () -> ActiveRecord_Relation
+  def self.feature: () -> ActiveRecord_Relation
+  def self.with_attached_image: () -> ActiveRecord_Relation
+
+  module GeneratedRelationMethods
+    def thumbnail: () -> ActiveRecord_Relation
+
+    def carousel: () -> ActiveRecord_Relation
+
+    def feature: () -> ActiveRecord_Relation
+
+    def with_attached_image: () -> ActiveRecord_Relation
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[OfficeImage, Integer]
+    include Enumerable[OfficeImage]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[OfficeImage, Integer]
+  end
+end

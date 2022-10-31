@@ -1,0 +1,4 @@
+class OfficeImage < ApplicationRecord
+  # 紐付いている画像のURLを取得する
+  def image_url: () -> String?
+end

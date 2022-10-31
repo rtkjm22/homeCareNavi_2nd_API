@@ -471,7 +471,10 @@ class Office < ::ApplicationRecord
     def clear_updated_at_change: () -> void
   end
   include GeneratedAttributeMethods
-
+  def office_images: () -> OfficeImage::ActiveRecord_Associations_CollectionProxy
+  def office_images=: (OfficeImage::ActiveRecord_Associations_CollectionProxy | Array[OfficeImage]) -> (OfficeImage::ActiveRecord_Associations_CollectionProxy | Array[OfficeImage])
+  def office_image_ids: () -> Array[Integer]
+  def office_image_ids=: (Array[Integer]) -> Array[Integer]
   def office_overview: () -> OfficeOverview?
   def office_overview=: (OfficeOverview?) -> OfficeOverview?
   def build_office_overview: (untyped) -> OfficeOverview
