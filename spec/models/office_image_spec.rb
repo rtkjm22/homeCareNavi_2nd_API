@@ -30,4 +30,18 @@ RSpec.describe OfficeImage, type: :model do
       it { is_expected.to validate_presence_of(:role) }
     end
   end
+
+  describe 'image_urlメソッド' do
+    let!(:office_image) { create(:office_image) }
+
+    it '画像が存在する場合、画像のURLが返ってくること' do
+      expect(office_image.image_url).to be_start_with('http://localhost:3000/rails/active_storage/blobs/redirect')
+      expect(office_image.image_url).to be_end_with('test_image.jpg')
+    end
+
+    it '画像が存在しない場合、nilが返ってくること' do
+      office_image.image.purge
+      expect(office_image.image_url).to be_nil
+    end
+  end
 end

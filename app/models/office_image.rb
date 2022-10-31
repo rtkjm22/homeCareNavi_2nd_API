@@ -11,4 +11,9 @@ class OfficeImage < ApplicationRecord
   # carousel: 詳細画面の5枚のカルーセル
   # feature: 詳細画面の2枚の特徴画像
   enum role: { thumbnail: 0, carousel: 1, feature: 2 }
+
+  # 紐付いている画像のURLを取得する
+  def image_url
+    image.attached? ? Rails.application.routes.url_helpers.url_for(image) : nil
+  end
 end
