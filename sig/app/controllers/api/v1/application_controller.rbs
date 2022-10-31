@@ -3,6 +3,12 @@ module Api
     class ApplicationController < ::ApplicationController
       include DeviseTokenAuth::Concerns::SetUserByToken
 
+      # 現在ログイン中のユーザーを、Manager型として返す。current_api_v1_userのエイリアス。
+      def current_api_v1_manager: () -> ::Manager
+
+      # 現在ログイン中のユーザーを、Client型として返す。current_api_v1_userのエイリアス。
+      def current_api_v1_client: () -> ::Client
+
       private
 
       def render_user_type_mismatch: () -> untyped
