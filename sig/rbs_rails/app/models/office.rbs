@@ -472,6 +472,12 @@ class Office < ::ApplicationRecord
   end
   include GeneratedAttributeMethods
 
+  def office_overview: () -> OfficeOverview?
+  def office_overview=: (OfficeOverview?) -> OfficeOverview?
+  def build_office_overview: (untyped) -> OfficeOverview
+  def create_office_overview: (untyped) -> OfficeOverview
+  def create_office_overview!: (untyped) -> OfficeOverview
+  def reload_office_overview: () -> OfficeOverview?
   def manager: () -> Manager
   def manager=: (Manager?) -> Manager?
   def reload_manager: () -> Manager?

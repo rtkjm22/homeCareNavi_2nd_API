@@ -1,2 +1,3 @@
 class ApplicationRecord < ActiveRecord::Base
+  def as_error_json: () -> Hash[Symbol, String]
 end

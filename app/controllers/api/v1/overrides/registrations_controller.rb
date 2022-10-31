@@ -21,8 +21,11 @@ module Api
 
         def build_resource
           super
-          # User.typeがManagerの場合、Officeも同時に作成する
-          @resource.build_office_with_location if @resource&.manager?
+          # User.typeがManagerの場合、Office及びOfficeOverviewも同時に作成する
+          if @resource&.manager?
+            office = @resource.build_office_with_location
+            office.build_office_overview
+          end
         end
       end
     end
