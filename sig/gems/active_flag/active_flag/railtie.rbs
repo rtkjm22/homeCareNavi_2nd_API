@@ -1,0 +1,5 @@
+module ActiveFlag
+  class Railtie < Rails::Railtie
+    include ActiveFlag
+  end
+end

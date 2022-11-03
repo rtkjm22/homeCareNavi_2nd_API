@@ -1,0 +1,36 @@
+module Devise
+  module Models
+    # Validatable creates all needed validations for a user email and password.
+    # It's optional, given you may want to create the validations by yourself.
+    # Automatically validate if the email is present, unique and its format is
+    # valid. Also tests presence of password, confirmation and length.
+    #
+    # == Options
+    #
+    # Validatable adds the following options to +devise+:
+    #
+    #   * +email_regexp+: the regular expression used to validate e-mails;
+    #   * +password_length+: a range expressing password length. Defaults to 6..128.
+    #
+    module Validatable
+      # All validations used by this module.
+      VALIDATIONS: ::Array[:validates_presence_of | :validates_uniqueness_of | :validates_format_of | :validates_confirmation_of | :validates_length_of]
+
+      def self.required_fields: (untyped klass) -> ::Array[untyped]
+
+      def self.included: (untyped base) -> untyped
+
+      def self.assert_validations_api!: (untyped base) -> untyped
+
+      # Checks whether a password is needed or not. For validations only.
+      # Passwords are always required if it's a new record, or if the password
+      # or confirmation are being set somewhere.
+      def password_required?: () -> untyped
+
+      def email_required?: () -> true
+
+      module ClassMethods
+      end
+    end
+  end
+end

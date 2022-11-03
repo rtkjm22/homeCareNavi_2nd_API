@@ -1,0 +1,7 @@
+module DeviseTokenAuth
+  class InstallMongoidGenerator < Rails::Generators::Base
+    include DeviseTokenAuth::InstallGeneratorHelpers
+
+    def create_user_model: () -> untyped
+  end
+end

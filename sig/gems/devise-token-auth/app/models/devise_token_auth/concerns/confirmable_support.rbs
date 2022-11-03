@@ -1,0 +1,9 @@
+module DeviseTokenAuth::Concerns::ConfirmableSupport
+  extend ActiveSupport::Concern
+
+  # Override standard devise `postpone_email_change?` method
+  # for not to use `will_save_change_to_email?` & `email_changed?` methods.
+  def postpone_email_change?: () -> untyped
+
+  def email_value_in_database: () -> untyped
+end

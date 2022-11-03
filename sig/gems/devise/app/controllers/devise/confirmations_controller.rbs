@@ -1,0 +1,18 @@
+class Devise::ConfirmationsController < DeviseController
+  # GET /resource/confirmation/new
+  def new: () -> untyped
+
+  # POST /resource/confirmation
+  def create: () { (untyped) -> untyped } -> untyped
+
+  # GET /resource/confirmation?confirmation_token=abcdef
+  def show: () { (untyped) -> untyped } -> untyped
+
+  # The path used after resending confirmation instructions.
+  def after_resending_confirmation_instructions_path_for: (untyped resource_name) -> (untyped | "/")
+
+  # The path used after confirmation.
+  def after_confirmation_path_for: (untyped resource_name, untyped resource) -> untyped
+
+  def translation_scope: () -> "devise.confirmations"
+end

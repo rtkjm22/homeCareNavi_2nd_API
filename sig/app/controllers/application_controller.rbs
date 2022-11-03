@@ -1,0 +1,9 @@
+class ApplicationController < ActionController::API
+  include DeviseTokenAuth::Concerns::SetUserByToken
+
+  include DeviseHackFakeSession
+
+  include  _RbsRailsPathHelpers
+
+  def configure_permitted_parameters: () -> untyped
+end

@@ -1,0 +1,25 @@
+module DeviseTokenAuth::Concerns::SetUserByToken
+  extend ActiveSupport::Concern
+
+  include DeviseTokenAuth::Concerns::ResourceFinder
+
+  # keep track of request duration
+  def set_request_start: () -> untyped
+
+  # user auth
+  def set_user_by_token: (?untyped? mapping) -> (nil | untyped)
+
+  def update_auth_header: () -> (nil | untyped)
+
+  private
+
+  def decode_bearer_token: (untyped bearer_token) -> (::Hash[untyped, untyped] | untyped)
+
+  def refresh_headers: () -> untyped
+
+  def set_cookie: (untyped auth_header) -> untyped
+
+  def is_batch_request?: (untyped user, untyped client) -> untyped
+
+  def auth_header_from_batch_request: () -> untyped
+end

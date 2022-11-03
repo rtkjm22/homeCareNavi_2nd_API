@@ -4,19 +4,18 @@ RSpec.describe 'DeviseTokenAuth::Sessions', type: :request do
   describe 'ログイン' do
     let!(:client) { create(:client) }
 
-    context '属性値が有効な場合' do
-      let!(:params) { { email: client.email, password: client.password } }
+    context 'メールアドレス及びパスワードが有効な場合' do
+      let!(:params) { { email: client.email, password: client.password, type: 'Client' } }
 
       it 'ユーザー情報及びトークンが返ってくること' do
         post new_api_v1_user_session_path, params: params
-
         response_symbolized_body[:data] => { id: }
         expect(id).to eq client.id
         expect(response.has_header?('access-token')).to be true
         assert_response_schema_confirm(200)
       end
 
-      it 'ユーザーが論理削除されている場合、エラーレスポンスが帰ってくること' do
+      it 'ユーザーが論理削除されている場合、エラーレスポンスが返ってくること' do
         client.discard
         expect(client.discarded?).to be true
         post new_api_v1_user_session_path, params: params
@@ -24,9 +23,18 @@ RSpec.describe 'DeviseTokenAuth::Sessions', type: :request do
         expect(success).to be false
         assert_response_schema_confirm(401)
       end
+
+      it 'typeが異なる場合、エラーレスポンスが返ってくること' do
+        params[:type] = 'Manager'
+        post new_api_v1_user_session_path, params: params
+        response_symbolized_body => { success: }
+        expect(success).to be false
+        expect(client.reload.tokens).to be_empty
+        assert_response_schema_confirm(401)
+      end
     end
 
-    it '属性値が無効な場合、エラーレスポンスが帰ってくること' do
+    it 'メールアドレス及びパスワードが無効な場合、エラーレスポンスが帰ってくること' do
       post new_api_v1_user_session_path, params: { email: 'invalid-email@com', password: 'invalid-password' }
       response_symbolized_body => { success: }
       expect(success).to be false

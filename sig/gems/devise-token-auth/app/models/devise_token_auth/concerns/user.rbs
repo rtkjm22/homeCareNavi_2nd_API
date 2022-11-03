@@ -1,0 +1,76 @@
+module DeviseTokenAuth::Concerns::User
+  extend ActiveSupport::Concern
+
+  def self.tokens_match?: (untyped token_hash, untyped token) -> untyped
+
+  include DeviseTokenAuth::Concerns::ActiveRecordSupport
+
+  include DeviseTokenAuth::Concerns::MongoidSupport
+
+  include DeviseTokenAuth::Concerns::UserOmniauthCallbacks
+
+  # don't use default devise email validation
+  def email_required?: () -> false
+
+  def email_changed?: () -> false
+
+  def will_save_change_to_email?: () -> false
+
+  include DeviseTokenAuth::Concerns::ConfirmableSupport
+
+  def password_required?: () -> (false | untyped)
+
+  # override devise method to include additional info as opts hash
+  def send_confirmation_instructions: (?::Hash[untyped, untyped] opts) -> untyped
+
+  # override devise method to include additional info as opts hash
+  def send_reset_password_instructions: (?::Hash[untyped, untyped] opts) -> untyped
+
+  # override devise method to include additional info as opts hash
+  def send_unlock_instructions: (?::Hash[untyped, untyped] opts) -> untyped
+
+  def create_token: (?client: untyped?, ?lifespan: untyped?, ?cost: untyped?, **untyped token_extras) -> untyped
+
+  def valid_token?: (untyped token, ?::String client) -> (false | true)
+
+  # this must be done from the controller so that additional params
+  # can be passed on from the client
+  def send_confirmation_notification?: () -> false
+
+  def token_is_current?: (untyped token, untyped client) -> untyped
+
+  # check if the hash of received token matches the stored token
+  def does_token_match?: (untyped token_hash, untyped token) -> (false | untyped)
+
+  # allow batch requests to use the last token
+  def token_can_be_reused?: (untyped token, untyped client) -> untyped
+
+  # update user's auth token (should happen on each request)
+  def create_new_auth_token: (?untyped? client) -> untyped
+
+  def build_auth_header: (untyped token, ?::String client) -> untyped
+
+  def build_bearer_token: (untyped auth) -> ::Hash[untyped, untyped]
+
+  def update_auth_header: (untyped token, ?::String client) -> untyped
+
+  def build_auth_url: (untyped base_url, untyped args) -> untyped
+
+  def extend_batch_buffer: (untyped token, untyped client) -> untyped
+
+  def confirmed?: () -> untyped
+
+  def token_validation_response: () -> untyped
+
+  def destroy_expired_tokens: () -> (untyped | nil)
+
+  def should_remove_tokens_after_password_reset?: () -> untyped
+
+  def remove_tokens_after_password_reset: () -> (nil | untyped)
+
+  def max_client_tokens_exceeded?: () -> untyped
+
+  def clean_old_tokens: () -> (untyped | nil)
+                      
+  def active_for_authentication?: () -> bool
+end

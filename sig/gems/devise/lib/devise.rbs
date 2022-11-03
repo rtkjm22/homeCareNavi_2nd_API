@@ -1,0 +1,124 @@
+module Devise
+  module Controllers
+  end
+
+  module Hooks
+  end
+
+  module Mailers
+  end
+
+  module Strategies
+  end
+
+  module Test
+  end
+
+  # Constants which holds devise configuration for extensions. Those should
+  # not be modified by the "end user" (this is why they are constants).
+  ALL: ::Array[untyped]
+
+  CONTROLLERS: ::Hash[untyped, untyped]
+
+  ROUTES: ::Hash[untyped, untyped]
+
+  STRATEGIES: ::Hash[untyped, untyped]
+
+  URL_HELPERS: ::Hash[untyped, untyped]
+
+  # Strategies that do not require user input.
+  NO_INPUT: ::Array[untyped]
+
+  # True values used to check params
+  TRUE_VALUES: ::Array[true | 1 | "1" | "t" | "T" | "true" | "TRUE"]
+
+  def self.activerecord51?: () -> untyped
+
+  # Default way to set up Devise. Run rails generate devise_install to create
+  # a fresh initializer with all configuration values.
+  def self.setup: () { (untyped) -> untyped } -> untyped
+
+  class Getter
+    def initialize: (untyped name) -> void
+
+    def get: () -> untyped
+  end
+
+  def self.ref: (untyped arg) -> untyped
+
+  def self.available_router_name: () -> untyped
+
+  def self.omniauth_providers: () -> untyped
+
+  # Get the mailer class from the mailer reference object.
+  def self.mailer: () -> untyped
+
+  # Set the mailer reference object to access the mailer.
+  def self.mailer=: (untyped class_name) -> untyped
+
+  # Small method that adds a mapping to Devise.
+  def self.add_mapping: (untyped resource, untyped options) -> untyped
+
+  # Register available devise modules. For the standard modules that Devise provides, this method is
+  # called from lib/devise/modules.rb. Third-party modules need to be added explicitly using this method.
+  #
+  # Note that adding a module using this method does not cause it to be used in the authentication
+  # process. That requires that the module be listed in the arguments passed to the 'devise' method
+  # in the model class definition.
+  #
+  # == Options:
+  #
+  #   +model+      - String representing the load path to a custom *model* for this module (to autoload.)
+  #   +controller+ - Symbol representing the name of an existing or custom *controller* for this module.
+  #   +route+      - Symbol representing the named *route* helper for this module.
+  #   +strategy+   - Symbol representing if this module got a custom *strategy*.
+  #   +insert_at+  - Integer representing the order in which this module's model will be included
+  #
+  # All values, except :model, accept also a boolean and will have the same name as the given module
+  # name.
+  #
+  # == Examples:
+  #
+  #   Devise.add_module(:party_module)
+  #   Devise.add_module(:party_module, strategy: true, controller: :sessions)
+  #   Devise.add_module(:party_module, model: 'party_module/model')
+  #   Devise.add_module(:party_module, insert_at: 0)
+  #
+  def self.add_module: (untyped module_name, ?::Hash[untyped, untyped] options) -> untyped
+
+  # Sets warden configuration using a block that will be invoked on warden
+  # initialization.
+  #
+  #  Devise.setup do |config|
+  #    config.allow_unconfirmed_access_for = 2.days
+  #
+  #    config.warden do |manager|
+  #      # Configure warden to use other strategies, like oauth.
+  #      manager.oauth(:twitter)
+  #    end
+  #  end
+  def self.warden: () ?{ () -> untyped } -> untyped
+
+  # Specify an OmniAuth provider.
+  #
+  #   config.omniauth :github, APP_ID, APP_SECRET
+  #
+  def self.omniauth: (untyped provider, *untyped args) -> untyped
+
+  # Include helpers in the given scope to AC and AV.
+  def self.include_helpers: (untyped scope) -> untyped
+
+  # Regenerates url helpers considering Devise.mapping
+  def self.regenerate_helpers!: () -> untyped
+
+  # A method used internally to complete the setup of warden manager after routes are loaded.
+  # See lib/devise/rails/routes.rb - ActionDispatch::Routing::RouteSet#finalize_with_devise!
+  def self.configure_warden!: () -> untyped
+
+  # Generate a friendly string randomly to be used as token.
+  # By default, length is 20 characters.
+  def self.friendly_token: (?::Integer length) -> untyped
+
+  # constant-time comparison algorithm to prevent timing attacks
+  def self.secure_compare: (untyped a, untyped b) -> (false | untyped)
+end

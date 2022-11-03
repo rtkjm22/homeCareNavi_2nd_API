@@ -1,0 +1,30 @@
+module ActiveFlag
+  class Definition
+    attr_reader keys: untyped
+
+    attr_reader maps: untyped
+
+    attr_reader column: untyped
+
+    def initialize: (untyped column, untyped keys, untyped klass) -> void
+
+    def humans: () -> untyped
+
+    def pairs: () -> untyped
+
+    def set_all!: (untyped key) -> untyped
+
+    def unset_all!: (untyped key) -> untyped
+
+    def to_i: (untyped arg) -> untyped
+
+    def to_value: (untyped `instance`, untyped integer) -> untyped
+
+    def to_array: (untyped integer) -> untyped
+
+    private
+
+    # Human-friendly print on class level
+    def human: (untyped key, ?::Hash[untyped, untyped] options) -> (nil | untyped)
+  end
+end

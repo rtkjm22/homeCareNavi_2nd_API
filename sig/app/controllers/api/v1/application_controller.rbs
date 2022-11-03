@@ -1,0 +1,26 @@
+module Api
+  module V1
+    class ApplicationController < ::ApplicationController
+      include DeviseTokenAuth::Concerns::SetUserByToken
+
+      private
+
+      def render_user_type_mismatch: () -> untyped
+
+      # 未ログインまたはクライアントではない場合、エラーレンダリングする
+      def authenticate_api_v1_client!: () -> (nil | untyped)
+
+      # 未ログインまたはケアマネではない場合、エラーレンダリングする
+      def authenticate_api_v1_manager!: () -> (nil | untyped)
+    end
+  end
+end
+
+module DeviseTokenAuth
+  module Concerns
+    module SetUserByToken
+      def authenticate_api_v1_user!: () -> untyped
+      def current_api_v1_user: () -> ::User
+    end
+  end
+end

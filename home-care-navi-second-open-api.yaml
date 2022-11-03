@@ -197,8 +197,8 @@ paths:
                 confirm_success_url:
                   type: string
                   format: uri
-                  example: 'https://www.home-care-navi-second'
-                  description: アカウント登録メールに記載されるURL
+                  example: 'http://localhost:8080'
+                  description: アカウント登録メールに記載されるURL。clientならトップページ、managerならスタッフ情報ページのURLとする。
               required:
                 - name
                 - email
@@ -218,7 +218,7 @@ paths:
                   address: 東京都新宿区市ヶ谷本村町5番1号
                   password: password
                   type: Client
-                  confirm_success_url: 'https://www.home-care-navi-second'
+                  confirm_success_url: 'http://localhost:8080'
     parameters: []
     patch:
       summary: 登録者情報更新
@@ -307,12 +307,22 @@ paths:
                 address:
                   type: string
                   example: 東京都新宿区市ヶ谷本村町5番1号
-                password:
-                  type: string
-                  example: new-password
                 current_password:
                   type: string
                   example: password
+                password:
+                  type: string
+                  example: new-password
+                password_confirmation:
+                  type: string
+                  example: new-password
+              required:
+                - name
+                - email
+                - tel
+                - postal
+                - address
+                - current_password
             examples:
               example-1:
                 value:
@@ -455,14 +465,20 @@ paths:
                   type: string
                   example: password
                   description: パスワード
+                type:
+                  type: string
+                  example: Client
+                  description: ユーザーの種別
               required:
                 - email
                 - password
+                - type
             examples:
               example-1:
                 value:
                   email: test1@example.com
                   password: password
+                  type: Client
           application/xml:
             schema:
               type: object
@@ -500,7 +516,7 @@ paths:
     parameters: []
   /api/v1/auth/sign_out:
     delete:
-      summary: 事業所利用者ログアウト
+      summary: ログアウト
       operationId: signOut
       responses:
         '200':
@@ -517,6 +533,10 @@ paths:
                     readOnly: true
                 required:
                   - success
+              examples:
+                example-1:
+                  value:
+                    success: true
       description: 'ヘッダーに`access-token`,`uid`,`client`必須。ログアウトする。'
       security:
         - access-token: []
@@ -579,6 +599,19 @@ paths:
       description: パラメータのメールアドレスにパスワードリセットメールを送信する。
       tags:
         - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: myaddress@example.com
+                  format: email
+                  description: ユーザーがメールアドレスフォームに入力した値
+              required:
+                - email
     parameters: []
     patch:
       summary: パスワードリセット
@@ -626,6 +659,19 @@ paths:
               schema:
                 type: object
                 properties: {}
+          headers:
+            access-token:
+              schema:
+                type: string
+            uid:
+              schema:
+                type: string
+            client:
+              schema:
+                type: string
+            expiry:
+              schema:
+                type: string
         '401':
           description: Unauthorized
           content:
@@ -666,7 +712,8 @@ paths:
                     properties:
                       full_messages:
                         type: array
-                        example: [パスワード（確認用）とパスワードの入力が一致しません]
+                        example:
+                          - パスワード（確認用）とパスワードの入力が一致しません
                         description: エラーメッセージ
                         items:
                           type: string
@@ -699,13 +746,13 @@ paths:
                 - password
                 - password_confirmation
         description: 'ヘッダーにclient,access-token,uid。ボディにpassword,password_confirmationが必須。'
-  /api/v1/client/offices:
+  /api/v1/client/offices/area:
     get:
-      summary: 事業所一覧取得(事業所利用者)
+      summary: 事業所エリア検索(事業所利用者)
       tags:
         - office
-      operationId: getClientOffices
-      description: 事業所一覧を取得する。
+      operationId: getClientOfficesArea
+      description: 事業所一覧を取得する。住所で絞り込む。
       parameters:
         - schema:
             type: string
@@ -713,6 +760,56 @@ paths:
           in: query
           name: q
           description: addressを前方一致検索する。OR検索は半角スペースで区切る。
+        - schema:
+            type: string
+          in: query
+          name: page
+          description: ページネーション
+      responses:
+        '200':
+          description: OK
+    parameters: []
+  /api/v1/client/offices/search:
+    get:
+      summary: 事業所全文一致検索(事業所利用者)
+      tags:
+        - office
+      operationId: getClientOfficesSearch
+      description: 事業所一覧を取得する。全文一致で絞り込む。
+      parameters:
+        - schema:
+            type: string
+            example: 東京 大阪 群馬
+          in: query
+          name: q
+          description: addressを全文検索する。OR検索は半角スペースで区切る。
+        - schema:
+            type: string
+          in: query
+          name: page
+          description: ページネーション
+      responses:
+        '200':
+          description: OK
+    parameters: []
+  /api/v1/client/offices/nearest:
+    get:
+      summary: 事業所現在地検索(事業所利用者)
+      tags:
+        - office
+      operationId: getClientOfficesNearest
+      description: 事業所一覧を取得する。現在地で絞り込む。
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: lat
+          description: 緯度
+        - schema:
+            type: number
+          in: query
+          name: lng
+          description: 経度
         - schema:
             type: string
           in: query
@@ -741,7 +838,7 @@ paths:
           example: 1
           format: int64
         description: 対象のid
-  '/api/v1/manager/office/{id}':
+  /api/v1/manager/office:
     get:
       summary: 事業所詳細取得(ケアマネ)
       tags:
@@ -749,27 +846,174 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Office'
+              examples:
+                example-1:
+                  value:
+                    id: 1
+                    manager_id: 5
+                    name: ホームケア事務所_1
+                    feature_title: 事業所紹介タイトル
+                    feature_detail: ここに事業所の特徴テキストが入ります
+                    workday:
+                      - mon
+                    workday_detail: 営業日時についてのテキストが入ります
+                    lat: '43.073211'
+                    lng: '41.350427'
+                    fax: 111-2222-3333
+                    nearest_station: 北12条駅 徒歩5分
+                    created_at: string
+                    updated_at: string
       operationId: getManagerOffice
-      description: 単一の事務所の詳細を取得する
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          example: 1
-          format: int64
-        description: 対象のid
+      description: Manager自身の事務所詳細を取得する
+    parameters: []
     patch:
       summary: 事業所更新(ケアマネ)
       operationId: updateManagerOffice
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Office'
+              examples:
+                example-1:
+                  value:
+                    id: 1
+                    manager_id: 5
+                    name: ホームケア事務所_1
+                    feature_title: 事業所紹介タイトル
+                    feature_detail: ここに事業所の特徴テキストが入ります
+                    workday:
+                      - mon
+                    workday_detail: 営業日時についてのテキストが入ります
+                    lat: '43.073211'
+                    lng: '41.350427'
+                    fax: 111-2222-3333
+                    nearest_station: 北12条駅 徒歩5分
+                    created_at: string
+                    updated_at: string
       tags:
         - office
-      description: 単一の事務所を更新する
-  /api/v1/client/appointments:
+      description: Manager自身の事務所を更新する
+  /api/v1/manager/office_overview:
+    parameters: []
+    patch:
+      summary: 施設概要更新(ケアマネ)
+      operationId: updateManagerOfficeOverview
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfficeOverview'
+              examples:
+                example-1:
+                  value:
+                    id: 1
+                    office_id: 3
+                    classify: 介護付きホーム（サービス付き高齢者向け住宅　特定施設）
+                    opening_date: '2022-03-11'
+                    room_count: 30
+                    requirements: 満60歳以上の方、入居時自立・要支援・要介護
+                    shared_facilities: エントランス、食堂兼機能訓練室、個浴、大浴場、特殊浴槽、和室、談話室、シアタールーム、屋上庭園
+                    business_entity: 株式会社ユニマット　リタイアメント・コミュニティ
+                    official_site_url: 'https://www.unimat-rc.co.jp/shisetsu/sosigaya_871/index.html'
+                    created_at: '2022-10-29T18:22:43.829+09:00'
+                    updated_at: '2022-10-29T18:22:43.829+09:00'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      description: Manager自身の施設概要を更新する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                classify:
+                  type: string
+                  description: 類型
+                  example: 介護付きホーム（サービス付き高齢者向け住宅　特定施設）
+                opening_date:
+                  type: string
+                  description: 開設年月
+                  example: '2022-03-11'
+                  format: date
+                room_count:
+                  type: integer
+                  description: 居室数
+                  example: 30
+                requirements:
+                  type: string
+                  description: 入居時の要件
+                  example: 満60歳以上の方、入居時自立・要支援・要介護
+                shared_facilities:
+                  type: string
+                  description: 共用設備
+                  example: エントランス、食堂兼機能訓練室、個浴、大浴場、特殊浴槽、和室、談話室、シアタールーム、屋上庭園
+                business_entity:
+                  type: string
+                  description: 経営・事業主体
+                  example: 株式会社ユニマット　リタイアメント・コミュニティ
+                official_site_url:
+                  type: string
+                  description: 公式サイトのURL
+                  example: 'https://www.unimat-rc.co.jp/shisetsu/sosigaya_871/index.html'
+                  format: uri
+              required:
+                - classify
+                - opening_date
+                - room_count
+                - requirements
+                - shared_facilities
+                - business_entity
+                - official_site_url
+            examples:
+              example-1:
+                value:
+                  classify: 介護付きホーム（サービス付き高齢者向け住宅　特定施設）
+                  opening_date: '2022-03-11'
+                  room_count: 30
+                  requirements: 満60歳以上の方、入居時自立・要支援・要介護
+                  shared_facilities: エントランス、食堂兼機能訓練室、個浴、大浴場、特殊浴槽、和室、談話室、シアタールーム、屋上庭園
+                  business_entity: 株式会社ユニマット　リタイアメント・コミュニティ
+                  official_site_url: 'https://www.unimat-rc.co.jp/shisetsu/sosigaya_871/index.html'
+        description: ''
+      tags:
+        - office_overview
+    get:
+      summary: 施設概要取得（ケアマネ）
+      operationId: getManagerOfficeOverview
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfficeOverview'
+              examples:
+                example-1:
+                  value:
+                    id: 1
+                    office_id: 3
+                    classify: 介護付きホーム（サービス付き高齢者向け住宅　特定施設）
+                    opening_date: '2022-03-11'
+                    room_count: 30
+                    requirements: 満60歳以上の方、入居時自立・要支援・要介護
+                    shared_facilities: エントランス、食堂兼機能訓練室、個浴、大浴場、特殊浴槽、和室、談話室、シアタールーム、屋上庭園
+                    business_entity: 株式会社ユニマット　リタイアメント・コミュニティ
+                    official_site_url: 'https://www.unimat-rc.co.jp/shisetsu/sosigaya_871/index.html'
+                    created_at: '2022-10-29T18:22:43.829+09:00'
+                    updated_at: '2022-10-29T18:22:43.829+09:00'
+      description: Manager自身の施設概要を取得する
+      tags:
+        - office_overview
+  /api/v1/client/reserves:
     post:
       summary: 予約作成(事業所利用者)
       operationId: createClientAppointment
@@ -781,7 +1025,7 @@ paths:
       description: ホームケアを予約する
     get:
       summary: 予約一覧取得(事業所利用者)
-      operationId: getClientAppointments
+      operationId: getClientReserves
       responses:
         '200':
           description: OK
@@ -789,10 +1033,10 @@ paths:
       tags:
         - appointment
     parameters: []
-  /api/v1/manager/appointments:
+  /api/v1/manager/reserves:
     get:
       summary: 予約一覧取得(ケアマネ)
-      operationId: getManagerAppointments
+      operationId: getManagerReserves
       responses:
         '200':
           description: OK
@@ -800,7 +1044,7 @@ paths:
       tags:
         - appointment
     parameters: []
-  '/api/v1/manager/appointment/{id}':
+  '/api/v1/manager/reserve/{id}':
     parameters:
       - name: id
         in: path
@@ -812,7 +1056,7 @@ paths:
         description: 対象のid
     patch:
       summary: 予約更新(ケアマネ)
-      operationId: updateManagerAppointment
+      operationId: updateManagerReserve
       responses:
         '200':
           description: OK
@@ -948,15 +1192,6 @@ paths:
           format: int64
         description: 対象のid
   /api/v1/client/staffs:
-    get:
-      summary: スタッフ一覧取得(事業所利用者)
-      responses:
-        '200':
-          description: OK
-      operationId: getClientStaffs
-      tags:
-        - staff
-      description: スタッフ一覧を取得する
     parameters: []
   /api/v1/manager/staffs:
     get:
@@ -1143,6 +1378,153 @@ components:
         - provider
         - uid
         - allow_password_change
+    Office:
+      type: object
+      x-examples:
+        Example 1:
+          id: 1
+          manager_id: 5
+          name: ホームケア事務所_1
+          feature_title: 事業所紹介タイトル
+          feature_detail: ここに事業所の特徴テキストが入ります
+          workday:
+            - mon
+          workday_detail: 営業日時についてのテキストが入ります
+          lat: '43.073211'
+          lng: '141.350427'
+          fax: 111-2222-3333
+          nearest_station: 北12条駅 徒歩5分
+          created_at: '2022-10-29T00:47:31.090+09:00'
+          updated_at: '2022-10-29T00:47:31.090+09:00'
+      title: Office
+      description: 事業所
+      properties:
+        id:
+          type: integer
+          example: 1
+        manager_id:
+          type: integer
+          example: 5
+        name:
+          type: string
+          example: ホームケア事務所_1
+        feature_title:
+          type: string
+          example: 事業所紹介タイトル
+        feature_detail:
+          type: string
+          example: ここに事業所の特徴テキストが入ります
+        workday:
+          type: array
+          example:
+            - mon
+          items:
+            type: string
+        workday_detail:
+          type: string
+          example: 営業日時についてのテキストが入ります
+        lat:
+          type: string
+          example: '43.073211'
+        lng:
+          type: string
+          example: '41.350427'
+        fax:
+          type: string
+          example: 111-2222-3333
+        nearest_station:
+          type: string
+          example: 北12条駅 徒歩5分
+        created_at:
+          type: string
+        updated_at:
+          type: string
+      required:
+        - id
+        - manager_id
+        - name
+        - feature_title
+        - feature_detail
+        - workday
+        - workday_detail
+        - lat
+        - lng
+        - fax
+        - nearest_station
+    OfficeOverview:
+      type: object
+      x-examples:
+        Example 1:
+          id: 3
+          office_id: 56
+          classify: 介護付きホーム（サービス付き高齢者向け住宅　特定施設）
+          opening_date: '2022-03-11'
+          room_count: 30
+          requirements: 満60歳以上の方、入居時自立・要支援・要介護
+          shared_facilities: エントランス、食堂兼機能訓練室、個浴、大浴場、特殊浴槽、和室、談話室、シアタールーム、屋上庭園
+          business_entity: 株式会社ユニマット　リタイアメント・コミュニティ
+          official_site_url: 'https://www.unimat-rc.co.jp/shisetsu/sosigaya_871/index.html'
+          created_at: '2022-10-29T18:22:43.829+09:00'
+          updated_at: '2022-10-29T18:22:43.829+09:00'
+      title: OfficeOverview
+      description: 施設概要
+      properties:
+        id:
+          type: integer
+          description: 主キー
+          example: 1
+        office_id:
+          type: integer
+          description: 事業所外部キー
+          example: 3
+        classify:
+          type: string
+          description: 類型
+          example: 介護付きホーム（サービス付き高齢者向け住宅　特定施設）
+        opening_date:
+          type: string
+          description: 開設年月
+          example: '2022-03-11'
+          format: date
+        room_count:
+          type: integer
+          description: 居室数
+          example: 30
+        requirements:
+          type: string
+          description: 入居時の要件
+          example: 満60歳以上の方、入居時自立・要支援・要介護
+        shared_facilities:
+          type: string
+          description: 共用設備
+          example: エントランス、食堂兼機能訓練室、個浴、大浴場、特殊浴槽、和室、談話室、シアタールーム、屋上庭園
+        business_entity:
+          type: string
+          description: 経営・事業主体
+          example: 株式会社ユニマット　リタイアメント・コミュニティ
+        official_site_url:
+          type: string
+          description: 公式サイトのURL
+          example: 'https://www.unimat-rc.co.jp/shisetsu/sosigaya_871/index.html'
+          format: uri
+        created_at:
+          type: string
+          example: '2022-10-29T18:22:43.829+09:00'
+        updated_at:
+          type: string
+          example: '2022-10-29T18:22:43.829+09:00'
+      required:
+        - id
+        - office_id
+        - classify
+        - opening_date
+        - room_count
+        - requirements
+        - shared_facilities
+        - business_entity
+        - official_site_url
+        - created_at
+        - updated_at
   responses:
     AuthSuccess:
       description: ''
@@ -1196,6 +1578,22 @@ components:
             type: string
             example: test1@example.com
           description: トークン認証に必要なヘッダー(4/4)
+    BadRequest:
+      description: 'バリデーションチェック失敗時。status: :bad_requestで返ってくるときの値。'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                description: エラーの値
+                items:
+                  type: string
+                example:
+                  - 類型は200文字以内で入力してください
+            required:
+              - errors
   requestBodies: {}
   parameters: {}
   securitySchemes:
@@ -1238,6 +1636,8 @@ tags:
     description: 事業所
   - name: office_client
     description: 事業所で管理しているクライアント
+  - name: office_overview
+    description: 施設概要
   - name: staff
     description: 事業所スタッフ
   - name: thank

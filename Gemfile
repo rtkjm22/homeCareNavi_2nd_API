@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.2'
 
+gem 'active_flag'
 gem 'bootsnap', require: false
 gem 'devise-i18n'
 gem 'devise_token_auth', '>= 1.2.0', git: 'https://github.com/lynndylanhurley/devise_token_auth'
@@ -26,14 +27,19 @@ end
 
 group :development do
   gem 'letter_opener_web', '~> 2.0'
+  gem 'rbs', require: false
+  gem 'rbs_rails', require: false
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'steep', require: false
 end
 
 group :test do
   gem 'committee-rails'
   gem 'shoulda-matchers'
   gem 'simplecov'
+  gem 'vcr'
+  gem 'webmock'
 end

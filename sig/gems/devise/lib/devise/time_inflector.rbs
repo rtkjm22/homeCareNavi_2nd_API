@@ -1,0 +1,7 @@
+module Devise
+  class TimeInflector
+    include ActionView::Helpers::DateHelper
+
+    attr_reader self.instance: untyped
+  end
+end

@@ -1,0 +1,20 @@
+module DeviseTokenAuth
+  class ConfirmationsController < DeviseTokenAuth::ApplicationController
+    def show: () { (untyped) -> untyped } -> untyped
+
+    def create: () -> untyped
+
+    def render_create_error_missing_email: () -> untyped
+
+    def render_create_success: () -> untyped
+
+    def render_not_found_error: () -> untyped
+
+    private
+
+    def resource_params: () -> untyped
+
+    # give redirect value from params priority or fall back to default value if provided
+    def redirect_url: () -> untyped
+  end
+end
