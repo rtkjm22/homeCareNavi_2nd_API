@@ -31,6 +31,9 @@ module Api
 
         render json:, status: :unprocessable_entity
       end
+
+      alias current_api_v1_manager current_api_v1_user
+      alias current_api_v1_client current_api_v1_user
     end
   end
 end

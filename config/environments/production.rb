@@ -31,7 +31,10 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  config.active_storage.service = :amazon
+  Rails.application.routes.default_url_options[:protocol] = 'https'
+  Rails.application.routes.default_url_options[:host] = 'api.home-care-navi-second-api.fun'
+  Rails.application.routes.default_url_options[:port] = ENV['SERVER_PORT']
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true

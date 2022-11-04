@@ -1,0 +1,10 @@
+module Api
+  module V1
+    module Overrides
+      class SessionsController < DeviseTokenAuth::SessionsController
+        # ログイン時に異なるユーザータイプのアカウントだった場合弾く
+        def create: () -> untyped
+      end
+    end
+  end
+end
