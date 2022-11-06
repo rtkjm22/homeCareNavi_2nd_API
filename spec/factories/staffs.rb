@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :staff do
     office { nil }
-    name { "MyString" }
-    kana { "MyString" }
-    introduction { "MyString" }
-    section { false }
+    name { Gimei.name.kanji }
+    furigana { Gimei.name.hiragana }
+    introduction { Faker::Lorem.sentence(sentence_count: 7) }
+    role { worker }
   end
 end

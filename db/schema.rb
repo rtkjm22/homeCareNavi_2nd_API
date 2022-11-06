@@ -53,9 +53,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_03_125303) do
   create_table "staffs", force: :cascade do |t|
     t.bigint "office_id", null: false
     t.string "name", null: false, comment: "スタッフの名前"
-    t.string "kana", null: false, comment: "スタッフの名前の読み仮名"
-    t.string "introduction", comment: "スタッフの紹介文"
-    t.boolean "section", default: false
+    t.string "furigana", null: false, comment: "スタッフの名前の読み仮名"
+    t.text "introduction", comment: "スタッフの紹介文"
+    t.integer "role", default: 0, comment: "スタッフの役職をenumで管理する"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["office_id"], name: "index_staffs_on_office_id", unique: true
