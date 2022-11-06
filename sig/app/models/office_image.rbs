@@ -1,4 +1,7 @@
 class OfficeImage < ApplicationRecord
   # 紐付いている画像のURLを取得する
   def image_url: () -> String?
+
+  # { image_url: URL } をレスポンスのjsonに含めるようにする
+  def as_json: (untyped options) -> untyped
 end
