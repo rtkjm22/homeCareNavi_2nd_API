@@ -145,7 +145,7 @@ paths:
                       allow_password_change: false
                       name: テスト　太郎
                       email: test@example.com
-                      tel: 000-1111-2222
+                      tel: 000-1111-2223
                       address: 東京都新宿区市ヶ谷本村町5番1号
                       postal: '1234567'
                       created_at: null
@@ -209,16 +209,26 @@ paths:
                 - type
                 - confirm_success_url
             examples:
-              example-1:
+              client sign_up:
                 value:
                   name: テスト 太郎
-                  email: test@example.com
+                  email: client@example.com
                   tel: 090-1111-2222
                   postal: '1234567'
                   address: 東京都新宿区市ヶ谷本村町5番1号
                   password: password
                   type: Client
-                  confirm_success_url: 'http://localhost:8080'
+                  confirm_success_url: 'http://localhost:8080/client/login'
+              manager sign_up:
+                value:
+                  name: テスト 太郎
+                  email: manager@example.com
+                  tel: 090-1111-2222
+                  postal: '1234567'
+                  address: 東京都新宿区市ヶ谷本村町5番1号
+                  password: password
+                  type: Manager
+                  confirm_success_url: 'http://localhost:8080/manager/login'
     parameters: []
     patch:
       summary: 登録者情報更新
@@ -333,12 +343,11 @@ paths:
                   address: 東京都新宿区市ヶ谷本村町5番1号
                   password: new-password
                   current_password: password
-      security:
-        - access-token: []
-        - client: []
-        - expiry: []
-        - uid: []
-      parameters: []
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
     delete:
       summary: 退会
       operationId: deleteAuth
@@ -398,22 +407,21 @@ paths:
       tags:
         - auth
       description: 退会する
-      security:
-        - access-token: []
-        - client: []
-        - expiry: []
-        - uid: []
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
   /api/v1/auth/validate_token:
     get:
       summary: トークン検証
       operationId: validateToken
       description: 'ヘッダー内のaccess-token,client,expiry,uidを検証する'
-      parameters: []
-      security:
-        - access-token: []
-        - client: []
-        - expiry: []
-        - uid: []
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
       responses:
         '200':
           $ref: '#/components/responses/AuthSuccess'
@@ -474,11 +482,16 @@ paths:
                 - password
                 - type
             examples:
-              example-1:
+              client login:
                 value:
-                  email: test1@example.com
+                  email: client@example.com
                   password: password
                   type: Client
+              manager login:
+                value:
+                  email: manager@example.com
+                  password: password
+                  type: Manager
           application/xml:
             schema:
               type: object
@@ -538,13 +551,13 @@ paths:
                   value:
                     success: true
       description: 'ヘッダーに`access-token`,`uid`,`client`必須。ログアウトする。'
-      security:
-        - access-token: []
-        - client: []
-        - expiry: []
-        - uid: []
       tags:
         - auth
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
     parameters: []
   /api/v1/auth/password:
     post:
@@ -652,8 +665,6 @@ paths:
                       provider: email
                       uid: test1@example.com
                       allow_password_change: false
-                      created_at: '2022-09-23T00:33:53.961+09:00'
-                      updated_at: '2022-09-23T00:33:53.961+09:00'
                     message: パスワードの更新に成功しました
             application/xml:
               schema:
@@ -724,10 +735,6 @@ paths:
       tags:
         - auth
       description: パスワードリセットを確定する。
-      security:
-        - access-token: []
-        - client: []
-        - uid: []
       requestBody:
         content:
           application/json:
@@ -746,6 +753,10 @@ paths:
                 - password
                 - password_confirmation
         description: 'ヘッダーにclient,access-token,uid。ボディにpassword,password_confirmationが必須。'
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/uid'
   /api/v1/client/offices/area:
     get:
       summary: 事業所エリア検索(事業所利用者)
@@ -848,27 +859,107 @@ paths:
           description: OK
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Office'
               examples:
-                example-1:
+                全画像作成済みパターン:
                   value:
                     id: 1
-                    manager_id: 5
                     name: ホームケア事務所_1
                     feature_title: 事業所紹介タイトル
                     feature_detail: ここに事業所の特徴テキストが入ります
                     workday:
                       - mon
+                      - tue
+                      - wed
+                      - thu
+                      - fri
                     workday_detail: 営業日時についてのテキストが入ります
                     lat: '43.073211'
                     lng: '41.350427'
                     fax: 111-2222-3333
                     nearest_station: 北12条駅 徒歩5分
-                    created_at: string
-                    updated_at: string
+                    thumbnail_image:
+                      id: 1
+                      role: thumbnail
+                      image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                    feature_images:
+                      - id: 2
+                        caption: 画像の特徴テキストが入ります1
+                        role: feature
+                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                      - id: 3
+                        caption: 画像の特徴テキストが入ります2
+                        role: feature
+                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                    carousel_images:
+                      - id: 4
+                        role: carousel
+                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                      - id: 5
+                        role: carousel
+                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                      - id: 6
+                        role: carousel
+                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                      - id: 7
+                        role: carousel
+                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                      - id: 8
+                        role: carousel
+                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                全画像未作成パターン:
+                  value:
+                    id: 1
+                    name: ホームケア事務所_1
+                    feature_title: 事業所紹介タイトル
+                    feature_detail: ここに事業所の特徴テキストが入ります
+                    workday:
+                      - mon
+                      - tue
+                      - wed
+                      - thu
+                      - fri
+                    workday_detail: 営業日時についてのテキストが入ります
+                    lat: '43.073211'
+                    lng: '41.350427'
+                    fax: 111-2222-3333
+                    nearest_station: 北12条駅 徒歩5分
+                    thumbnail_image: null
+                    feature_images: []
+                    carousel_images: []
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Office'
+                  - type: object
+                    properties:
+                      thumbnail_image:
+                        anyOf:
+                          - $ref: '#/components/schemas/OfficeImage'
+                          - type: object
+                            nullable: true
+                            description: 未作成の場合はnullが返ってくる
+                      feature_images:
+                        anyOf:
+                          - items:
+                              $ref: '#/components/schemas/OfficeImage'
+                          - maxItems: 0
+                            description: 未作成の場合は空配列が返ってくる
+                            items: {}
+                        type: array
+                      carousel_images:
+                        anyOf:
+                          - items:
+                              $ref: '#/components/schemas/OfficeImage'
+                          - maxItems: 0
+                            description: 未作成の場合は空配列が返ってくる
+                            items: {}
+                        type: array
       operationId: getManagerOffice
       description: Manager自身の事務所詳細を取得する
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
     parameters: []
     patch:
       summary: 事業所更新(ケアマネ)
@@ -986,6 +1077,11 @@ paths:
         description: ''
       tags:
         - office_overview
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
     get:
       summary: 施設概要取得（ケアマネ）
       operationId: getManagerOfficeOverview
@@ -1010,9 +1106,15 @@ paths:
                     official_site_url: 'https://www.unimat-rc.co.jp/shisetsu/sosigaya_871/index.html'
                     created_at: '2022-10-29T18:22:43.829+09:00'
                     updated_at: '2022-10-29T18:22:43.829+09:00'
+          headers: {}
       description: Manager自身の施設概要を取得する
       tags:
         - office_overview
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
   /api/v1/client/reserves:
     post:
       summary: 予約作成(事業所利用者)
@@ -1020,9 +1122,9 @@ paths:
       responses:
         '200':
           description: OK
-      tags:
-        - appointment
       description: ホームケアを予約する
+      tags:
+        - reserve
     get:
       summary: 予約一覧取得(事業所利用者)
       operationId: getClientReserves
@@ -1031,7 +1133,7 @@ paths:
           description: OK
       description: 予約一覧を取得する
       tags:
-        - appointment
+        - reserve
     parameters: []
   /api/v1/manager/reserves:
     get:
@@ -1042,7 +1144,7 @@ paths:
           description: OK
       description: 予約一覧を取得する
       tags:
-        - appointment
+        - reserve
     parameters: []
   '/api/v1/manager/reserve/{id}':
     parameters:
@@ -1062,7 +1164,7 @@ paths:
           description: OK
       description: 予約を更新する
       tags:
-        - appointment
+        - reserve
   /api/v1/client/thanks:
     post:
       summary: お礼投稿(事業所利用者)
@@ -1314,10 +1416,10 @@ components:
         id:
           type: number
           example: 1
-          description: ID
+          description: User主キー
         name:
           type: string
-          description: 名前
+          description: ユーザー名
           example: テスト 太郎
         email:
           type: string
@@ -1360,13 +1462,9 @@ components:
         created_at:
           type: string
           format: date-time
-          example: '2022-09-23T00:33:53.961+09:00'
-          description: 作成日時(新規作成時のみ返ってくる)
         updated_at:
           type: string
-          example: '2022-09-23T00:33:53.961+09:00'
           format: date-time
-          description: 更新日時(新規作成時のみ返ってくる)
       required:
         - id
         - name
@@ -1383,65 +1481,80 @@ components:
       x-examples:
         Example 1:
           id: 1
-          manager_id: 5
           name: ホームケア事務所_1
           feature_title: 事業所紹介タイトル
           feature_detail: ここに事業所の特徴テキストが入ります
           workday:
             - mon
+            - tue
+            - wed
+            - thu
+            - fri
           workday_detail: 営業日時についてのテキストが入ります
           lat: '43.073211'
-          lng: '141.350427'
+          lng: '41.350427'
           fax: 111-2222-3333
           nearest_station: 北12条駅 徒歩5分
-          created_at: '2022-10-29T00:47:31.090+09:00'
-          updated_at: '2022-10-29T00:47:31.090+09:00'
       title: Office
       description: 事業所
       properties:
         id:
           type: integer
           example: 1
-        manager_id:
-          type: integer
-          example: 5
+          description: Office主キー
         name:
           type: string
           example: ホームケア事務所_1
+          description: 事業所名
         feature_title:
           type: string
           example: 事業所紹介タイトル
+          description: 特徴タイトル
         feature_detail:
           type: string
           example: ここに事業所の特徴テキストが入ります
+          description: 特徴詳細テキスト
         workday:
           type: array
           example:
             - mon
+            - tue
+            - wed
+            - thu
+            - fri
+          description: 営業曜日
           items:
             type: string
+            enum:
+              - sun
+              - mon
+              - tue
+              - wed
+              - thu
+              - fri
+              - sat
         workday_detail:
           type: string
           example: 営業日時についてのテキストが入ります
+          description: 営業曜日についての詳細テキスト
         lat:
           type: string
           example: '43.073211'
+          description: 緯度
         lng:
           type: string
           example: '41.350427'
+          description: 経度
         fax:
           type: string
           example: 111-2222-3333
+          description: FAX番号
         nearest_station:
           type: string
           example: 北12条駅 徒歩5分
-        created_at:
-          type: string
-        updated_at:
-          type: string
+          description: 最寄り駅
       required:
         - id
-        - manager_id
         - name
         - feature_title
         - feature_detail
@@ -1455,8 +1568,7 @@ components:
       type: object
       x-examples:
         Example 1:
-          id: 3
-          office_id: 56
+          id: 1
           classify: 介護付きホーム（サービス付き高齢者向け住宅　特定施設）
           opening_date: '2022-03-11'
           room_count: 30
@@ -1464,19 +1576,13 @@ components:
           shared_facilities: エントランス、食堂兼機能訓練室、個浴、大浴場、特殊浴槽、和室、談話室、シアタールーム、屋上庭園
           business_entity: 株式会社ユニマット　リタイアメント・コミュニティ
           official_site_url: 'https://www.unimat-rc.co.jp/shisetsu/sosigaya_871/index.html'
-          created_at: '2022-10-29T18:22:43.829+09:00'
-          updated_at: '2022-10-29T18:22:43.829+09:00'
       title: OfficeOverview
       description: 施設概要
       properties:
         id:
           type: integer
-          description: 主キー
+          description: OfficeOverview主キー
           example: 1
-        office_id:
-          type: integer
-          description: 事業所外部キー
-          example: 3
         classify:
           type: string
           description: 類型
@@ -1507,15 +1613,8 @@ components:
           description: 公式サイトのURL
           example: 'https://www.unimat-rc.co.jp/shisetsu/sosigaya_871/index.html'
           format: uri
-        created_at:
-          type: string
-          example: '2022-10-29T18:22:43.829+09:00'
-        updated_at:
-          type: string
-          example: '2022-10-29T18:22:43.829+09:00'
       required:
         - id
-        - office_id
         - classify
         - opening_date
         - room_count
@@ -1523,8 +1622,88 @@ components:
         - shared_facilities
         - business_entity
         - official_site_url
-        - created_at
-        - updated_at
+    OfficeImage:
+      title: OfficeImage
+      x-stoplight:
+        id: 6vrskiww5y6eu
+      type: object
+      description: 事業所画像
+      x-examples:
+        Example 1:
+          id: 1
+          caption: 画像の説明テキストが入ります
+          role: thumbnail
+          image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+      properties:
+        id:
+          type: integer
+          description: OfficeImage主キー
+          example: 1
+        caption:
+          type: string
+          example: 画像の説明テキストが入ります
+          description: 画像の見出しテキスト
+        role:
+          type: string
+          enum:
+            - thumbnail
+            - carousel
+            - feature
+          description: 画像の役割
+          example: thumbnail
+        image_url:
+          type: string
+          description: 画像URL
+          format: uri
+          example: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+      required:
+        - id
+        - role
+        - image_url
+    OfficeStaff:
+      title: OfficeStaff
+      x-stoplight:
+        id: u0uhoxrkdpmpu
+      type: object
+      description: 事業所スタッフ
+      x-examples:
+        Example 1:
+          id: 1
+          name: 田中　太郎
+          furigana: たなか　たろう
+          introduction: スタッフ紹介テキストが入ります
+          role: worker
+      properties:
+        id:
+          type: integer
+          description: OfficeStaff主キー
+          example: 1
+        name:
+          type: string
+          example: 田中　太郎
+          description: スタッフ名
+        furigana:
+          type: string
+          example: たなか　たろう
+          description: ふりがな
+        introduction:
+          type: string
+          example: スタッフ紹介テキストが入ります
+          pattern: ''
+          description: スタッフ紹介文
+        role:
+          type: string
+          example: worker
+          enum:
+            - worker
+            - care_manager
+          description: スタッフロール
+      required:
+        - id
+        - name
+        - furigana
+        - introduction
+        - role
   responses:
     AuthSuccess:
       description: ''
@@ -1543,7 +1722,7 @@ components:
             required:
               - data
           examples:
-            example-1:
+            Example 1:
               value:
                 status: success
                 data:
@@ -1557,6 +1736,8 @@ components:
                   provider: email
                   uid: test1@example.com
                   allow_password_change: false
+                created_at: '2019-08-24T14:15:22Z'
+                updated_at: '2019-08-24T14:15:22Z'
       headers:
         access-token:
           schema:
@@ -1595,31 +1776,41 @@ components:
             required:
               - errors
   requestBodies: {}
-  parameters: {}
-  securitySchemes:
+  parameters:
     access-token:
       name: access-token
-      type: apiKey
       in: header
+      required: true
+      schema:
+        type: string
+        example: 7sbMLu90-fDnajzasuhOTQ
       description: トークン認証に必要なヘッダー(1/4)
     client:
       name: client
-      type: apiKey
       in: header
+      required: true
+      schema:
+        type: string
+        example: xJ-BFLHzY_XNMX_cjsQnPw
       description: トークン認証に必要なヘッダー(2/4)
     expiry:
       name: expiry
-      type: apiKey
       in: header
+      required: true
+      schema:
+        type: string
+        example: '1660145125'
       description: トークン認証に必要なヘッダー(3/4)
     uid:
       name: uid
-      type: apiKey
       in: header
+      required: true
+      schema:
+        type: string
+        example: test1@example.com
       description: トークン認証に必要なヘッダー(4/4)
+  securitySchemes: {}
 tags:
-  - name: appointment
-    description: 予約
   - name: auth
     description: 認証
   - name: book_mark
@@ -1638,6 +1829,8 @@ tags:
     description: 事業所で管理しているクライアント
   - name: office_overview
     description: 施設概要
+  - name: reserve
+    description: 予約
   - name: staff
     description: 事業所スタッフ
   - name: thank
