@@ -16,4 +16,9 @@ class OfficeImage < ApplicationRecord
   def image_url
     image.attached? ? Rails.application.routes.url_helpers.url_for(image) : nil
   end
+
+  # { image_url: URL } をレスポンスのjsonに含めるようにする
+  def as_json(options = {})
+    super(options.merge(methods: :image_url))
+  end
 end
