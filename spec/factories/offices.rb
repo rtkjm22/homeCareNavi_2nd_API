@@ -4,7 +4,7 @@ FactoryBot.define do
     sequence(:name) { 'ホームケア事務所_1' }
     feature_title { '事業所紹介タイトル' }
     feature_detail { 'ここに事業所の特徴テキストが入ります' }
-    workday { 0 }
+    workday { %i[mon tue wed thu fri] }
     workday_detail { '営業日時についてのテキストが入ります' }
     lat { 43.073211 }
     lng { 141.350427 }

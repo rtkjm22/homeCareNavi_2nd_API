@@ -10,7 +10,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     if Rails.env.production?
       origins ENV['CORS_URL']
     else
-      origins 'http://localhost:8080'
+      origins 'http://localhost:8080', 'https://rahhi555.stoplight.io'
     end
 
     resource "*",
