@@ -58,7 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_03_125303) do
     t.integer "role", default: 0, comment: "スタッフの役職をenumで管理する"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["office_id"], name: "index_staffs_on_office_id", unique: true
+    t.index ["office_id"], name: "index_staffs_on_office_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,16 +1,26 @@
-class Api::V1::Manager::StaffsController < ApplicationController
-  before_action :authenticate_api_v1_manager!
+# frozen_string_literal: true
 
-  def index
-    staffs = Staff.where(office_id: current_api_v1_user.office.id)
-  end
+module Api
+  module V1
+    module Manager
+      class StaffsController < ApplicationController
+        before_action :authenticate_api_v1_user!
 
-  def create
-  end
+        def index
+          belong_office_id = current_api_v1_user.office.id
+          staffs = Staff.where(office_id: belong_office_id)
+          render json: staffs, status: :ok
+        end
 
-  def destroy
-  end
+        def create
+        end
 
-  def update
+        def destroy
+        end
+
+        def update
+        end
+      end
+    end
   end
 end
