@@ -4,7 +4,7 @@ module Api
   module V1
     module Manager
       class StaffsController < ApplicationController
-        before_action :authenticate_api_v1_user!
+        before_action :authenticate_api_v1_manager!
 
         def index
           belong_office_id = current_api_v1_user.office.id
