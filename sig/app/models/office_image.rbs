@@ -1,4 +1,6 @@
 class OfficeImage < ApplicationRecord
+  def role_i18n: () -> String
+
   # 紐付いている画像のURLを取得する
   def image_url: () -> String?
 

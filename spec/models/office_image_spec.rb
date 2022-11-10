@@ -22,12 +22,35 @@ RSpec.describe OfficeImage do
     end
 
     context 'role' do
+      let(:office) { create(:office) }
+
       it do
         expect(subject).to define_enum_for(:role)
           .with_values(%i[thumbnail carousel feature])
       end
 
       it { is_expected.to validate_presence_of(:role) }
+
+      it 'サムネイルは1枚しか保存できないこと' do
+        create(:office_image, office:, role: 'thumbnail')
+        expect do
+          create(:office_image, office:, role: 'thumbnail')
+        end.to raise_error('バリデーションに失敗しました: サムネイルは1枚のみ保存できます')
+      end
+
+      it 'カルーセルは5枚しか保存できないこと' do
+        create_list(:office_image, 5, office:, role: 'carousel')
+        expect do
+          create(:office_image, office:, role: 'carousel')
+        end.to raise_error('バリデーションに失敗しました: カルーセルは5枚のみ保存できます')
+      end
+
+      it '特徴は2枚しか保存できないこと' do
+        create_list(:office_image, 2, office:, role: 'feature')
+        expect do
+          create(:office_image, office:, role: 'feature')
+        end.to raise_error('バリデーションに失敗しました: 特徴は2枚のみ保存できます')
+      end
     end
   end
 
