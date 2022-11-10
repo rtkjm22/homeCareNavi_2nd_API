@@ -3,6 +3,8 @@
 module Api
   module V1
     class ApplicationController < ApplicationController
+      include Api::V1::Concerns::ErrorRenderable
+
       private
 
       # 未ログインまたはクライアントではない場合、エラーレンダリングする
