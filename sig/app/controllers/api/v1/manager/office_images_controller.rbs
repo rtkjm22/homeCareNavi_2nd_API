@@ -1,0 +1,14 @@
+module Api
+  module V1
+    module Manager
+      class OfficeImagesController < ApplicationController
+        def create: () -> void
+        def update: () -> void
+
+        private
+
+        def office_image_params: () -> untyped
+      end
+    end
+  end
+end

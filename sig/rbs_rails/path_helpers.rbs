@@ -16,8 +16,10 @@ interface _RbsRailsPathHelpers
   def new_api_v1_user_confirmation_path: (*untyped) -> String
   def api_v1_user_confirmation_path: (*untyped) -> String
   def api_v1_auth_validate_token_path: (*untyped) -> String
-  def api_v1_manager_office_overview_path: (*untyped) -> String
   def api_v1_manager_office_path: (*untyped) -> String
+  def api_v1_manager_office_overview_path: (*untyped) -> String
+  def api_v1_manager_office_images_path: (*untyped) -> String
+  def api_v1_manager_office_image_path: (*untyped) -> String
   def letter_opener_web_path: (*untyped) -> String
   def health_check_path: (*untyped) -> String
   def rails_service_blob_path: (*untyped) -> String
@@ -48,8 +50,10 @@ interface _RbsRailsPathHelpers
   def new_api_v1_user_confirmation_url: (*untyped) -> String
   def api_v1_user_confirmation_url: (*untyped) -> String
   def api_v1_auth_validate_token_url: (*untyped) -> String
-  def api_v1_manager_office_overview_url: (*untyped) -> String
   def api_v1_manager_office_url: (*untyped) -> String
+  def api_v1_manager_office_overview_url: (*untyped) -> String
+  def api_v1_manager_office_images_url: (*untyped) -> String
+  def api_v1_manager_office_image_url: (*untyped) -> String
   def letter_opener_web_url: (*untyped) -> String
   def health_check_url: (*untyped) -> String
   def rails_service_blob_url: (*untyped) -> String

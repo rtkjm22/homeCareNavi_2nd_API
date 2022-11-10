@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'DeviseTokenAuth::TokenValidations', type: :request do
+RSpec.describe 'DeviseTokenAuth::TokenValidations' do
   describe 'トークン検証' do
     let!(:client) { create(:client) }
 

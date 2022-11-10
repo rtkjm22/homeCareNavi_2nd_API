@@ -3,5 +3,5 @@ class OfficeImage < ApplicationRecord
   def image_url: () -> String?
 
   # { image_url: URL } をレスポンスのjsonに含めるようにする
-  def as_json: (untyped options) -> untyped
+  def as_json: (?::Hash[untyped, untyped] options) -> untyped
 end

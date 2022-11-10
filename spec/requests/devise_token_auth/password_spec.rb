@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'DeviseTokenAuth::Password', type: :request do
+RSpec.describe 'DeviseTokenAuth::Password' do
   let!(:client) { create(:client) }
 
   describe 'パスワード再設定メール送信' do

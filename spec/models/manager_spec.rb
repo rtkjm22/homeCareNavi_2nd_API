@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Manager, type: :model do
+RSpec.describe Manager do
   describe 'バリデーション' do
     it { is_expected.to have_one(:office).dependent(:destroy) }
   end
