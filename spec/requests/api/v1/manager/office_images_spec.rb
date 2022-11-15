@@ -73,10 +73,11 @@ RSpec.describe 'Api::V1::Manager::OfficeImages' do
       it '他のケアマネの画像idをパスパラメータに渡した場合、エラーが返ってくること' do
         office_image_another = create(:office_image)
         login office_image.office.manager
-        patch api_v1_manager_office_image_path(office_image_another),
-              params: update_office_image,
-              headers: { ContentType: 'multipart/formdata' }
-        expect(response).to have_http_status(:not_found)
+        expect do
+          patch api_v1_manager_office_image_path(office_image_another),
+                params: update_office_image,
+                headers: { ContentType: 'multipart/formdata' }
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
 
       it '無効な属性値の場合、エラーが返ってくること' do
