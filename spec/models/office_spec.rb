@@ -1,10 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe Office, type: :model do
+RSpec.describe Office do
   describe 'バリデーション' do
     context '関連付け' do
       it { is_expected.to belong_to(:manager) }
       it { is_expected.to have_one(:office_overview).dependent(:destroy) }
+      it { is_expected.to have_many(:office_images).dependent(:destroy) }
 
       it do
         create(:office)

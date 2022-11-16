@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'DeviseTokenAuth::Sessions', type: :request do
+RSpec.describe 'DeviseTokenAuth::Sessions' do
   describe 'ログイン' do
     let!(:client) { create(:client) }
 

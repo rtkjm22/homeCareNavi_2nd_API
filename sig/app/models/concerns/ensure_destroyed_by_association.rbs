@@ -1,0 +1,5 @@
+# このモジュールをincludeすることで、includeしたインスタンス自身のdestroyを出来なくさせる。
+# これは1対1のリレーションにおいて、親子が必ず存在しなければならない際に、子のみの削除を防止する。
+module EnsureDestroyedByAssociation
+  extend ActiveSupport::Concern
+end

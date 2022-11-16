@@ -2,6 +2,7 @@ class Office < ApplicationRecord
   include EnsureDestroyedByAssociation
 
   has_one :office_overview, dependent: :destroy
+  has_many :office_images, dependent: :destroy
   has_many :staffs, dependent: :destroy
   belongs_to :manager
 

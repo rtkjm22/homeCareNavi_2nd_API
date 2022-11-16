@@ -18,6 +18,7 @@ target :lib do
   configure_code_diagnostics do |hash|             # You can setup everything yourself
     hash[D::Ruby::UnsupportedSyntax] = :hint
     hash[D::Ruby::UnresolvedOverloading] = :hint
+    hash[D::Ruby::UnexpectedBlockGiven] = :hint
   end
 end
 

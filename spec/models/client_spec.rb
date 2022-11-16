@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Client, type: :model do
+RSpec.describe Client do
   describe 'バリデーション' do
     context 'name' do
       it { is_expected.to validate_presence_of(:name) }
