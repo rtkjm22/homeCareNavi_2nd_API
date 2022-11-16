@@ -7,7 +7,9 @@ Rails.application.routes.draw do
       }
 
       namespace :manager do
+        resource :office, only: [:show, :update]
         resource :office_overview, only: [:show, :update]
+        resources :office_images, only: [:create, :update]
       end
 
       namespace :client do

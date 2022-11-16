@@ -67,4 +67,7 @@ Rails.application.configure do
   # メールテスト用設定
   config.action_mailer.delivery_method = :test
   config.action_mailer.default_url_options = { host: 'http://localhost:3000' }
+
+  # 画像テスト用設定
+  Rails.application.routes.default_url_options = { host: 'localhost:3000' }
 end

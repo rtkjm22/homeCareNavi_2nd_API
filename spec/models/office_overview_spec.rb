@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe OfficeOverview, type: :model do
+RSpec.describe OfficeOverview do
   describe 'バリデーション' do
     context '関連付け' do
       it { is_expected.to belong_to(:office) }

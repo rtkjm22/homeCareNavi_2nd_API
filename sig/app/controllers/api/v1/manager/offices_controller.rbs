@@ -1,0 +1,17 @@
+module Api
+  module V1
+    module Manager
+      class OfficesController < ApplicationController
+        @office: ::Office
+        @office_images: OfficeImage::ActiveRecord_Associations_CollectionProxy
+
+        def show: () -> void
+        def update: () -> void
+
+        private
+
+        def office_params: () -> ActionController::Parameters
+      end
+    end
+  end
+end

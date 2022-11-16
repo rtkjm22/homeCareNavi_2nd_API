@@ -1,0 +1,17 @@
+ja:
+  activerecord:
+    models:
+      office_image: '事業所画像'
+
+    attributes:
+      office_image:
+        office: '事業所'
+        caption: '見出し'
+        role: '役割'
+
+  enums:
+    office_image:
+      role:
+        thumbnail: 'サムネイル'
+        carousel: 'カルーセル'
+        feature: '特徴'

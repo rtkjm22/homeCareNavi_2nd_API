@@ -7,12 +7,12 @@ module Api
         before_action :authenticate_api_v1_manager!
 
         def show
-          office_overview = current_api_v1_user.office.office_overview
+          office_overview = current_api_v1_manager.office.office_overview
           render json: office_overview, status: :ok
         end
 
         def update
-          office_overview = current_api_v1_user.office.office_overview
+          office_overview = current_api_v1_manager.office.office_overview
           if office_overview.update(office_overview_params)
             render json: office_overview, status: :ok
           else
