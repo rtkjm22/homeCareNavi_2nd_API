@@ -30,6 +30,7 @@ module HomeCareNaviSecond
 
     config.generators do |g|
       g.test_framework :rspec
+      g.skip_routes
     end
 
     # STI設定のディレクトリ設定

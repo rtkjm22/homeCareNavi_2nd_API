@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'DeviseTokenAuth::Registrations', type: :request do
+RSpec.describe 'DeviseTokenAuth::Registrations' do
   describe 'ユーザー新規作成' do
     context 'クライアントの場合' do
       let(:client_params) do

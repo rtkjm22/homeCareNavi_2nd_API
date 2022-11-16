@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::V1::Manager::Offices', type: :request do
+RSpec.describe 'Api::V1::Manager::Offices' do
   describe 'GET /api/v1/manager/office' do
     include_context 'setup_office'
 

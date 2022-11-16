@@ -137,6 +137,8 @@ GEM
     discard (1.2.1)
       activerecord (>= 4.2, < 8)
     docile (1.4.0)
+    enum_help (0.0.19)
+      activesupport (>= 3.0.0)
     erubi (1.11.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
@@ -365,6 +367,7 @@ DEPENDENCIES
   devise-i18n
   devise_token_auth (>= 1.2.0)!
   discard (~> 1.2)
+  enum_help
   factory_bot_rails
   faker
   gimei

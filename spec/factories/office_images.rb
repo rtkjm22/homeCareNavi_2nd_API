@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :office_image do
     office
     caption { '画像の説明テキストが入ります' }
-    role { :carousel }
+    role { :thumbnail }
 
     after(:build) do |office_image|
       office_image.image.attach(io: Rails.root.join('spec/fixtures/test_image.jpg').open,

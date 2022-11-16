@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Office, type: :model do
+RSpec.describe Office do
   describe 'バリデーション' do
     context '関連付け' do
       it { is_expected.to belong_to(:manager) }
