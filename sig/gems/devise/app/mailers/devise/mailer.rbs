@@ -1,0 +1,13 @@
+class Devise::Mailer
+  include Devise::Mailers::Helpers
+
+  def confirmation_instructions: (untyped record, untyped token, ?::Hash[untyped, untyped] opts) -> untyped
+
+  def reset_password_instructions: (untyped record, untyped token, ?::Hash[untyped, untyped] opts) -> untyped
+
+  def unlock_instructions: (untyped record, untyped token, ?::Hash[untyped, untyped] opts) -> untyped
+
+  def email_changed: (untyped record, ?::Hash[untyped, untyped] opts) -> untyped
+
+  def password_change: (untyped record, ?::Hash[untyped, untyped] opts) -> untyped
+end

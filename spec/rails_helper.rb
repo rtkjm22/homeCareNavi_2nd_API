@@ -2,6 +2,7 @@ require 'simplecov'
 SimpleCov.start
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
+require 'active_storage_validations/matchers'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
@@ -22,7 +23,7 @@ require 'rspec/rails'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -66,11 +67,14 @@ RSpec.configure do |config|
   config.include Committee::Rails::Test::Methods
   config.add_setting :committee_options
   config.committee_options = {
-    schema_path: '/reference/home-care-navi-second-open-api.yaml',
+    schema_path: Rails.root.join('home-care-navi-second-open-api.yaml').to_s,
     query_hash_key: 'rack.request.query_hash',
     parse_response_by_content_type: false
   }
   config.include FactoryBot::Syntax::Methods
+  config.include ResponseSupport
+  config.include AuthSupport
+  config.include ActiveStorageValidations::Matchers
 end
 
 Shoulda::Matchers.configure do |config|

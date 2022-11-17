@@ -1,0 +1,3 @@
+class Client < User
+  extend Discard::Model::ClassMethods[::Client, Integer]
+end

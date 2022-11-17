@@ -1,0 +1,99 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://geoapi.heartrails.com/api/json?method=searchByPostal&postal=0010010
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - geoapi.heartrails.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 29 Oct 2022 06:02:44 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      Etag:
+      - '"3188d424ed0b30c904e2c3554e72f7d1"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      X-Runtime:
+      - '0.002958'
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, OPTIONS
+      Access-Control-Allow-Headers:
+      - "*"
+    body:
+      encoding: UTF-8
+      string: '{"response":{"location":[{"city":"\u672d\u5e4c\u5e02\u5317\u533a","city_kana":"\u3055\u3063\u307d\u308d\u3057\u304d\u305f\u304f","town":"\u5317\u5341\u6761\u897f","town_kana":"\u304d\u305f10\u3058\u3087\u3046\u306b\u3057","x":"141.350427","y":"43.073211","prefecture":"\u5317\u6d77\u9053","postal":"0010010"}]}}'
+  recorded_at: Sat, 29 Oct 2022 06:02:44 GMT
+- request:
+    method: get
+    uri: http://geoapi.heartrails.com/api/json?method=getStations&postal=0010010
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - geoapi.heartrails.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 29 Oct 2022 06:02:44 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Server:
+      - nginx
+      Etag:
+      - '"efb873436bb20f564c85624d34696a4f"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      X-Runtime:
+      - '0.006440'
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, OPTIONS
+      Access-Control-Allow-Headers:
+      - "*"
+    body:
+      encoding: UTF-8
+      string: '{"response":{"station":[{"name":"\u531712\u6761","kana":"\u304d\u305f\u3058\u3085\u3046\u306b\u3058\u3087\u3046","line":"\u672d\u5e4c\u5e02\u5357\u5317\u7dda","y":43.074829,"x":141.348403,"postal":"0010012","prev":"\u531718\u6761","next":"\u3055\u3063\u307d\u308d","prefecture":"\u5317\u6d77\u9053","distance":243.9856461137282}]}}'
+  recorded_at: Sat, 29 Oct 2022 06:02:44 GMT
+recorded_with: VCR 6.1.0

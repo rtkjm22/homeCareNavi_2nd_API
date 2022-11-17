@@ -1,0 +1,11 @@
+module ActionDispatch::Routing
+  class Mapper
+    def mount_devise_token_auth_for: (untyped resource, untyped opts) -> untyped
+
+    # this allows us to use namespaced paths without namespacing the routes
+    def unnest_namespace: () { () -> untyped } -> untyped
+
+    # ignore error about omniauth/multiple model support
+    def set_omniauth_path_prefix!: (untyped path_prefix) -> untyped
+  end
+end

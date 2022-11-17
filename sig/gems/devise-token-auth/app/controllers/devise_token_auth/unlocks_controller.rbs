@@ -1,0 +1,25 @@
+module DeviseTokenAuth
+  class UnlocksController < DeviseTokenAuth::ApplicationController
+    # this action is responsible for generating unlock tokens and
+    # sending emails
+    def create: () { (untyped) -> untyped } -> untyped
+
+    def show: () { (untyped) -> untyped } -> untyped
+
+    private
+
+    def after_unlock_path_for: (untyped resource) -> "/"
+
+    def render_create_error_missing_email: () -> untyped
+
+    def render_create_success: () -> untyped
+
+    def render_create_error: (untyped errors) -> untyped
+
+    def render_show_error: () -> untyped
+
+    def render_not_found_error: () -> untyped
+
+    def resource_params: () -> untyped
+  end
+end

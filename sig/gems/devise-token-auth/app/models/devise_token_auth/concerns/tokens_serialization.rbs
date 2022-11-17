@@ -1,0 +1,13 @@
+module DeviseTokenAuth::Concerns::TokensSerialization
+  extend ::DeviseTokenAuth::Concerns::TokensSerialization
+
+  # Serialization hash to json
+  def dump: (untyped object) -> untyped
+
+  # Deserialization json to hash
+  def load: (untyped json) -> untyped
+
+  private
+
+  def serialize_updated_at: (untyped token) -> untyped
+end

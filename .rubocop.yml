@@ -21,6 +21,15 @@ Lint/AmbiguousBlockAssociation:
   Exclude:
     - 'spec/**/*'
 
+Rails/RakeEnvironment:
+  Exclude:
+    - 'lib/tasks/development/fetch_openapi.rake'
+
+RSpec:
+  Language:
+    Expectations:
+      - assert_response_schema_confirm
+
 RSpec/NestedGroups:
   Enabled: false
 

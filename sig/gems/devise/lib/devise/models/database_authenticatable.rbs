@@ -1,0 +1,126 @@
+module Devise
+  module Models
+    # Authenticatable Module, responsible for hashing the password and
+    # validating the authenticity of a user while signing in.
+    #
+    # This module defines a `password=` method. This method will hash the argument
+    # and store it in the `encrypted_password` column, bypassing any pre-existing
+    # `password` column if it exists.
+    #
+    # == Options
+    #
+    # DatabaseAuthenticatable adds the following options to +devise+:
+    #
+    #   * +pepper+: a random string used to provide a more secure hash. Use
+    #     `rails secret` to generate new keys.
+    #
+    #   * +stretches+: the cost given to bcrypt.
+    #
+    #   * +send_email_changed_notification+: notify original email when it changes.
+    #
+    #   * +send_password_change_notification+: notify email when password changes.
+    #
+    # == Examples
+    #
+    #    User.find(1).valid_password?('password123')         # returns true/false
+    #
+    module DatabaseAuthenticatable
+      extend ActiveSupport::Concern
+
+      attr_reader password: untyped
+
+      attr_reader current_password: untyped
+
+      attr_accessor password_confirmation: untyped
+
+      def initialize: (*untyped args) ?{ () -> untyped } -> void
+
+      # Skips sending the email changed notification after_update
+      def skip_email_changed_notification!: () -> untyped
+
+      # Skips sending the password change notification after_update
+      def skip_password_change_notification!: () -> untyped
+
+      def self.required_fields: (untyped klass) -> untyped
+
+      # Generates a hashed password based on the given value.
+      # For legacy reasons, we use `encrypted_password` to store
+      # the hashed password.
+      def password=: (untyped new_password) -> untyped
+
+      # Verifies whether a password (ie from sign in) is the user password.
+      def valid_password?: (untyped password) -> untyped
+
+      # Set password and password confirmation to nil
+      def clean_up_passwords: () -> untyped
+
+      # Update record attributes when :current_password matches, otherwise
+      # returns error on :current_password.
+      #
+      # This method also rejects the password field if it is blank (allowing
+      # users to change relevant information like the e-mail without changing
+      # their password). In case the password field is rejected, the confirmation
+      # is also rejected as long as it is also blank.
+      def update_with_password: (untyped params, *untyped options) -> untyped
+
+      # Updates record attributes without asking for the current password.
+      # Never allows a change to the current password. If you are using this
+      # method, you should probably override this method to protect other
+      # attributes you would not like to be updated without a password.
+      #
+      # Example:
+      #
+      #   def update_without_password(params, *options)
+      #     params.delete(:email)
+      #     super(params)
+      #   end
+      #
+      def update_without_password: (untyped params, *untyped options) -> untyped
+
+      # Destroy record when :current_password matches, otherwise returns
+      # error on :current_password. It also automatically rejects
+      # :current_password if it is blank.
+      def destroy_with_password: (untyped current_password) -> untyped
+
+      # A callback initiated after successfully authenticating. This can be
+      # used to insert your own logic that is only run after the user successfully
+      # authenticates.
+      #
+      # Example:
+      #
+      #   def after_database_authentication
+      #     self.update_attribute(:invite_code, nil)
+      #   end
+      #
+      def after_database_authentication: () -> nil
+
+      # A reliable way to expose the salt regardless of the implementation.
+      def authenticatable_salt: () -> (untyped | nil)
+
+      # Send notification to user when email changes.
+      def send_email_changed_notification: () -> untyped
+
+      # Send notification to user when password changes.
+      def send_password_change_notification: () -> untyped
+
+      # Hashes the password using bcrypt. Custom hash functions should override
+      # this method to apply their own algorithm.
+      #
+      # See https://github.com/heartcombo/devise-encryptable for examples
+      # of other hashing engines.
+      def password_digest: (untyped password) -> untyped
+
+      def send_email_changed_notification?: () -> untyped
+
+      def send_password_change_notification?: () -> untyped
+
+      module ClassMethods
+        # We assume this method already gets the sanitized values from the
+        # DatabaseAuthenticatable strategy. If you are using this method on
+        # your own, be sure to sanitize the conditions hash to only include
+        # the proper fields.
+        def find_for_database_authentication: (untyped conditions) -> untyped
+      end
+    end
+  end
+end

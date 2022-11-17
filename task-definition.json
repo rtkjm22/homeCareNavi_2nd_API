@@ -24,6 +24,18 @@
         {
           "name": "RAILS_ENV",
           "value": "production"
+        },
+        {
+          "name": "CORS_URL",
+          "value": "https://www.home-care-navi-second.work"
+        },
+        {
+          "name": "DATABASE_NAME",
+          "value": "home_care_navi_second_production"
+        },
+        {
+          "name": "SERVER_PORT",
+          "value": "3000"
         }
       ],
       "mountPoints": [],

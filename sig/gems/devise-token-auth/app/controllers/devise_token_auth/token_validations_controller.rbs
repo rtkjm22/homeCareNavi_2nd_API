@@ -1,0 +1,9 @@
+module DeviseTokenAuth
+  class TokenValidationsController < DeviseTokenAuth::ApplicationController
+    def validate_token: () { (untyped) -> untyped } -> untyped
+
+    def render_validate_token_success: () -> untyped
+
+    def render_validate_token_error: () -> untyped
+  end
+end

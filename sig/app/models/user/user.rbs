@@ -1,0 +1,17 @@
+class User < ApplicationRecord
+  include DeviseTokenAuth::Concerns::User
+  extend Discard::Model::ClassMethods[::User, Integer]
+
+  include Discard::Model
+
+  def client?: () -> bool
+
+  def manager?: () -> bool
+
+  # レスポンスから:discarded_atを除外し、:typeを含めるようにする
+  def as_json: (?::Hash[untyped, untyped] options) -> untyped
+
+  # 論理削除されている場合は、devise_token_authのログイン判定でfalseを返すようにする
+  # @see https://github.com/jhawthorn/discard#working-with-devise
+  def active_for_authentication?: () -> void
+end

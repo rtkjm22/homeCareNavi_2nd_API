@@ -2,23 +2,11 @@
 
 ## ホームケアナビ作成用PJ(API)
 
-### ディレクトリ構成
-<pre>
-── homeCareNavi_2nd
-    ├── homeCareNavi_2nd_API
-    ├── homeCareNavi_2nd_FRONT
-    └── homeCareNavi_2nd_OpenAPI
-</pre>
-
 ### 環境構築
-1. 全てのリポジトリの親となるディレクトリを作成する　例: `mkdir homeCareNavi_2nd`
-2. 作成したディレクトリに移動する　`cd homeCareNavi_2nd`
-3. OpenAPIリポジトリをクローンする　`git clone https://github.com/rahhi555/homeCareNavi_2nd_OpenAPI.git`
-4. FRONTリポジトリをクローンする　`https://github.com/rtkjm22/homeCareNavi_2nd_FRONT.git`
-5. APIリポジトリをクローンする　`https://github.com/rtkjm22/homeCareNavi_2nd_API.git`
-6. クローンしたAPIリポジトリに移動する　`cd homeCareNavi_2nd_API`
-7. compose.ymlを元に、dockerのdbイメージ及びapiイメージを立ち上げる　`docker compose build`
-8. 作成したイメージを元に、dockerコンテナを作成及び起動する　`dokcer compose up -d`
+1. APIリポジトリをクローンする　`https://github.com/rtkjm22/homeCareNavi_2nd_API.git`
+2. クローンしたAPIリポジトリに移動する　`cd homeCareNavi_2nd_API`
+3. compose.ymlを元に、dockerのdbイメージ及びapiイメージを立ち上げる　`docker compose build`
+4. 作成したイメージを元に、dockerコンテナを作成及び起動する　`dokcer compose up -d`
 
 #### 以下をアドレスバーに打ち込んで、{ message: 'API Health Check OK' } が返ってくればOK
 - http://localhost:3000/health_check
@@ -34,7 +22,8 @@
 `docker compose ps` | 起動中のコンテナを確認する
 `docker compose logs api` | apiコンテナのログを確認する。追従するには-fフラグ。ログが多い場合は--tail 100で直近100行目から開始
 
-
+#### githubから最新のopenapiを取得
+- `rake development:fetch_openapi`
 
 #### 詳細情報
 
@@ -42,3 +31,135 @@ name|version
 --|--
 Ruby | 3.1.1
 Ruby on Rails | 7.0.2.3
+
+#### ER図
+```mermaid
+erDiagram
+    users ||--o{ clients: ""
+    users ||--o{ appointment: ""
+    users ||--o{ gratitude: ""
+    users ||--|| offfices: ""
+    offfices ||--o{ staffs: ""
+    offfices ||--o{ clients: ""
+    offfices ||--o{ appointment: ""
+    offfices ||--o{ gratitude: ""
+    offfices ||--o{ office_images: ""
+    offfices ||--o{ histories: ""
+    offfices ||--o{ bookmark: ""
+    staffs ||--o{ gratitude: ""
+
+users {
+  id bigint
+  name string
+  email string
+  adress string
+  postal string
+  tel string
+  provider string
+  uid string
+  encrypted_password string
+  reset_password_token string
+  reset_password_token_sent_at datetime
+  allow_password_change boolean
+  confirmation_token string
+  confirmed_at datetime
+  confirmation_sent_at datetime
+  tokens json
+  created_at datetime
+  updated_at datetime
+  is_staff type
+}
+
+staffs {
+  office_id bigint
+  id bigint
+  name string
+  kana string
+  introduction string
+  section tinyint
+}
+
+offfices {
+  id bigint
+  user_id bigint
+  office_name string
+  title string
+  feature string
+  fax_number string
+  business_day tinyint
+  url string
+  business_day_details string
+  week integer
+  typology string
+  open_date datetime
+  room string
+  requirements string
+  share_facilities string
+  company_name string
+  office_site string
+}
+
+clients {
+  id bigint
+  user_id bigint
+  staff_id bigint
+  name string
+  name_frigana string
+  age string
+  postcode string
+  address string
+  family string
+}
+
+appointment {
+  id bigint
+  user_id bigint
+  office_id bigint
+  interview_date date
+  interview_time time
+  receiver_name string
+  age string
+  phone_number string
+  trouble string
+  is_contact boolean
+}
+
+gratitude {
+  id bigint
+  user_id bigint
+  office_id bigint
+  staff_id bigint
+  comment string
+  created_at datetime
+  updated_at datetime
+}
+office_images {
+  id bigint
+  office_id bigint
+  image_details string
+  key string
+  filename string
+  content_type string
+  metadata text
+  byte_size bigint
+  checksum string
+  created_at datetime
+  updated_at datetime
+}
+
+histories {
+  id bigint
+  office_id bigint
+  user_id bigint
+  created_at datetime
+  updated_at datetime
+}
+
+bookmark {
+  id bigint
+  office_id bigint
+  user_id bigint
+  created_at datetime
+  updated_at datetime
+}
+```

@@ -1,0 +1,507 @@
+class Office < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Office, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def manager_id: () -> Integer
+
+    def manager_id=: (Integer) -> Integer
+
+    def manager_id?: () -> bool
+
+    def manager_id_changed?: () -> bool
+
+    def manager_id_change: () -> [ Integer?, Integer? ]
+
+    def manager_id_will_change!: () -> void
+
+    def manager_id_was: () -> Integer?
+
+    def manager_id_previously_changed?: () -> bool
+
+    def manager_id_previous_change: () -> Array[Integer?]?
+
+    def manager_id_previously_was: () -> Integer?
+
+    def manager_id_before_last_save: () -> Integer?
+
+    def manager_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def manager_id_in_database: () -> Integer?
+
+    def saved_change_to_manager_id: () -> Array[Integer?]?
+
+    def saved_change_to_manager_id?: () -> bool
+
+    def will_save_change_to_manager_id?: () -> bool
+
+    def restore_manager_id!: () -> void
+
+    def clear_manager_id_change: () -> void
+
+    def name: () -> String
+
+    def name=: (String) -> String
+
+    def name?: () -> bool
+
+    def name_changed?: () -> bool
+
+    def name_change: () -> [ String?, String? ]
+
+    def name_will_change!: () -> void
+
+    def name_was: () -> String?
+
+    def name_previously_changed?: () -> bool
+
+    def name_previous_change: () -> Array[String?]?
+
+    def name_previously_was: () -> String?
+
+    def name_before_last_save: () -> String?
+
+    def name_change_to_be_saved: () -> Array[String?]?
+
+    def name_in_database: () -> String?
+
+    def saved_change_to_name: () -> Array[String?]?
+
+    def saved_change_to_name?: () -> bool
+
+    def will_save_change_to_name?: () -> bool
+
+    def restore_name!: () -> void
+
+    def clear_name_change: () -> void
+
+    def feature_title: () -> String
+
+    def feature_title=: (String) -> String
+
+    def feature_title?: () -> bool
+
+    def feature_title_changed?: () -> bool
+
+    def feature_title_change: () -> [ String?, String? ]
+
+    def feature_title_will_change!: () -> void
+
+    def feature_title_was: () -> String?
+
+    def feature_title_previously_changed?: () -> bool
+
+    def feature_title_previous_change: () -> Array[String?]?
+
+    def feature_title_previously_was: () -> String?
+
+    def feature_title_before_last_save: () -> String?
+
+    def feature_title_change_to_be_saved: () -> Array[String?]?
+
+    def feature_title_in_database: () -> String?
+
+    def saved_change_to_feature_title: () -> Array[String?]?
+
+    def saved_change_to_feature_title?: () -> bool
+
+    def will_save_change_to_feature_title?: () -> bool
+
+    def restore_feature_title!: () -> void
+
+    def clear_feature_title_change: () -> void
+
+    def feature_detail: () -> String
+
+    def feature_detail=: (String) -> String
+
+    def feature_detail?: () -> bool
+
+    def feature_detail_changed?: () -> bool
+
+    def feature_detail_change: () -> [ String?, String? ]
+
+    def feature_detail_will_change!: () -> void
+
+    def feature_detail_was: () -> String?
+
+    def feature_detail_previously_changed?: () -> bool
+
+    def feature_detail_previous_change: () -> Array[String?]?
+
+    def feature_detail_previously_was: () -> String?
+
+    def feature_detail_before_last_save: () -> String?
+
+    def feature_detail_change_to_be_saved: () -> Array[String?]?
+
+    def feature_detail_in_database: () -> String?
+
+    def saved_change_to_feature_detail: () -> Array[String?]?
+
+    def saved_change_to_feature_detail?: () -> bool
+
+    def will_save_change_to_feature_detail?: () -> bool
+
+    def restore_feature_detail!: () -> void
+
+    def clear_feature_detail_change: () -> void
+
+    def workday: () -> Integer
+
+    def workday=: (Integer) -> Integer
+
+    def workday?: () -> bool
+
+    def workday_changed?: () -> bool
+
+    def workday_change: () -> [ Integer?, Integer? ]
+
+    def workday_will_change!: () -> void
+
+    def workday_was: () -> Integer?
+
+    def workday_previously_changed?: () -> bool
+
+    def workday_previous_change: () -> Array[Integer?]?
+
+    def workday_previously_was: () -> Integer?
+
+    def workday_before_last_save: () -> Integer?
+
+    def workday_change_to_be_saved: () -> Array[Integer?]?
+
+    def workday_in_database: () -> Integer?
+
+    def saved_change_to_workday: () -> Array[Integer?]?
+
+    def saved_change_to_workday?: () -> bool
+
+    def will_save_change_to_workday?: () -> bool
+
+    def restore_workday!: () -> void
+
+    def clear_workday_change: () -> void
+
+    def workday_detail: () -> String
+
+    def workday_detail=: (String) -> String
+
+    def workday_detail?: () -> bool
+
+    def workday_detail_changed?: () -> bool
+
+    def workday_detail_change: () -> [ String?, String? ]
+
+    def workday_detail_will_change!: () -> void
+
+    def workday_detail_was: () -> String?
+
+    def workday_detail_previously_changed?: () -> bool
+
+    def workday_detail_previous_change: () -> Array[String?]?
+
+    def workday_detail_previously_was: () -> String?
+
+    def workday_detail_before_last_save: () -> String?
+
+    def workday_detail_change_to_be_saved: () -> Array[String?]?
+
+    def workday_detail_in_database: () -> String?
+
+    def saved_change_to_workday_detail: () -> Array[String?]?
+
+    def saved_change_to_workday_detail?: () -> bool
+
+    def will_save_change_to_workday_detail?: () -> bool
+
+    def restore_workday_detail!: () -> void
+
+    def clear_workday_detail_change: () -> void
+
+    def lat: () -> BigDecimal?
+
+    def lat=: (BigDecimal?) -> BigDecimal?
+
+    def lat?: () -> bool
+
+    def lat_changed?: () -> bool
+
+    def lat_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def lat_will_change!: () -> void
+
+    def lat_was: () -> BigDecimal?
+
+    def lat_previously_changed?: () -> bool
+
+    def lat_previous_change: () -> Array[BigDecimal?]?
+
+    def lat_previously_was: () -> BigDecimal?
+
+    def lat_before_last_save: () -> BigDecimal?
+
+    def lat_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def lat_in_database: () -> BigDecimal?
+
+    def saved_change_to_lat: () -> Array[BigDecimal?]?
+
+    def saved_change_to_lat?: () -> bool
+
+    def will_save_change_to_lat?: () -> bool
+
+    def restore_lat!: () -> void
+
+    def clear_lat_change: () -> void
+
+    def lng: () -> BigDecimal?
+
+    def lng=: (BigDecimal?) -> BigDecimal?
+
+    def lng?: () -> bool
+
+    def lng_changed?: () -> bool
+
+    def lng_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def lng_will_change!: () -> void
+
+    def lng_was: () -> BigDecimal?
+
+    def lng_previously_changed?: () -> bool
+
+    def lng_previous_change: () -> Array[BigDecimal?]?
+
+    def lng_previously_was: () -> BigDecimal?
+
+    def lng_before_last_save: () -> BigDecimal?
+
+    def lng_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def lng_in_database: () -> BigDecimal?
+
+    def saved_change_to_lng: () -> Array[BigDecimal?]?
+
+    def saved_change_to_lng?: () -> bool
+
+    def will_save_change_to_lng?: () -> bool
+
+    def restore_lng!: () -> void
+
+    def clear_lng_change: () -> void
+
+    def fax: () -> String
+
+    def fax=: (String) -> String
+
+    def fax?: () -> bool
+
+    def fax_changed?: () -> bool
+
+    def fax_change: () -> [ String?, String? ]
+
+    def fax_will_change!: () -> void
+
+    def fax_was: () -> String?
+
+    def fax_previously_changed?: () -> bool
+
+    def fax_previous_change: () -> Array[String?]?
+
+    def fax_previously_was: () -> String?
+
+    def fax_before_last_save: () -> String?
+
+    def fax_change_to_be_saved: () -> Array[String?]?
+
+    def fax_in_database: () -> String?
+
+    def saved_change_to_fax: () -> Array[String?]?
+
+    def saved_change_to_fax?: () -> bool
+
+    def will_save_change_to_fax?: () -> bool
+
+    def restore_fax!: () -> void
+
+    def clear_fax_change: () -> void
+
+    def nearest_station: () -> String
+
+    def nearest_station=: (String) -> String
+
+    def nearest_station?: () -> bool
+
+    def nearest_station_changed?: () -> bool
+
+    def nearest_station_change: () -> [ String?, String? ]
+
+    def nearest_station_will_change!: () -> void
+
+    def nearest_station_was: () -> String?
+
+    def nearest_station_previously_changed?: () -> bool
+
+    def nearest_station_previous_change: () -> Array[String?]?
+
+    def nearest_station_previously_was: () -> String?
+
+    def nearest_station_before_last_save: () -> String?
+
+    def nearest_station_change_to_be_saved: () -> Array[String?]?
+
+    def nearest_station_in_database: () -> String?
+
+    def saved_change_to_nearest_station: () -> Array[String?]?
+
+    def saved_change_to_nearest_station?: () -> bool
+
+    def will_save_change_to_nearest_station?: () -> bool
+
+    def restore_nearest_station!: () -> void
+
+    def clear_nearest_station_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone
+
+    def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone
+
+    def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+  end
+  include GeneratedAttributeMethods
+  def office_images: () -> OfficeImage::ActiveRecord_Associations_CollectionProxy
+  def office_images=: (OfficeImage::ActiveRecord_Associations_CollectionProxy | Array[OfficeImage]) -> (OfficeImage::ActiveRecord_Associations_CollectionProxy | Array[OfficeImage])
+  def office_image_ids: () -> Array[Integer]
+  def office_image_ids=: (Array[Integer]) -> Array[Integer]
+  def office_overview: () -> OfficeOverview?
+  def office_overview=: (OfficeOverview?) -> OfficeOverview?
+  def build_office_overview: (untyped) -> OfficeOverview
+  def create_office_overview: (untyped) -> OfficeOverview
+  def create_office_overview!: (untyped) -> OfficeOverview
+  def reload_office_overview: () -> OfficeOverview?
+  def manager: () -> Manager
+  def manager=: (Manager?) -> Manager?
+  def reload_manager: () -> Manager?
+  def build_manager: (untyped) -> Manager
+  def create_manager: (untyped) -> Manager
+  def create_manager!: (untyped) -> Manager
+  module GeneratedAssociationMethods
+  end
+  include GeneratedAssociationMethods
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Office, Integer]
+    include Enumerable[Office]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Office, Integer]
+  end
+end

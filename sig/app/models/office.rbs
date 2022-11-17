@@ -1,0 +1,5 @@
+class Office < ApplicationRecord
+  extend ActiveFlag::ClassMethods
+  def workday: () -> ActiveFlag::Value
+  def self.workdays: () -> ActiveFlag::Definition
+end

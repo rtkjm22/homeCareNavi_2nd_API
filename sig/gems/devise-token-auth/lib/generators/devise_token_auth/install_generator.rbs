@@ -1,0 +1,35 @@
+module DeviseTokenAuth
+  class InstallGenerator < Rails::Generators::Base
+    include Rails::Generators::Migration
+
+    include DeviseTokenAuth::InstallGeneratorHelpers
+
+    def copy_migrations: () -> untyped
+
+    def create_user_model: () -> untyped
+
+    private
+
+    def self.next_migration_number: (untyped path) -> untyped
+
+    def json_supported_database?: () -> untyped
+
+    def postgres?: () -> untyped
+
+    def postgres_correct_version?: () -> untyped
+
+    def mysql?: () -> untyped
+
+    def mysql_correct_version?: () -> untyped
+
+    def database_name: () -> untyped
+
+    def database_version: () -> untyped
+
+    def rails_5_or_newer?: () -> untyped
+
+    def primary_key_type: () -> (untyped | nil)
+
+    def primary_key_string: () -> untyped
+  end
+end

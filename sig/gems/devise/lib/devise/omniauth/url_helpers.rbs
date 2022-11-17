@@ -1,0 +1,13 @@
+module Devise
+  module OmniAuth
+    module UrlHelpers
+      def omniauth_authorize_path: (untyped resource_or_scope, untyped provider, *untyped args) -> untyped
+
+      def omniauth_authorize_url: (untyped resource_or_scope, untyped provider, *untyped args) -> untyped
+
+      def omniauth_callback_path: (untyped resource_or_scope, untyped provider, *untyped args) -> untyped
+
+      def omniauth_callback_url: (untyped resource_or_scope, untyped provider, *untyped args) -> untyped
+    end
+  end
+end

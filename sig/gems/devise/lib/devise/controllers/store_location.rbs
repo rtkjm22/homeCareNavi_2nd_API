@@ -1,0 +1,39 @@
+module Devise
+  module Controllers
+    # Provide the ability to store a location.
+    # Used to redirect back to a desired path after sign in.
+    # Included by default in all controllers.
+    module StoreLocation
+      # Returns and delete (if it's navigational format) the url stored in the session for
+      # the given scope. Useful for giving redirect backs after sign up:
+      #
+      # Example:
+      #
+      #   redirect_to stored_location_for(:user) || root_path
+      #
+      def stored_location_for: (untyped resource_or_scope) -> untyped
+
+      # Stores the provided location to redirect the user after signing in.
+      # Useful in combination with the `stored_location_for` helper.
+      #
+      # Example:
+      #
+      #   store_location_for(:user, dashboard_path)
+      #   redirect_to user_facebook_omniauth_authorize_path
+      #
+      def store_location_for: (untyped resource_or_scope, untyped location) -> untyped
+
+      private
+
+      def parse_uri: (untyped location) -> untyped
+
+      def stored_location_key_for: (untyped resource_or_scope) -> ::String
+
+      def extract_path_from_location: (untyped location) -> untyped
+
+      def remove_domain_from_uri: (untyped uri) -> untyped
+
+      def add_fragment_back_to_path: (untyped uri, untyped path) -> untyped
+    end
+  end
+end
