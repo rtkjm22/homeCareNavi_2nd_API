@@ -5,6 +5,8 @@ RSpec.describe 'Api::V1::Manager::Offices' do
     include_context 'setup_office'
 
     it 'ケアマネでログインした場合、事業所詳細が返ってくること' do
+      create_list(:office_image, 5, office:, role: :carousel)
+      create_list(:office_image, 2, office:, role: :feature)
       login manager
       get api_v1_manager_office_path
       assert_response_schema_confirm(200)
