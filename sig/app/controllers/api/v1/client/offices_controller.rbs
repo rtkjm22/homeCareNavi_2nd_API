@@ -1,0 +1,10 @@
+module Api
+  module V1
+    module Client
+      class OfficesController < ApplicationController
+        @result: Office::ActiveRecord_Relation
+        def area_search: () -> void
+      end
+    end
+  end
+end

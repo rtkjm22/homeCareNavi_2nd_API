@@ -491,7 +491,10 @@ class Office < ::ApplicationRecord
   end
   include GeneratedAssociationMethods
 
+  def self.search_by_area: (untyped area) -> ActiveRecord_Relation
+
   module GeneratedRelationMethods
+    def search_by_area: (untyped area) -> ActiveRecord_Relation
   end
 
   class ActiveRecord_Relation < ::ActiveRecord::Relation
