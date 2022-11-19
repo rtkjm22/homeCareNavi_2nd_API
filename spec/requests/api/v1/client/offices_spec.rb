@@ -1,19 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Client::Offices' do
-  # このテストでは主にページネーション等のAPI特有の挙動をテストするため、
-  # 正しく前方一致検索出来ているかのようなロジックはテストしない。検索ロジックのテストはOfficeモデルスペックに記述済み。
-
   describe 'GET /api/v1/client/offices/area' do
     context 'クライアントでログインした場合' do
-      # ページネーションは10件単位なので、11件作成し2ページの挙動をテストできるようにする
-      let!(:offices) { create_list(:office, 11) }
-      let(:q) { offices.first.manager.address }
+      before do
+        # ページネーションは10件単位なので、11件作成し2ページの挙動をテストできるようにする
+        create_list(:office_image, 11)
+        Manager.update_all(address: '北海道札幌市北区北十条西3-23-1')
+      end
+
       let!(:client) { create(:client) }
 
       it 'クエリパラメータにpageが存在しない場合、1ページ目かつ10件の事業所が返ってくること' do
         login client
-        get area_search_api_v1_client_offices_path, params: { q: }
+        get area_search_api_v1_client_offices_path, params: { q: '北海道札幌市北区' }
         response_symbolized_body => { offices:, paginate: }
         expect(paginate[:current_page]).to eq 1
         expect(offices.length).to eq 10
@@ -22,7 +22,7 @@ RSpec.describe 'Api::V1::Client::Offices' do
 
       it 'クエリパラメータのpageに2を指定した場合、2ページ目かつ1件の事業所が返ってくること' do
         login client
-        get area_search_api_v1_client_offices_path, params: { q:, page: 2 }
+        get area_search_api_v1_client_offices_path, params: { q: '北海道札幌市北区', page: 2 }
         response_symbolized_body => { offices:, paginate: }
         expect(paginate[:current_page]).to eq 2
         expect(offices.length).to eq 1

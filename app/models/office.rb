@@ -22,7 +22,7 @@ class Office < ApplicationRecord
   # @example
   #   Office.search_by_area("東京都新宿区市谷")
   scope :search_by_area, lambda { |area|
-    eager_load(:manager, :office_images)
+    eager_load(:manager, { office_images: { image_attachment: :blob } })
       .where(
         'users.address LIKE ?',
         # 参考: https://railsguides.jp/active_record_querying.html#%E6%9D%A1%E4%BB%B6%E3%81%A7like%E3%82%92%E4%BD%BF%E3%81%86
