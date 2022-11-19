@@ -757,30 +757,32 @@ paths:
         - $ref: '#/components/parameters/access-token'
         - $ref: '#/components/parameters/client'
         - $ref: '#/components/parameters/uid'
-  /api/v1/client/offices/area:
+  /api/v1/client/offices/area_search:
     get:
       summary: 事業所エリア検索(事業所利用者)
       tags:
         - office
-      operationId: getClientOfficesArea
-      description: 事業所一覧を取得する。住所で絞り込む。
+      operationId: getClientOfficesAreaSearch
+      description: 事業所一覧をエリア検索する
       parameters:
         - schema:
             type: string
-            example: 東京 大阪 群馬
+            example: 札幌市北区北十条西
           in: query
           name: q
-          description: addressを前方一致検索する。OR検索は半角スペースで区切る。
+          description: エリアの文字列
+          required: true
         - schema:
-            type: string
+            type: integer
+            example: 2
           in: query
           name: page
-          description: ページネーション
+          description: 要求するページ番号。この項目が無い場合は自動的に1ページ目が返ってくる
       responses:
         '200':
-          description: OK
+          $ref: '#/components/responses/SearchResult'
     parameters: []
-  /api/v1/client/offices/search:
+  /api/v1/client/offices/word_search:
     get:
       summary: 事業所全文一致検索(事業所利用者)
       tags:
@@ -790,20 +792,22 @@ paths:
       parameters:
         - schema:
             type: string
-            example: 東京 大阪 群馬
+            example: 祖師谷ケアパーク
           in: query
           name: q
-          description: addressを全文検索する。OR検索は半角スペースで区切る。
+          description: 検索単語
+          required: true
         - schema:
-            type: string
+            type: integer
+            example: 2
           in: query
           name: page
-          description: ページネーション
+          description: 要求するページ番号。この項目が無い場合は自動的に1ページ目が返ってくる
       responses:
         '200':
-          description: OK
+          $ref: '#/components/responses/SearchResult'
     parameters: []
-  /api/v1/client/offices/nearest:
+  /api/v1/client/offices/nearest_search:
     get:
       summary: 事業所現在地検索(事業所利用者)
       tags:
@@ -816,19 +820,22 @@ paths:
           in: query
           name: lat
           description: 緯度
+          required: true
         - schema:
             type: number
           in: query
           name: lng
           description: 経度
+          required: true
         - schema:
-            type: string
+            type: integer
+            example: 2
           in: query
           name: page
-          description: ページネーション
+          description: 要求するページ番号。この項目が無い場合は自動的に1ページ目が返ってくる
       responses:
         '200':
-          description: OK
+          $ref: '#/components/responses/SearchResult'
     parameters: []
   '/api/v1/client/office/{id}':
     get:
@@ -1490,6 +1497,34 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  office_id:
+                    type: integer
+                  name:
+                    type: string
+                  furigana:
+                    type: string
+                  introduction:
+                    type: string
+                  role:
+                    type: integer
+              examples:
+                Example 1:
+                  value:
+                    - office_id: 1
+                      name: サンプル太郎
+                      furigana: さんぷるたろう
+                      introduction: ここにスタッフの説明がはいります
+                      role: 0
+                    - office_id: 2
+                      name: サンプル太郎2
+                      furigana: さんぷるたろうに
+                      introduction: ここにスタッフの説明がはいります
+                      role: 1
       operationId: getManagerStaffs
       tags:
         - staff
@@ -1898,6 +1933,43 @@ components:
         - furigana
         - introduction
         - role
+    Paginate:
+      title: Paginate
+      x-stoplight:
+        id: bebxbyo6jawmb
+      type: object
+      description: ページネーションのレスポンス
+      x-examples:
+        Example 1:
+          current_page: 2
+          prev_page: null
+          next_page: 2
+          total_page: 10
+      additionalProperties: false
+      properties:
+        current_page:
+          type: integer
+          description: 現在のページ
+          example: 2
+        prev_page:
+          type: integer
+          description: 前のページ
+          example: null
+          nullable: true
+        next_page:
+          type: integer
+          example: 2
+          description: 次のページ
+          nullable: true
+        total_page:
+          type: integer
+          example: 10
+          description: 総ページ数
+      required:
+        - current_page
+        - prev_page
+        - next_page
+        - total_page
   responses:
     AuthSuccess:
       description: ''
@@ -1916,7 +1988,7 @@ components:
             required:
               - data
           examples:
-            Example 1:
+            example-1:
               value:
                 status: success
                 data:
@@ -1969,6 +2041,111 @@ components:
                   - 類型は200文字以内で入力してください
             required:
               - errors
+    SearchResult:
+      description: エリア検索、現在地検索、単語検索のレスポンス
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              offices:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: false
+                  properties:
+                    id:
+                      type: integer
+                      description: 事業所のid
+                      example: 1
+                    name:
+                      type: string
+                      example: 祖師谷ホームケアそよ風
+                      description: 事業所名
+                    nearest_station:
+                      type: string
+                      example: 札幌市南北線 北12条駅
+                      description: 最寄り駅
+                    stuff_count:
+                      type: integer
+                      example: 30
+                      description: 事業所に所属しているスタッフの総人数
+                    is_bookmark:
+                      type: boolean
+                      default: false
+                      description: 現在のユーザーがこの事務所をブックマークしているかどうか
+                    tel:
+                      type: string
+                      example: 事業所の電話番号
+                      description: 080-2916-9802
+                    feature_title:
+                      type: string
+                      example: 事業所紹介タイトル
+                      description: 事業所紹介タイトル
+                    workday:
+                      type: array
+                      example:
+                        - mon
+                        - tue
+                        - wed
+                        - thu
+                        - fri
+                      description: 営業曜日
+                      items:
+                        type: string
+                        enum:
+                          - sun
+                          - mon
+                          - tue
+                          - wed
+                          - thu
+                          - fri
+                          - sat
+                    thumbnail_image:
+                      type: string
+                      format: uri
+                      example: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                      description: サムネイルのイメージ画像
+                      nullable: true
+                  required:
+                    - id
+                    - name
+                    - nearest_station
+                    - stuff_count
+                    - is_bookmark
+                    - tel
+                    - feature_title
+                    - workday
+                    - thumbnail_image
+              paginate:
+                $ref: '#/components/schemas/Paginate'
+            required:
+              - offices
+              - paginate
+          examples:
+            Example 1:
+              value:
+                offices:
+                  - id: 1
+                    name: 祖師谷ホームケアそよ風
+                    nearest_station: 札幌市南北線 北12条駅
+                    stuff_count: 30
+                    is_bookmark: false
+                    tel: 事業所の電話番号
+                    feature_title: 事業所紹介タイトル
+                    workday:
+                      - mon
+                      - tue
+                      - wed
+                      - thu
+                      - fri
+                    thumbnail_image: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                paginate:
+                  current_page: 2
+                  prev_page: null
+                  next_page: 2
+                  total_page: 10
   requestBodies: {}
   parameters:
     access-token:

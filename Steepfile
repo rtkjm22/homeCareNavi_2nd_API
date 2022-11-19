@@ -14,10 +14,10 @@ target :lib do
   # library "strong_json"           # Gems
 
   # configure_code_diagnostics(D::Ruby.strict)       # `strict` diagnostics setting
-  configure_code_diagnostics(D::Ruby.lenient)      # `lenient` diagnostics setting
-  configure_code_diagnostics do |hash|             # You can setup everything yourself
+  # configure_code_diagnostics(D::Ruby.lenient)      # `lenient` diagnostics setting
+  configure_code_diagnostics do |hash| # You can setup everything yourself
+    hash[D::Ruby::NoMethod] = :hint
     hash[D::Ruby::UnsupportedSyntax] = :hint
-    hash[D::Ruby::UnresolvedOverloading] = :hint
     hash[D::Ruby::UnexpectedBlockGiven] = :hint
   end
 end
