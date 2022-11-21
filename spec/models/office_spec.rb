@@ -53,4 +53,40 @@ RSpec.describe Office do
       it { is_expected.to validate_presence_of(:nearest_station) }
     end
   end
+
+  describe 'search_by_areaメソッド' do
+    before do
+      manager_tokyo1 = create(:manager, address: '東京都港区芝浦１丁目１−１')
+      create(:office, manager: manager_tokyo1)
+
+      manager_tokyo2 = create(:manager, address: '東京都新宿区西新宿１丁目１−１')
+      create(:office, manager: manager_tokyo2)
+
+      manager_ibaraki = create(:manager, address: '茨城県水戸市中央１丁目１−１')
+      create(:office, manager: manager_ibaraki)
+    end
+
+    it '東京都で検索した場合、２件返ってくること' do
+      search_result = Office.search_by_area('東京都')
+      expect(search_result.count).to eq(2)
+      expect(search_result.pluck(:address)).to be_all { |address| address.start_with?('東京都') }
+    end
+
+    it '東京都港区で検索した場合、１件返ってくること' do
+      search_result = Office.search_by_area('東京都港区')
+      expect(search_result.count).to eq(1)
+      expect(search_result.pluck(:address)).to be_all { |address| address.start_with?('東京都港区') }
+    end
+
+    it '茨城県で検索した場合、１件返ってくること' do
+      search_result = Office.search_by_area('茨城県')
+      expect(search_result.count).to eq(1)
+      expect(search_result.pluck(:address)).to be_all { |address| address.start_with?('茨城県') }
+    end
+
+    it 'いずれも一致しない文字列で検索した場合、０件返ってくること' do
+      search_result = Office.search_by_area('神奈川県')
+      expect(search_result.count).to eq(0)
+    end
+  end
 end

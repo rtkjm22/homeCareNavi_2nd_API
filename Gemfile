@@ -12,6 +12,8 @@ gem 'devise_token_auth', '>= 1.2.0', git: 'https://github.com/lynndylanhurley/de
 gem 'discard', '~> 1.2'
 gem 'enum_help'
 gem 'image_processing'
+gem 'jbuilder'
+gem 'kaminari'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rack-cors'

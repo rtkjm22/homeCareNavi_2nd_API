@@ -2,4 +2,12 @@ class Office < ApplicationRecord
   extend ActiveFlag::ClassMethods
   def workday: () -> ActiveFlag::Value
   def self.workdays: () -> ActiveFlag::Definition
+  
+  # kaminariによるページネーション
+  def self.page: (Integer?) -> Office::ActiveRecord_Relation
+               
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include Kaminari::PageScopeMethods
+    def page: (Integer?) -> Office::ActiveRecord_Relation
+  end
 end
