@@ -5,6 +5,7 @@ class Office < ApplicationRecord
   # N+1に対処するため with_attached_image をスコープにする。
   # これにより office.office_images とした際に自動で includes({ image_attachment: :blob }) が実行され、N+1を回避できる。
   has_many :office_images, -> { with_attached_image }, dependent: :destroy
+  has_many :staffs, dependent: :destroy
   belongs_to :manager
 
   validates :manager_id, uniqueness: true
