@@ -1490,6 +1490,34 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  office_id:
+                    type: integer
+                  name:
+                    type: string
+                  furigana:
+                    type: string
+                  introduction:
+                    type: string
+                  role:
+                    type: integer
+              examples:
+                Example 1:
+                  value:
+                    - office_id: 1
+                      name: サンプル太郎
+                      furigana: さんぷるたろう
+                      introduction: ここにスタッフの説明がはいります
+                      role: 0
+                    - office_id: 2
+                      name: サンプル太郎2
+                      furigana: さんぷるたろうに
+                      introduction: ここにスタッフの説明がはいります
+                      role: 1
       operationId: getManagerStaffs
       tags:
         - staff
