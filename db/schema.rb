@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_30_155659) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_03_125303) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -87,6 +87,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_30_155659) do
     t.index ["nearest_station"], name: "index_offices_on_nearest_station"
   end
 
+  create_table "staffs", force: :cascade do |t|
+    t.bigint "office_id", null: false
+    t.string "name", null: false, comment: "スタッフの名前"
+    t.string "furigana", null: false, comment: "スタッフの名前の読み仮名"
+    t.text "introduction", comment: "スタッフの紹介文"
+    t.integer "role", default: 0, comment: "スタッフの役職をenumで管理する"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["office_id"], name: "index_staffs_on_office_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -121,4 +132,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_30_155659) do
   add_foreign_key "office_images", "offices"
   add_foreign_key "office_overviews", "offices"
   add_foreign_key "offices", "users", column: "manager_id"
+  add_foreign_key "staffs", "offices"
 end
