@@ -6,6 +6,8 @@ RSpec.describe 'Api::V1::Client::Offices' do
       before do
         # ページネーションは10件単位なので、11件作成し2ページの挙動をテストできるようにする
         create_list(:office_image, 11)
+        staffs = Office.ids.map { |office_id| attributes_for(:staff, office_id:) }
+        Staff.insert_all(staffs)
         Manager.update_all(address: '北海道札幌市北区北十条西3-23-1')
       end
 

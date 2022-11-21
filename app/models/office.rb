@@ -4,7 +4,7 @@ class Office < ApplicationRecord
   has_one :office_overview, dependent: :destroy
   # N+1に対処するため with_attached_image をスコープにする。
   # これにより office.office_images とした際に自動で includes({ image_attachment: :blob }) が実行され、N+1を回避できる。
-  has_many :office_images, -> { with_attached_image }, dependent: :destroy
+  has_many :office_images, -> { with_attached_image }, inverse_of: :office, dependent: :destroy
   has_many :staffs, dependent: :destroy
   belongs_to :manager
 
@@ -25,7 +25,7 @@ class Office < ApplicationRecord
   # @example
   #   Office.search_by_area("東京都新宿区市谷")
   scope :search_by_area, lambda { |area|
-    eager_load(:manager, { office_images: { image_attachment: :blob } })
+    eager_load(:manager, { office_images: { image_attachment: :blob } }, :staffs)
       .where(
         'users.address LIKE ?',
         # 参考: https://railsguides.jp/active_record_querying.html#%E6%9D%A1%E4%BB%B6%E3%81%A7like%E3%82%92%E4%BD%BF%E3%81%86
