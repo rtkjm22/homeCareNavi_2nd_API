@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Client::Offices' do
-  describe 'GET /api/v1/client/offices/area' do
+
+  describe 'GET /api/v1/client/offices/area_search' do
+
     context 'クライアントでログインした場合' do
       before do
         # ページネーションは10件単位なので、11件作成し2ページの挙動をテストできるようにする
-        create_list(:office_image, 11)
+        create_list(:office, 11)
         staffs = Office.ids.map { |office_id| attributes_for(:staff, office_id:) }
         Staff.insert_all(staffs)
         Manager.update_all(address: '北海道札幌市北区北十条西3-23-1')
@@ -42,6 +44,22 @@ RSpec.describe 'Api::V1::Client::Offices' do
       login manager
       get area_search_api_v1_client_offices_path
       expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
+  describe 'GET /api/v1/client/offices/nearest_search' do
+    context 'クライアントでログインした場合' do
+      let!(:office_list) { create_list(:office, 3) }
+      let!(:client) { create(:client) }
+
+      it '事業所一覧が返ってくること' do
+        login client
+        get nearest_search_api_v1_client_offices_path, params: { lat: 0.0, lng: 0.0 }
+        response_symbolized_body => { offices:, paginate: }
+        expect(paginate[:current_page]).to eq 1
+        expect(offices.length).to eq 3
+        assert_response_schema_confirm(200)
+      end
     end
   end
 end

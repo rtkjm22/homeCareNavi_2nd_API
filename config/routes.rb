@@ -17,6 +17,7 @@ Rails.application.routes.draw do
         resources :offices, only: [:show] do
           collection do
             get :area_search, to: :area_search
+            get :nearest_search, to: :nearest_search
           end
         end
       end
