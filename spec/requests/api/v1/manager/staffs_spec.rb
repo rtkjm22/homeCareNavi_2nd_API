@@ -42,8 +42,8 @@ RSpec.describe 'Api::V1::Manager::Staffs' do
       staff_params = { name: staff.name,
                        furigana: staff.furigana,
                        introduction: staff.introduction,
-                       role: 1 }
-      expect { post api_v1_manager_staffs_path, params: staff_params }.to change(manager.offices.staffs, :count).by(1)
+                       role: 'care_manager' }
+      expect { post api_v1_manager_staffs_path, params: staff_params }.to change(manager.office.staffs, :count).by(1)
       expect(response).to have_http_status(:success)
     end
 

@@ -24,7 +24,7 @@ module Api
         private
 
         def staff_params
-          params.require(:staff).permit(:name, :furigana, :introduction, :role)
+          params.permit(:name, :furigana, :introduction, :role)
         end
 
       end
