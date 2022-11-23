@@ -11,6 +11,22 @@ module Api
           render json: belong_staffs, status: :ok
         end
 
+        def create
+          office = current_api_v1_manager.office
+          staff = office.staffs.build(staff_params)
+          if staff.save
+            render json: staff, status: :ok
+          else
+            render json: staff.as_error_json, status: :bad_request
+          end
+        end
+
+        private
+
+        def staff_params
+          params.require(:staff).permit(:name, :furigana, :introduction, :role)
+        end
+
       end
     end
   end
