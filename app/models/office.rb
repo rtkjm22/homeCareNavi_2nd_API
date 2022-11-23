@@ -8,6 +8,9 @@ class Office < ApplicationRecord
   has_many :staffs, dependent: :destroy
   belongs_to :manager
 
+  # Overrides::Registrationsコントローラーにて、Managerの新規作成時にoffice又はoffice_overviewが有効でなくても、
+  # Managerの保存のみ成功してしまうが、下記を記述することでoffice_overviewが有効でないときはManagerの保存を失敗するようにする
+  validates_associated :office_overview
   validates :manager_id, uniqueness: true
   validates :name, presence: true, length: { maximum: 200 }
   validates :feature_title, presence: true, length: { maximum: 200 }

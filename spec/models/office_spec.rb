@@ -17,6 +17,14 @@ RSpec.describe Office do
         office.destroy
         expect(office.errors.full_messages[0]).to eq 'このモデルのみを削除することはできません。削除する場合は、親を削除してください。'
       end
+
+      it 'office_overviewが無効な属性値の場合、officeも無効であること' do
+        office = build(:office)
+        office_overview = build(:office_overview, office:)
+        office_overview.room_count = -1
+        expect(office.valid?).to be false
+        expect(office.errors.full_messages[0]).to eq '施設概要は不正な値です'
+      end
     end
 
     context 'name' do
