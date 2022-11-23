@@ -10,6 +10,8 @@ class ApplicationRecord < ActiveRecord::Base
 end
 class OfficeImage::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
 end
+class Staff::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
 class Manager < User
 end
 class ActiveRecord::Associations::CollectionProxy < ActiveRecord::Relation
