@@ -89,4 +89,24 @@ RSpec.describe Office do
       expect(search_result.count).to eq(0)
     end
   end
+
+  describe 'search_by_nearestメソッド' do
+    let!(:office1) { create(:office, lat: 0.0, lng: 0.0) }
+    let!(:office2) { create(:office, lat: 10.0, lng: 10.0) }
+    let!(:office3) { create(:office, lat: 25.0, lng: 25.0) }
+    let!(:office4) { create(:office, lat: 45.0, lng: 45.0) }
+    let!(:office5) { create(:office, lat: 70.0, lng: 70.0) }
+
+    it '現在地がoffice1の場合、office1から近い順に返ってくること' do
+      expect(Office.search_by_nearest(0.0, 0.0)).to eq [office1, office2, office3, office4, office5]
+    end
+
+    it '現在地がoffice3の場合、office3から近い順に返ってくること' do
+      expect(Office.search_by_nearest(25.0, 25.0)).to eq [office3, office2, office4, office1, office5]
+    end
+
+    it '現在地がoffice5の場合、office5から近い順に返ってくること' do
+      expect(Office.search_by_nearest(70.0, 70.0)).to eq [office5, office4, office3, office2, office1]
+    end
+  end
 end

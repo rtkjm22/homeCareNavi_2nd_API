@@ -33,6 +33,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'brakeman'
   gem 'letter_opener_web', '~> 2.0'
   gem 'rbs', require: false
   gem 'rbs_rails', require: false
