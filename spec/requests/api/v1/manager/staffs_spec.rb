@@ -59,7 +59,7 @@ RSpec.describe 'Api::V1::Manager::Staffs' do
     end
   end
 
-  describe 'PATCH /api/v1/manager/staff' do
+  describe 'PATCH /api/v1/manager/staffs/:id' do
     let(:office) { create(:office) }
     let(:manager) { office.manager }
     let(:staff) { office.staffs }
@@ -71,7 +71,7 @@ RSpec.describe 'Api::V1::Manager::Staffs' do
                        furigana: 'new furigana',
                        introduction: 'new introduction',
                        role: 'worker' }
-      patch api_v1_manager_staff_path, params: staff_params
+      patch api_v1_manager_staffs_path, params: staff_params
       expect(response_symbolized_body).to include staff_params
       expect(response).to have_http_status(:success)
     end
@@ -79,18 +79,18 @@ RSpec.describe 'Api::V1::Manager::Staffs' do
     it '属性値が無効なら、エラーが返ってくること' do
       login office.manager
       staff_params = { name: nil }
-      patch api_v1_manager_staff_path, params: staff_params
+      patch api_v1_manager_staffs_path, params: staff_params
       assert_response_schema_confirm(400)
     end
 
     it 'ログインしていない場合、エラーが返ってくること' do
-      post api_v1_manager_staffs_path
+      patch api_v1_manager_staffs_path
       expect(response).to have_http_status(:unauthorized)
     end
 
     it 'クライアントでログインした場合、エラーが返ってくること' do
       login client
-      post api_v1_manager_staffs_path
+      patch api_v1_manager_staffs_path
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end

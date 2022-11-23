@@ -21,6 +21,16 @@ module Api
           end
         end
 
+        def update
+          staffs = current_api_v1_manager.office.staffs
+          staff = staffs.find(params[:id])
+          if staff.update(staff_params)
+            render json: staff, status: :ok
+          else
+            render json: staff.as_error_json, status: :bad_request
+          end
+        end
+
         private
 
         def staff_params
