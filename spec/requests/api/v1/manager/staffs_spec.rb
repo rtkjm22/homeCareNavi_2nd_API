@@ -97,7 +97,7 @@ RSpec.describe 'Api::V1::Manager::Staffs' do
       @staff = create(:staff, office:)
     end
 
-    it '自分の事業所の、スタッフを作成できること' do
+    it '自分の事業所の、スタッフを削除できること' do
       login office.manager
 
       delete api_v1_manager_staff_path(@staff), params: staff_params
