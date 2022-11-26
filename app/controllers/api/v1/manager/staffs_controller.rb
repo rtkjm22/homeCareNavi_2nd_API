@@ -10,7 +10,6 @@ module Api
           belong_staffs = current_api_v1_user.office.staffs
           render json: belong_staffs, status: :ok
         end
-
       end
     end
   end

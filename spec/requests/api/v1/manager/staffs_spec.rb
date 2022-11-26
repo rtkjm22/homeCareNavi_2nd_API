@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::V1::Manager::Staffs', type: :request do
+RSpec.describe 'Api::V1::Manager::Staffs' do
   describe 'GET /api/v1/manager/staffs' do
     let(:office) { create(:office) }
     let(:manager) { office.manager }
