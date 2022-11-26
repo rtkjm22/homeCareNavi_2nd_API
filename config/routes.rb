@@ -16,8 +16,9 @@ Rails.application.routes.draw do
       namespace :client do
         resources :offices, only: [:show] do
           collection do
-            get :area_search, to: :area_search
-            get :nearest_search, to: :nearest_search
+            get :area_search
+            get :nearest_search
+            get :word_search
           end
         end
       end
