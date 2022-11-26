@@ -117,4 +117,68 @@ RSpec.describe Office do
       expect(Office.search_by_nearest(70.0, 70.0)).to eq [office5, office4, office3, office2, office1]
     end
   end
+
+  describe 'search_by_wordメソッド' do
+    context 'manager.address' do
+      let!(:office_tokyo_shibuya) do
+        manager = create(:manager, address: '東京都渋谷区宇田川町1-1')
+        create(:office, manager:)
+      end
+
+      let!(:office_tokyo_mitaka) do
+        manager = create(:manager, address: '東京都三鷹市野崎1-1-10')
+        create(:office, manager:)
+      end
+
+
+      it '"東京"で検索した場合、2件返ってくること' do
+        result = Office.search_by_word('東京')
+        expect(result.length).to eq 2
+      end
+
+      it '"東京 渋谷"で検索した場合、1件返ってくること（半角スペース）' do
+        result = Office.search_by_word('東京 渋谷')
+        expect(result.length).to eq 1
+        expect(result[0]).to eq office_tokyo_shibuya
+      end
+
+      it '"東京　渋谷"で検索した場合、1件返ってくること（全角スペース）' do
+        result = Office.search_by_word('東京　渋谷')
+        expect(result.length).to eq 1
+        expect(result[0]).to eq office_tokyo_shibuya
+      end
+
+      it '"三鷹"で検索した場合、１件返ってくること' do
+        result = Office.search_by_word('三鷹')
+        expect(result.length).to eq 1
+        expect(result[0]).to eq office_tokyo_mitaka
+      end
+
+      it 'いずれも一致しない単語で検索した場合、0件返ってくること' do
+        result = Office.search_by_word('茨城')
+        expect(result.length).to eq 0
+      end
+    end
+
+    context 'offices.name' do
+      let!(:office_tokyo_sukkri) { create(:office, name: '東京すっきりホームケア') }
+      let!(:office_tokyo_sawayaka) { create(:office, name: '東京さわやかホームケア') }
+
+      it '"東京"で検索した場合、2件返ってくること' do
+        result = Office.search_by_word('東京')
+        expect(result.length).to eq 2
+      end
+
+      it '"東京 すっきり"で検索した場合、1件返ってくること' do
+        result = Office.search_by_word('東京 すっきり')
+        expect(result.length).to eq 1
+        expect(result[0]).to eq office_tokyo_sukkri
+      end
+
+      it 'いずれも一致しない単語で検索した場合、0件返ってくること' do
+        result = Office.search_by_word('ほんのり')
+        expect(result.length).to eq 0
+      end
+    end
+  end
 end

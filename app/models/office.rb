@@ -48,7 +48,7 @@ class Office < ApplicationRecord
     # SQLインジェクション対策のため、強制的にFloat型に変換する
     lat = lat.to_f
     lng = lng.to_f
-    includes(SEARCH_ASSOCIATIONS)
+    preload(SEARCH_ASSOCIATIONS)
       .select("*, (
       6371 * acos(
           cos(radians(#{lat}))
@@ -59,5 +59,24 @@ class Office < ApplicationRecord
         )
       ) AS distance")
       .order(:distance)
+  }
+
+  # 引数として渡された文字列で全文検索する
+  # @param [String] word 検索文字列。半角または全角スペースで区切るとAND検索
+  scope :search_by_word, lambda { |word|
+    # 半角空白、全角空白でスプリット
+    words = word.split(/[[:blank:]]/)
+    # スプリットした文字配列をサニタイズ
+    sanitized_words = words.map { |w| "%#{sanitize_sql_like(w)}%" }
+
+    eager_load(SEARCH_ASSOCIATIONS, :office_overview)
+      .where('offices.name ILIKE ALL(ARRAY[?]) OR
+              offices.feature_title ILIKE ALL(ARRAY[?]) OR
+              offices.feature_detail ILIKE ALL(ARRAY[?]) OR
+              users.address ILIKE ALL(ARRAY[?]) OR
+              office_overviews.requirements ILIKE ALL(ARRAY[?]) OR
+              office_overviews.shared_facilities ILIKE ALL(ARRAY[?])',
+             *Array.new(6, sanitized_words))
+      .order(:created_at)
   }
 end
