@@ -17,6 +17,14 @@ RSpec.describe Office do
         office.destroy
         expect(office.errors.full_messages[0]).to eq 'このモデルのみを削除することはできません。削除する場合は、親を削除してください。'
       end
+
+      it 'office_overviewが無効な属性値の場合、officeも無効であること' do
+        office = build(:office)
+        office_overview = build(:office_overview, office:)
+        office_overview.room_count = -1
+        expect(office.valid?).to be false
+        expect(office.errors.full_messages[0]).to eq '施設概要は不正な値です'
+      end
     end
 
     context 'name' do
@@ -87,6 +95,26 @@ RSpec.describe Office do
     it 'いずれも一致しない文字列で検索した場合、０件返ってくること' do
       search_result = Office.search_by_area('神奈川県')
       expect(search_result.count).to eq(0)
+    end
+  end
+
+  describe 'search_by_nearestメソッド' do
+    let!(:office1) { create(:office, lat: 0.0, lng: 0.0) }
+    let!(:office2) { create(:office, lat: 10.0, lng: 10.0) }
+    let!(:office3) { create(:office, lat: 25.0, lng: 25.0) }
+    let!(:office4) { create(:office, lat: 45.0, lng: 45.0) }
+    let!(:office5) { create(:office, lat: 70.0, lng: 70.0) }
+
+    it '現在地がoffice1の場合、office1から近い順に返ってくること' do
+      expect(Office.search_by_nearest(0.0, 0.0)).to eq [office1, office2, office3, office4, office5]
+    end
+
+    it '現在地がoffice3の場合、office3から近い順に返ってくること' do
+      expect(Office.search_by_nearest(25.0, 25.0)).to eq [office3, office2, office4, office1, office5]
+    end
+
+    it '現在地がoffice5の場合、office5から近い順に返ってくること' do
+      expect(Office.search_by_nearest(70.0, 70.0)).to eq [office5, office4, office3, office2, office1]
     end
   end
 end

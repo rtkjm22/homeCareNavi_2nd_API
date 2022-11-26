@@ -3,6 +3,14 @@ require 'rails_helper'
 RSpec.describe Manager do
   describe 'バリデーション' do
     it { is_expected.to have_one(:office).dependent(:destroy) }
+
+    it 'officeが無効な属性値の場合、managerも無効であること' do
+      manager = build(:manager)
+      office = build(:office, manager:)
+      office.name = nil
+      expect(manager.valid?).to be false
+      expect(manager.errors.full_messages[0]).to eq '事業所は不正な値です'
+    end
   end
 
   describe 'build_office_with_locationメソッド' do

@@ -1,4 +1,6 @@
 class Office < ApplicationRecord
+  SEARCH_ASSOCIATIONS: Array[untyped]
+
   extend ActiveFlag::ClassMethods
   def workday: () -> ActiveFlag::Value
   def self.workdays: () -> ActiveFlag::Definition
