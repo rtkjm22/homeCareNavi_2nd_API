@@ -55,36 +55,84 @@ RSpec.describe 'Api::V1::Manager::OfficeClients' do
 
   describe 'POST /api/v1/manager/office_clients' do
     let!(:staff) { create(:staff) }
-    let!(:office_client_attrs) { attributes_for(:office_client, :with_avatar, staff_id: staff.id) }
+    let!(:new_params) { attributes_for(:office_client, :with_avatar, staff_id: staff.id) }
 
     it '自分の事業所のクライアントを新規作成出来ること' do
       login staff.office.manager
       expect do
         post api_v1_manager_office_clients_path,
-             params: office_client_attrs,
+             params: new_params,
              headers: { ContentType: 'multipart/form-data' }
       end.to change(OfficeClient, :count).by(1)
     end
 
     it '他事業所の担当スタッフを指定した場合、クライアントを作成出来ないこと' do
       another_staff = create(:staff)
-      office_client_attrs[:staff_id] = another_staff.id
+      new_params[:staff_id] = another_staff.id
       login staff.office.manager
       expect do
         post api_v1_manager_office_clients_path,
-             params: office_client_attrs,
+             params: new_params,
              headers: { ContentType: 'multipart/form-data' }
       end.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it '無効な属性値の場合、エラーが返ってくること' do
-      office_client_attrs[:name] = nil
+      new_params[:name] = nil
       login staff.office.manager
       expect do
         post api_v1_manager_office_clients_path,
-             params: office_client_attrs,
+             params: new_params,
              headers: { ContentType: 'multipart/form-data' }
       end.not_to change(OfficeClient, :count)
+      expect(response).to have_http_status(:bad_request)
+      expect(response.parsed_body['errors'][0]).to eq '名前を入力してください'
+    end
+  end
+
+  describe 'PATCH /api/v1/manager/office_clients/:id' do
+    let!(:office) { create(:office) }
+    let!(:staff_list) { create_list(:staff, 2, office:) }
+    let!(:office_client) { create(:office_client, staff_id: staff_list[0]['id']) }
+    let!(:update_params) do
+      attrs = office_client.attributes
+      attrs['name'] = 'new name'
+      attrs
+    end
+
+    it '自分の事業所のクライアントを更新出来ること' do
+      new_params = office_client.attributes
+      new_params['name'] = 'new name'
+      login office.manager
+      expect do
+        patch api_v1_manager_office_client_path(office_client.id),
+              params: update_params,
+              headers: { ContentType: 'multipart/form-data' }
+        office_client.reload
+      end.to change(office_client, :name).to('new name')
+    end
+
+    it '他事業所のクライアントは更新出来ないこと' do
+      another_office_client = create(:office_client)
+      update_params = another_office_client.attributes
+      update_params['name'] = 'new name'
+      login office.manager
+      expect do
+        patch api_v1_manager_office_client_path(another_office_client.id),
+              params: update_params,
+              headers: { ContentType: 'multipart/form-data' }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it '無効な属性値の場合、エラーが返ってくること' do
+      update_params[:name] = nil
+      login office.manager
+      expect do
+        patch api_v1_manager_office_client_path(office_client.id),
+              params: update_params,
+              headers: { ContentType: 'multipart/form-data' }
+        office_client.reload
+      end.not_to change(OfficeClient, :name)
       expect(response).to have_http_status(:bad_request)
       expect(response.parsed_body['errors'][0]).to eq '名前を入力してください'
     end
