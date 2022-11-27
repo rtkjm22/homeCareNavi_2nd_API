@@ -100,9 +100,18 @@ RSpec.describe 'Api::V1::Manager::Staffs' do
     it '自分の事業所の、スタッフを削除できること' do
       login office.manager
 
-      delete api_v1_manager_staff_path(@staff), params: staff_params
+      delete api_v1_manager_staff_path(@staff)
       expect(office.staffs.reload).not_to include @staff
       expect(response).to have_http_status(:success)
+    end
+
+    it '自分の事業所に所属していないスタッフを削除するとき、エラーが返ること' do
+      login office.manager
+
+      expect {
+        delete api_v1_manager_staff_path(@staff.id + 1)
+        response
+      }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it 'ログインしていない場合、エラーが返ってくること' do
