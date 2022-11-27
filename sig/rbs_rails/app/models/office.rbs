@@ -497,11 +497,14 @@ class Office < ::ApplicationRecord
 
   def self.search_by_area: (untyped area) -> ActiveRecord_Relation
   def self.search_by_nearest: (untyped lat, untyped lng) -> ActiveRecord_Relation
+  def self.search_by_word: (untyped word) -> ActiveRecord_Relation
 
   module GeneratedRelationMethods
     def search_by_area: (untyped area) -> ActiveRecord_Relation
 
     def search_by_nearest: (untyped lat, untyped lng) -> ActiveRecord_Relation
+
+    def search_by_word: (untyped word) -> ActiveRecord_Relation
   end
 
   class ActiveRecord_Relation < ::ActiveRecord::Relation

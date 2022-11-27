@@ -36,7 +36,6 @@ RSpec.describe 'Api::V1::Manager::OfficeOverviews' do
     let(:req) { patch api_v1_manager_office_overview_path, params: new_params }
 
     it 'ケアマネでログインした場合、施設概要を更新できること' do
-      pp described_class
       login manager
       expect do
         patch api_v1_manager_office_overview_path, params: new_params

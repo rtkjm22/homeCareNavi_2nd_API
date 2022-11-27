@@ -1,0 +1,3 @@
+class OfficeClient < ApplicationRecord
+  def avatar_url: () -> String?
+end

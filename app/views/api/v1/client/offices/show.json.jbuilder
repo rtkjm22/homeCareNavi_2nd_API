@@ -11,7 +11,7 @@ office = {
   workday_detail: @office.workday_detail,
   feature_title: @office.feature_title,
   feature_detail: @office.feature_detail,
-  is_bookmark: false,
+  is_bookmark: false
 }
 
 carousel_images = @office.office_images.filter(&:carousel?)

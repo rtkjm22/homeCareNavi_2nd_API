@@ -1,0 +1,25 @@
+module Api
+  module V1
+    module Manager
+      class OfficeClientsController < ApplicationController
+        @staffs: Staff::ActiveRecord_Associations_CollectionProxy
+        @office_clients: OfficeClient::ActiveRecord_Relation
+        @office_client: OfficeClient
+
+        def index: () -> void
+
+        def show: () -> void
+
+        def create: () -> void
+
+        def update: () -> void
+
+        def destroy: () -> void
+
+        private
+
+        def office_client_params: () -> untyped
+      end
+    end
+  end
+end
