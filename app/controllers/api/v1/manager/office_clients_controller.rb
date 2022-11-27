@@ -34,6 +34,13 @@ module Api
           end
         end
 
+        def destroy
+          staffs = current_api_v1_manager.office.staffs
+          office_client = OfficeClient.where(staff_id: staffs.ids).find(params[:id])
+          office_client.destroy!
+          render json: { id: params[:id] }, status: :ok
+        end
+
         private
 
         def office_client_params

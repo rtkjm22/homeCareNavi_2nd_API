@@ -137,4 +137,23 @@ RSpec.describe 'Api::V1::Manager::OfficeClients' do
       expect(response.parsed_body['errors'][0]).to eq '名前を入力してください'
     end
   end
+
+  describe 'DELETE /api/v1/manager/office_clients/:id' do
+    let!(:office_client) { create(:office_client) }
+
+    it '自分の事業所のクライアントを削除出来ること' do
+      login office_client.staff.office.manager
+      expect do
+        delete api_v1_manager_office_client_path(office_client.id)
+      end.to change(OfficeClient, :count).by(-1)
+    end
+
+    it '他の事業所のクライアントは削除出来ないこと' do
+      another_office_client = create(:office_client)
+      login office_client.staff.office.manager
+      expect do
+        delete api_v1_manager_office_client_path(another_office_client.id)
+      end.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
 end
