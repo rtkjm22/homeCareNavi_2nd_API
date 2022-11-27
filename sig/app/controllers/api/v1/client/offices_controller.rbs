@@ -7,6 +7,8 @@ module Api
 
         def nearest_search: -> void
 
+        def show: -> void
+
         def word_search: -> void
       end
     end
