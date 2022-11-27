@@ -8,6 +8,11 @@ module Api
           @staffs = current_api_v1_manager.office.staffs
           @office_clients = OfficeClient.where(staff_id: @staffs.ids).with_attached_avatar
         end
+
+        def show
+          @staffs = current_api_v1_manager.office.staffs
+          @office_client = OfficeClient.where(staff_id: @staffs.ids).find(params[:id])
+        end
       end
     end
   end
