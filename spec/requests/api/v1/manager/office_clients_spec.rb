@@ -52,4 +52,41 @@ RSpec.describe 'Api::V1::Manager::OfficeClients' do
       end.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
+
+  describe 'POST /api/v1/manager/office_clients' do
+    let!(:staff) { create(:staff) }
+    let!(:office_client_attrs) { attributes_for(:office_client, :with_avatar, staff_id: staff.id) }
+
+    it '自分の事業所のクライアントを新規作成出来ること' do
+      login staff.office.manager
+      expect do
+        post api_v1_manager_office_clients_path,
+             params: office_client_attrs,
+             headers: { ContentType: 'multipart/form-data' }
+      end.to change(OfficeClient, :count).by(1)
+    end
+
+    it '他事業所の担当スタッフを指定した場合、クライアントを作成出来ないこと' do
+      another_staff = create(:staff)
+      office_client_attrs[:staff_id] = another_staff.id
+      login staff.office.manager
+      expect do
+        post api_v1_manager_office_clients_path,
+             params: office_client_attrs,
+             headers: { ContentType: 'multipart/form-data' }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it '無効な属性値の場合、エラーが返ってくること' do
+      office_client_attrs[:name] = nil
+      login staff.office.manager
+      expect do
+        post api_v1_manager_office_clients_path,
+             params: office_client_attrs,
+             headers: { ContentType: 'multipart/form-data' }
+      end.not_to change(OfficeClient, :count)
+      expect(response).to have_http_status(:bad_request)
+      expect(response.parsed_body['errors'][0]).to eq '名前を入力してください'
+    end
+  end
 end
