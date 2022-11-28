@@ -25,6 +25,7 @@ ja:
         type: 'ユーザー種別'
 
       manager:
+        office: '事業所'
         name: '名前'
         email: 'メールアドレス'
         password: 'パスワード'

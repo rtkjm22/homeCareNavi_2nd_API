@@ -475,6 +475,10 @@ class Office < ::ApplicationRecord
   def office_images=: (OfficeImage::ActiveRecord_Associations_CollectionProxy | Array[OfficeImage]) -> (OfficeImage::ActiveRecord_Associations_CollectionProxy | Array[OfficeImage])
   def office_image_ids: () -> Array[Integer]
   def office_image_ids=: (Array[Integer]) -> Array[Integer]
+  def staffs: () -> Staff::ActiveRecord_Associations_CollectionProxy
+  def staffs=: (Staff::ActiveRecord_Associations_CollectionProxy | Array[Staff]) -> (Staff::ActiveRecord_Associations_CollectionProxy | Array[Staff])
+  def staff_ids: () -> Array[Integer]
+  def staff_ids=: (Array[Integer]) -> Array[Integer]
   def office_overview: () -> OfficeOverview?
   def office_overview=: (OfficeOverview?) -> OfficeOverview?
   def build_office_overview: (untyped) -> OfficeOverview
@@ -492,9 +496,12 @@ class Office < ::ApplicationRecord
   include GeneratedAssociationMethods
 
   def self.search_by_area: (untyped area) -> ActiveRecord_Relation
+  def self.search_by_nearest: (untyped lat, untyped lng) -> ActiveRecord_Relation
 
   module GeneratedRelationMethods
     def search_by_area: (untyped area) -> ActiveRecord_Relation
+
+    def search_by_nearest: (untyped lat, untyped lng) -> ActiveRecord_Relation
   end
 
   class ActiveRecord_Relation < ::ActiveRecord::Relation

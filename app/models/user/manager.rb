@@ -4,6 +4,10 @@ class Manager < User
   include HeartRailsGeoApi
   has_one :office, dependent: :destroy
 
+  # Overrides::Registrationsコントローラーにて、Managerの新規作成時にoffice又はoffice_overviewが有効でなくても、
+  # Managerの保存のみ成功してしまうが、下記を記述することでofficeが有効でないときはManagerの保存を失敗するようにする
+  validates_associated :office
+
   # オフィスの経度緯度及び最寄り駅を埋めた上でbuildする
   # 郵便番号によってはヒットしないこともあるので、その場合はエラーにせず、
   # 登録後に編集画面でユーザーに手入力してもらう
