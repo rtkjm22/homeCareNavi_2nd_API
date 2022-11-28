@@ -130,7 +130,6 @@ RSpec.describe Office do
         create(:office, manager:)
       end
 
-
       it '"東京"で検索した場合、2件返ってくること' do
         result = Office.search_by_word('東京')
         expect(result.length).to eq 2

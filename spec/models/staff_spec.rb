@@ -4,6 +4,7 @@ RSpec.describe Staff do
   describe 'StaffModel' do
     context '関連付け' do
       it { is_expected.to belong_to(:office) }
+      it { is_expected.to have_many(:office_clients).dependent(:restrict_with_error) }
     end
 
     context 'name' do

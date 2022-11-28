@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_03_125303) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_27_054652) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_03_125303) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "office_clients", force: :cascade do |t|
+    t.bigint "staff_id", null: false
+    t.string "name", null: false, comment: "事業所利用者名"
+    t.integer "age", null: false, comment: "年齢"
+    t.string "furigana", null: false, comment: "名前のふりがな"
+    t.string "postal", null: false, comment: "郵便番号"
+    t.string "address", null: false, comment: "住所"
+    t.string "family", null: false, comment: "家族情報"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["staff_id"], name: "index_office_clients_on_staff_id"
   end
 
   create_table "office_images", force: :cascade do |t|
@@ -129,6 +142,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_03_125303) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "office_clients", "staffs"
   add_foreign_key "office_images", "offices"
   add_foreign_key "office_overviews", "offices"
   add_foreign_key "offices", "users", column: "manager_id"

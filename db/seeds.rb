@@ -12,3 +12,4 @@ Seed::OfficeImage.create_thumbnails
 Seed::OfficeImage.create_carousels
 Seed::OfficeImage.create_features
 Seed::Staffs.create_staffs
+Seed::OfficeClient.create_office_clients
