@@ -817,12 +817,20 @@ paths:
       parameters:
         - schema:
             type: number
+            format: float
+            minimum: -90
+            maximum: 90
+            example: 35.7402129
           in: query
           name: lat
           description: 緯度
           required: true
         - schema:
             type: number
+            format: float
+            minimum: -180
+            maximum: 180
+            example: 139.7030313
           in: query
           name: lng
           description: 経度
@@ -837,7 +845,7 @@ paths:
         '200':
           $ref: '#/components/responses/SearchResult'
     parameters: []
-  '/api/v1/client/office/{id}':
+  '/api/v1/client/offices/{id}':
     get:
       summary: 事業所詳細取得(事業所利用者)
       tags:
@@ -845,6 +853,183 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  office:
+                    type: object
+                    description: 事業所に関するオブジェクト
+                    required:
+                      - id
+                      - name
+                      - postal
+                      - address
+                      - nearest_station
+                      - staff_count
+                      - tel
+                      - fax
+                      - workday
+                      - workday_detail
+                      - feature_title
+                      - feature_detail
+                      - is_bookmark
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                        description: 事業所id
+                      name:
+                        type: string
+                        description: 事業所名
+                        example: 祖師谷ケアパークそよ風
+                      postal:
+                        type: string
+                        example: 157-0072
+                        description: 郵便番号
+                      address:
+                        type: string
+                        example: 東京都世田谷区祖師谷4-3-15
+                        description: 住所
+                      nearest_station:
+                        type: string
+                        example: 祖師谷大藏駅 徒歩5分
+                        description: 最寄り駅及び徒歩何分
+                      staff_count:
+                        type: integer
+                        example: 5
+                        description: スタッフ数
+                      tel:
+                        type: string
+                        example: 00-0000-0000
+                        description: 電話番号
+                      fax:
+                        type: string
+                        example: 00-0000-0000
+                        description: FAX
+                      workday:
+                        type: array
+                        example:
+                          - mon
+                          - tue
+                          - wed
+                          - thu
+                          - fri
+                        description: 営業曜日
+                        items:
+                          type: string
+                          enum:
+                            - sun
+                            - mon
+                            - tue
+                            - wed
+                            - thu
+                            - fri
+                            - sat
+                      workday_detail:
+                        type: string
+                        example: 営業日時についてのテキストが入ります
+                        description: 営業日時についてのテキスト
+                      feature_title:
+                        type: string
+                        example: 事業所紹介タイトル
+                        description: 事業所紹介タイトル
+                      feature_detail:
+                        type: string
+                        example: ここに事業所の特徴テキストが入ります
+                        description: 事業所特徴
+                      is_bookmark:
+                        type: boolean
+                        description: ブックマーク済み
+                  staffs:
+                    type: array
+                    description: スタッフ一覧
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/OfficeStaff'
+                        - type: object
+                          properties:
+                            user_comments:
+                              type: array
+                              description: ユーザーからのお礼コメント一覧
+                              example:
+                                - リハビリのノウハウがあり、足の悪い父のお世話も安心して任せられました。
+                                - とても親切な対応で、またお世話にさせていただこうと思いました！
+                                - 感謝感激です。毎回お世話になってます。
+                              items:
+                                type: string
+                          required:
+                            - user_comments
+                  carousel_images:
+                    type: array
+                    description: 最大5枚のカルーセル画像
+                    items:
+                      $ref: '#/components/schemas/OfficeImage'
+                  feature_images:
+                    type: array
+                    description: 最大2枚の特徴画像。画像の特徴テキストとしてcaptionカラムが付与されている。
+                    items:
+                      $ref: '#/components/schemas/OfficeImage'
+                  office_overview:
+                    $ref: '#/components/schemas/OfficeOverview'
+                required:
+                  - office
+                  - staffs
+                  - carousel_images
+                  - feature_images
+                  - office_overview
+              examples:
+                Example 1:
+                  value:
+                    office:
+                      id: 1
+                      name: 祖師谷ケアパークそよ風
+                      postal: 157-0072
+                      address: 東京都世田谷区祖師谷4-3-15
+                      nearest_station: 祖師谷大藏駅 徒歩5分
+                      staff_count: 5
+                      tel: 00-0000-0000
+                      fax: 00-0000-0000
+                      workday:
+                        - mon
+                        - tue
+                        - wed
+                        - thu
+                        - fri
+                      workday_detail: 営業日時についてのテキストが入ります
+                      feature_title: 事業所紹介タイトル
+                      feature_detail: ここに事業所の特徴テキストが入ります
+                      is_bookmark: true
+                    carousel_images:
+                      - id: 1
+                        caption: 画像の説明テキストが入ります
+                        role: thumbnail
+                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                    staffs:
+                      - id: 1
+                        name: 田中　太郎
+                        furigana: たなか　たろう
+                        introduction: スタッフ紹介テキストが入ります
+                        role: worker
+                        user_comments:
+                          - リハビリのノウハウがあり、足の悪い父のお世話も安心して任せられました。
+                          - とても親切な対応で、またお世話にさせていただこうと思いました！
+                          - 感謝感激です。毎回お世話になってます。
+                    feature_images:
+                      - id: 1
+                        caption: 画像の説明テキストが入ります
+                        role: thumbnail
+                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                    office_overview:
+                      id: 1
+                      classify: 介護付きホーム（サービス付き高齢者向け住宅　特定施設）
+                      opening_date: '2022-03-11'
+                      room_count: 30
+                      requirements: 満60歳以上の方、入居時自立・要支援・要介護
+                      shared_facilities: エントランス、食堂兼機能訓練室、個浴、大浴場、特殊浴槽、和室、談話室、シアタールーム、屋上庭園
+                      business_entity: 株式会社ユニマット　リタイアメント・コミュニティ
+                      official_site_url: 'https://www.unimat-rc.co.jp/shisetsu/sosigaya_871/index.html'
       operationId: getClientOffice
       description: 単一の事務所の詳細を取得する
     parameters:
@@ -1528,11 +1713,64 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  office_id:
+                    type: integer
+                  name:
+                    type: string
+                  furigana:
+                    type: string
+                  introduction:
+                    type: string
+                  role:
+                    type: integer
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+              examples:
+                staff:
+                  value:
+                    office_id: 1
+                    name: サンプル太郎
+                    furigana: さんぷるたろう
+                    introduction: ここにスタッフの説明がはいります
+                    role: 0
       tags:
         - staff
       description: スタッフを追加する
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                furigana:
+                  type: string
+                introduction:
+                  type: string
+                role:
+                  type: integer
+            examples:
+              Example 1:
+                value:
+                  name: サンプル太郎
+                  furigana: さんぷるたろう
+                  introduction: ここにスタッフの説明がはいります
+                  role: 0
     parameters: []
-  '/api/v1/manager/staff/{id}':
+  '/api/v1/manager/staffs/{id}':
     parameters:
       - name: id
         in: path
@@ -1546,30 +1784,143 @@ paths:
       summary: スタッフ削除(ケアマネ)
       operationId: deleteManagerStaff
       responses:
-        '200':
-          description: OK
+        '204':
+          description: No Content
       tags:
         - staff
       description: スタッフを削除する
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
     patch:
       summary: スタッフ更新(ケアマネ)
       operationId: updateManagerStaff
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  furigana:
+                    type: string
+                  introduction:
+                    type: string
+                  role:
+                    type: string
+              examples:
+                Example 1:
+                  value:
+                    office_id: 1
+                    name: new name
+                    furigana: new furigana
+                    introduction: new introduction
+                    role: 0
       tags:
         - staff
       description: スタッフを更新する
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                furigana:
+                  type: string
+                introduction:
+                  type: string
+                role:
+                  type: string
+            examples:
+              Example 1:
+                value:
+                  name: new name
+                  furigana: new furigana
+                  introduction: new introduction
+                  role: 0
+        description: ''
   /api/v1/manager/office_clients:
     get:
       summary: 事業所管理の事業所利用者一覧取得(ケアマネ)
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  office_clients:
+                    type: array
+                    items:
+                      allOf:
+                        - type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                              description: 利用者の主キー
+                            staff_name:
+                              type: string
+                              example: 山田　一郎
+                              description: 担当スタッフ名
+                            avatar_url:
+                              type: string
+                              format: uri
+                              example: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                              description: アバター画像のurl
+                              nullable: true
+                          required:
+                            - id
+                            - staff_name
+                            - avatar_url
+                        - $ref: '#/components/schemas/OfficeClient'
+                required:
+                  - office_clients
+              examples:
+                Example 1:
+                  value:
+                    office_clients:
+                      - id: 1
+                        staff_name: 山田　一郎
+                        avatar_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                        name: 田中　太郎
+                        furigana: たなか　たろう
+                        postal: 162-0014
+                        address: 東京都新宿区市ヶ谷本村町5-1
+                        family: 娘
+                        age: 40
+                      - id: 2
+                        staff_name: 山田　二郎
+                        avatar_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                        name: 田中　二郎
+                        furigana: たなか　じろう
+                        postal: 134-3245
+                        address: 埼玉県比企郡川島町大字下八ツ林870番地
+                        family: 息子
+                        age: 50
       operationId: getManagerOfficeClients
       tags:
         - office_client
       description: 事業所で管理している事業所利用者一覧を取得する
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
+      x-extension-1: null
     parameters: []
     post:
       summary: 事業所管理の事業所利用者作成(ケアマネ)
@@ -1580,7 +1931,37 @@ paths:
       tags:
         - office_client
       description: 事業所で管理している事業所利用者を作成する
-  '/api/v1/manager/office_client/{id}':
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/OfficeClient'
+                - type: object
+                  properties:
+                    avatar:
+                      type: string
+                      format: binary
+                      description: 画像のバイナリデータ
+                  required:
+                    - avatar
+            examples:
+              Example 1:
+                value:
+                  name: 田中　太郎
+                  furigana: たなか　たろう
+                  postal: 162-0014
+                  address: 東京都新宿区市ヶ谷本村町5-1
+                  family: 娘
+                  age: 40
+                  avatar: string
+        description: ※画像はContentTypeがapplication/jsonでは送信出来ないため、multipart/form-dataかつformDataでラップして送信すること
+  '/api/v1/manager/office_clients/{id}':
     patch:
       summary: 事業所管理の事業所利用者更新(ケアマネ)
       operationId: updateManagerOfficeClient
@@ -1589,7 +1970,43 @@ paths:
           description: OK
       tags:
         - office_client
-      description: 事業所で管理している事業所利用者一覧を更新する
+      description: 事業所で管理している事業所利用者を更新する
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/OfficeClient'
+                - type: object
+                  properties:
+                    avatar:
+                      type: string
+                      format: binary
+                      description: 画像のバイナリデータ
+                    staff_id:
+                      type: integer
+                      example: 1
+                      description: 担当スタッフのid
+                  required:
+                    - avatar
+                    - staff_id
+            examples:
+              Example 1:
+                value:
+                  name: 田中　太郎
+                  furigana: たなか　たろう
+                  postal: 162-0014
+                  address: 東京都新宿区市ヶ谷本村町5-1
+                  family: 娘
+                  age: 40
+                  avatar: string
+                  staff_id: 1
+        description: ※画像はContentTypeがapplication/jsonでは送信出来ないため、multipart/form-dataかつformDataでラップして送信すること
     parameters:
       - name: id
         in: path
@@ -1607,7 +2024,78 @@ paths:
           description: OK
       tags:
         - office_client
-      description: 事業所で管理している事業所利用者一覧を削除する
+      description: 事業所で管理している事業所利用者を削除する
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
+    get:
+      summary: 事業所管理の事業所利用者取得(ケアマネ)
+      operationId: getManagerOfficeClient
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                        description: 主キー
+                      avatar_url:
+                        type: string
+                        format: uri
+                        example: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                        description: アバター画像のurl
+                        nullable: true
+                      staffs:
+                        type: array
+                        description: 紐付け対象のスタッフ一覧
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: スタッフの主キー
+                              example: 1
+                            name:
+                              type: string
+                              example: 山田　太郎
+                              description: スタッフの名前
+                          required:
+                            - id
+                            - name
+                    required:
+                      - id
+                      - avatar_url
+                      - staffs
+                  - $ref: '#/components/schemas/OfficeClient'
+              examples:
+                Example 1:
+                  value:
+                    id: 1
+                    avatar_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                    staffs:
+                      - id: 1
+                        name: 山田　太郎
+                    name: 田中　太郎
+                    furigana: たなか　たろう
+                    postal: 162-0014
+                    address: 東京都新宿区市ヶ谷本村町5-1
+                    family: 娘
+                    age: 40
+      description: 事業所で管理している事業所利用者を取得する（現時点では編集画面で使用する用途のみ）
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
+      tags:
+        - office_client
 components:
   schemas:
     User:
@@ -1958,6 +2446,56 @@ components:
         - prev_page
         - next_page
         - total_page
+    OfficeClient:
+      title: OfficeClient
+      x-stoplight:
+        id: xeh695uf8zavx
+      type: object
+      description: 事業所管理のクライアント
+      x-examples:
+        Example 1:
+          name: 田中　太郎
+          furigana: たなか　たろう
+          postal: 162-0014
+          address: 東京都新宿区市ヶ谷本村町5-1
+          family: 娘
+          age: 40
+      properties:
+        name:
+          type: string
+          description: 事業所利用者名
+          example: 田中　太郎
+        furigana:
+          type: string
+          example: たなか　たろう
+          description: ふりがな
+        postal:
+          type: string
+          description: 郵便番号
+          example: 162-0014
+        address:
+          type: string
+          example: 東京都新宿区市ヶ谷本村町5-1
+          description: 住所
+        family:
+          type: string
+          example: 娘
+          description: 家族情報
+        age:
+          type: integer
+          example: 40
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          description: 年齢
+          minimum: 0
+          maximum: 120
+      required:
+        - name
+        - furigana
+        - postal
+        - address
+        - family
+        - age
   responses:
     AuthSuccess:
       description: ''

@@ -291,6 +291,10 @@ class Staff < ::ApplicationRecord
     def clear_updated_at_change: () -> void
   end
   include GeneratedAttributeMethods
+  def office_clients: () -> OfficeClient::ActiveRecord_Associations_CollectionProxy
+  def office_clients=: (OfficeClient::ActiveRecord_Associations_CollectionProxy | Array[OfficeClient]) -> (OfficeClient::ActiveRecord_Associations_CollectionProxy | Array[OfficeClient])
+  def office_client_ids: () -> Array[Integer]
+  def office_client_ids=: (Array[Integer]) -> Array[Integer]
 
   def office: () -> Office
   def office=: (Office?) -> Office?
