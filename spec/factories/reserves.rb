@@ -1,13 +1,18 @@
 FactoryBot.define do
   factory :reserve do
-    office { nil }
-    client { nil }
-    interview_begin_at { "2022-11-28 14:07:38" }
-    interview_end_at { "2022-11-28 14:07:38" }
-    user_name { "MyString" }
-    user_age { 1 }
-    contact_tel { "MyString" }
-    note { "MyText" }
+    transient do
+      gimei_name { Gimei.name }
+    end
+
+    office
+    client
+    interview_begin_at { Faker::Time.between(from: DateTime.now, to: DateTime.now + 100) }
+    interview_end_at { Faker::Time.between(from: DateTime.now , to: DateTime.now + 100) }
+    user_name { gimei_name.kanji }
+    user_age {Faker::Number.within(range: 1..150) }
+    contact_tel { Faker::PhoneNumber.cell_phone }
+    note { Faker::Lorem.sentence(word_count: 25) }
     is_contacted { false }
   end
 end
+
