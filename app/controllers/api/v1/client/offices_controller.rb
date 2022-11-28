@@ -2,6 +2,10 @@ module Api
   module V1
     module Client
       class OfficesController < ApplicationController
+        def show
+          @office = Office.find(params[:id])
+        end
+
         def area_search
           @result = Office.search_by_area(params[:q]).page(params[:page])
           render template: 'api/v1/client/offices/search_result', status: :ok

@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Client::Offices' do
+  describe 'GET /api/v1/client/offices/:id' do
+    include_context 'setup_office'
+
+    it '事業所詳細を取得できること' do
+      get api_v1_client_office_path(office.id)
+      assert_response_schema_confirm(200)
+    end
+  end
+
   describe 'GET /api/v1/client/offices/area_search' do
     before do
       # ページネーションは10件単位なので、11件作成し2ページの挙動をテストできるようにする
