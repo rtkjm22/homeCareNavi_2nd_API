@@ -31,7 +31,7 @@ class Office < ApplicationRecord
   # @example
   #   Office.search_by_area("東京都新宿区市谷")
   scope :search_by_area, lambda { |areas|
-    sanitized_areas = areas.map { |area| "%#{sanitize_sql_like(area)}%" }
+    sanitized_areas = areas.map { |area| "#{sanitize_sql_like(area)}%" }
 
     eager_load(SEARCH_ASSOCIATIONS)
       .where(
