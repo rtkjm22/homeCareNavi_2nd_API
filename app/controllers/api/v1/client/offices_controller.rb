@@ -7,7 +7,8 @@ module Api
         end
 
         def area_search
-          @result = Office.search_by_area(params[:q]).page(params[:page])
+          areas = params[:q].split(',')
+          @result = Office.search_by_area(areas).page(params[:page])
           render template: 'api/v1/client/offices/search_result', status: :ok
         end
 
