@@ -53,3 +53,12 @@ RSpec/ExampleLength:
 
 RSpec/DescribedClass:
   Enabled: false
+
+# shared_contextではletを6行以上定義してもOKとする
+RSpec/MultipleMemoizedHelpers:
+  Exclude:
+    - 'spec/support/shared_context.rb'
+
+RSpec/LetSetup:
+  Exclude:
+    - 'spec/support/shared_context.rb'

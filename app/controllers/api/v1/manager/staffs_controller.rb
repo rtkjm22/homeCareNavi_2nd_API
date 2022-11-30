@@ -46,7 +46,6 @@ module Api
         def staff_params
           params.permit(:name, :furigana, :introduction, :role)
         end
-
       end
     end
   end

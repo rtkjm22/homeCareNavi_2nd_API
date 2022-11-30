@@ -8,7 +8,11 @@ class ActiveStorage::Attachment::ActiveRecord_Associations_CollectionProxy < Act
 end
 class ApplicationRecord < ActiveRecord::Base
 end
+class OfficeClient::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
 class OfficeImage::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Staff::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
 end
 class Manager < User
 end

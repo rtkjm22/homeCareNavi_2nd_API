@@ -7,8 +7,7 @@ RSpec.describe OfficeImage do
       it { is_expected.to have_one_attached :image }
     end
 
-    # 画像のテストは重いため、基本は除外し、節目で実行する
-    xcontext 'image' do
+    context 'image' do
       it do
         expect(subject).to validate_content_type_of(:image)
           .allowing('image/jpg', 'image/jpeg', 'image/png')

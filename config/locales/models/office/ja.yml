@@ -6,6 +6,7 @@ ja:
     attributes:
       office:
         manager: 'ケアマネ'
+        office_overview: '施設概要'
         name: '事業所名'
         feature_title: '特徴タイトル'
         feature_detail: '特徴詳細'
