@@ -38,6 +38,16 @@ RSpec.describe 'Api::V1::Client::Offices' do
       expect(offices.length).to eq 1
       assert_response_schema_confirm(200)
     end
+
+    it 'クエリパラメータをカンマ区切りで指定した場合、複数検索できること' do
+      Manager.first.update!(address: '東京都新宿区市谷本村町5-1')
+      Manager.second.update!(address: '広島県福山市南蔵王町4-1-7')
+      Manager.third.update!(address: '千葉県浦安市富士見1-2-303')
+      login client
+      get area_search_api_v1_client_offices_path, params: { q: '東京都新宿区市谷本村町,広島県福山市南蔵王町,千葉県浦安市富士見' }
+      expect(response.parsed_body['offices'].length).to eq 3
+      assert_response_schema_confirm(200)
+    end
   end
 
   describe 'GET /api/v1/client/offices/nearest_search' do
