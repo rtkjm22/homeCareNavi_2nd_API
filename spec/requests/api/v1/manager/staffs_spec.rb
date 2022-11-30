@@ -106,10 +106,10 @@ RSpec.describe 'Api::V1::Manager::Staffs' do
     end
 
     it '自分の事業所に所属していないスタッフを削除するとき、エラーが返ること' do
+      another_staff = create(:staff)
       login office.manager
-
       expect {
-        delete api_v1_manager_staff_path(@staff.id + 1)
+        delete api_v1_manager_staff_path(another_staff)
         response
       }.to raise_error(ActiveRecord::RecordNotFound)
     end
