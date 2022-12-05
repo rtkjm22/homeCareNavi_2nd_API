@@ -23,7 +23,7 @@ RSpec.describe 'Api::V1::Client::Offices' do
 
     it 'クエリパラメータにpageが存在しない場合、1ページ目かつ10件の事業所が返ってくること' do
       login client
-      get area_search_api_v1_client_offices_path, params: { q: '北海道札幌市北区' }
+      get area_search_api_v1_client_offices_path, params: { areas: '北海道札幌市北区' }
       response_symbolized_body => { offices:, paginate: }
       expect(paginate[:current_page]).to eq 1
       expect(offices.length).to eq 10
@@ -32,7 +32,7 @@ RSpec.describe 'Api::V1::Client::Offices' do
 
     it 'クエリパラメータのpageに2を指定した場合、2ページ目かつ1件の事業所が返ってくること' do
       login client
-      get area_search_api_v1_client_offices_path, params: { q: '北海道札幌市北区', page: 2 }
+      get area_search_api_v1_client_offices_path, params: { areas: '北海道札幌市北区', page: 2 }
       response_symbolized_body => { offices:, paginate: }
       expect(paginate[:current_page]).to eq 2
       expect(offices.length).to eq 1
@@ -44,7 +44,7 @@ RSpec.describe 'Api::V1::Client::Offices' do
       Manager.second.update!(address: '広島県福山市南蔵王町4-1-7')
       Manager.third.update!(address: '千葉県浦安市富士見1-2-303')
       login client
-      get area_search_api_v1_client_offices_path, params: { q: '東京都新宿区市谷本村町,広島県福山市南蔵王町,千葉県浦安市富士見' }
+      get area_search_api_v1_client_offices_path, params: { areas: '東京都新宿区市谷本村町,広島県福山市南蔵王町,千葉県浦安市富士見' }
       expect(response.parsed_body['offices'].length).to eq 3
       assert_response_schema_confirm(200)
     end
@@ -70,7 +70,7 @@ RSpec.describe 'Api::V1::Client::Offices' do
 
     it '事業所一覧が返ってくること' do
       login client
-      get word_search_api_v1_client_offices_path, params: { q: 'ホームケア' }
+      get word_search_api_v1_client_offices_path, params: { words: 'ホームケア' }
       response_symbolized_body => { offices:, paginate: }
       expect(paginate[:current_page]).to eq 1
       expect(offices.length).to eq 3
