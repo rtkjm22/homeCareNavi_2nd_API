@@ -17,14 +17,14 @@ RSpec.describe "Api::V1::Client::Reserves", type: :request do
     end
 
     it 'ログインしていない場合、エラーが返ってくること' do
-      get api_v1_manager_reserves_path
+      get api_v1_client_reserves_path
       expect(response).to have_http_status(:unauthorized)
     end
 
     it 'マネージャーでログインした場合、エラーが返ってくること' do
       login manager
 
-      get api_v1_manager_reserves_path
+      get api_v1_client_reserves_path
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end
