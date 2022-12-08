@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       end
 
       namespace :client do
+        resources :reserves, only: [:index]
         resources :offices, only: [:show] do
           collection do
             get :area_search
