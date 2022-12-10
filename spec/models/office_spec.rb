@@ -75,25 +75,30 @@ RSpec.describe Office do
     end
 
     it '東京都で検索した場合、２件返ってくること' do
-      search_result = Office.search_by_area('東京都')
+      search_result = Office.search_by_area(['東京都'])
       expect(search_result.count).to eq(2)
       expect(search_result.pluck(:address)).to be_all { |address| address.start_with?('東京都') }
     end
 
+    it '東京都及び茨城県で検索した場合、３件返ってくること' do
+      search_result = Office.search_by_area(%w[東京都 茨城県])
+      expect(search_result.count).to eq(3)
+    end
+
     it '東京都港区で検索した場合、１件返ってくること' do
-      search_result = Office.search_by_area('東京都港区')
+      search_result = Office.search_by_area(['東京都港区'])
       expect(search_result.count).to eq(1)
       expect(search_result.pluck(:address)).to be_all { |address| address.start_with?('東京都港区') }
     end
 
     it '茨城県で検索した場合、１件返ってくること' do
-      search_result = Office.search_by_area('茨城県')
+      search_result = Office.search_by_area(['茨城県'])
       expect(search_result.count).to eq(1)
       expect(search_result.pluck(:address)).to be_all { |address| address.start_with?('茨城県') }
     end
 
     it 'いずれも一致しない文字列で検索した場合、０件返ってくること' do
-      search_result = Office.search_by_area('神奈川県')
+      search_result = Office.search_by_area(['神奈川県'])
       expect(search_result.count).to eq(0)
     end
   end

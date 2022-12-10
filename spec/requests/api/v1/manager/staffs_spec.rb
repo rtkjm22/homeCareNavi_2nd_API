@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Manager::Staffs' do
-  describe 'GET /api/v1/manager/staffs' do
-    let(:office) { create(:office) }
-    let(:manager) { office.manager }
-    let(:client) { create(:client) }
 
+  let(:office) { create(:office) } # create(:staff) → create(:office)
+  let(:manager) { office.manager }
+  let(:client) { create(:client) }
+
+  describe 'GET /api/v1/manager/staffs' do
     it '自分の事業所の、全てのスタッフを取得できること' do
       create_list(:staff, 5, office:)
       create_list(:staff, 3)
@@ -28,10 +29,6 @@ RSpec.describe 'Api::V1::Manager::Staffs' do
   end
 
   describe 'POST /api/v1/manager/staffs' do
-    let(:office) { create(:office) }
-    let(:manager) { office.manager }
-    let(:client) { create(:client) }
-
     it '自分の事業所の、スタッフを作成できること' do
       staff = create(:staff)
       login manager
@@ -56,10 +53,6 @@ RSpec.describe 'Api::V1::Manager::Staffs' do
   end
 
   describe 'PATCH /api/v1/manager/staffs/:id' do
-    let(:office) { create(:office) }
-    let(:manager) { office.manager }
-    let(:client) { create(:client) }
-
     before do
       @staff = create(:staff, office:)
     end
@@ -81,6 +74,41 @@ RSpec.describe 'Api::V1::Manager::Staffs' do
       staff_params = { name: nil }
       patch api_v1_manager_staff_path(@staff), params: staff_params
       expect(response).to have_http_status(:bad_request)
+    end
+
+    it 'ログインしていない場合、エラーが返ってくること' do
+      patch api_v1_manager_staff_path(@staff)
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it 'クライアントでログインした場合、エラーが返ってくること' do
+      login client
+      patch api_v1_manager_staff_path(@staff)
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
+  describe 'DELETE /api/v1/manager/staffs/:id' do
+
+    before do
+      @staff = create(:staff, office:)
+    end
+
+    it '自分の事業所の、スタッフを削除できること' do
+      login office.manager
+
+      delete api_v1_manager_staff_path(@staff)
+      expect(office.staffs.reload).not_to include @staff
+      expect(response).to have_http_status(:success)
+    end
+
+    it '自分の事業所に所属していないスタッフを削除するとき、エラーが返ること' do
+      another_staff = create(:staff)
+      login office.manager
+      expect {
+        delete api_v1_manager_staff_path(another_staff)
+        response
+      }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it 'ログインしていない場合、エラーが返ってくること' do
