@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_27_054652) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_28_140735) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -100,6 +100,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_27_054652) do
     t.index ["nearest_station"], name: "index_offices_on_nearest_station"
   end
 
+  create_table "reserves", force: :cascade do |t|
+    t.bigint "office_id", null: false
+    t.bigint "client_id", null: false
+    t.datetime "interview_begin_at", null: false, comment: "面談開始時間"
+    t.datetime "interview_end_at", null: false, comment: "面談終了時間"
+    t.string "user_name", null: false, comment: "予約者の名前"
+    t.integer "user_age", null: false, comment: "予約者の年齢"
+    t.string "contact_tel", null: false, comment: "予約者の電話番号"
+    t.text "note", comment: "予約者の困り事"
+    t.boolean "is_contacted", default: false, comment: "事業者側が予約者に連絡を取っていたらTRUE"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_reserves_on_client_id"
+    t.index ["office_id"], name: "index_reserves_on_office_id"
+  end
+
   create_table "staffs", force: :cascade do |t|
     t.bigint "office_id", null: false
     t.string "name", null: false, comment: "スタッフの名前"
@@ -146,5 +162,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_27_054652) do
   add_foreign_key "office_images", "offices"
   add_foreign_key "office_overviews", "offices"
   add_foreign_key "offices", "users", column: "manager_id"
+  add_foreign_key "reserves", "offices"
+  add_foreign_key "reserves", "users", column: "client_id"
   add_foreign_key "staffs", "offices"
 end

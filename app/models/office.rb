@@ -6,6 +6,7 @@ class Office < ApplicationRecord
   # これにより office.office_images とした際に自動で includes({ image_attachment: :blob }) が実行され、N+1を回避できる。
   has_many :office_images, -> { with_attached_image }, inverse_of: :office, dependent: :destroy
   has_many :staffs, dependent: :destroy
+  has_many :reserves, dependent: :destroy
   belongs_to :manager
 
   # Overrides::Registrationsコントローラーにて、Managerの新規作成時にoffice又はoffice_overviewが有効でなくても、
