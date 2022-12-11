@@ -27,11 +27,11 @@
         },
         {
           "name": "CORS_URL",
-          "value": "https://www.home-care-navi-second-dev.work"
+          "value": "https://www.home-care-navi-second-stg.fun"
         },
         {
           "name": "DATABASE_NAME",
-          "value": "home_care_navi_second_development"
+          "value": "home_care_navi_second_staging"
         },
         {
           "name": "SERVER_PORT",
