@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Api::V1::Manager::Reserves" do
   describe "GET /api/v1/manager/reserves" do
     let(:office) { create(:office) }
-    let(:manager) { create( office.manager) }
+    let(:manager) { office.manager }
     let(:client) { create(:client) }
 
     it "事業所が、自身の予約一覧を取得できること" do
