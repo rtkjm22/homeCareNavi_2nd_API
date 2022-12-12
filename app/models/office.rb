@@ -28,15 +28,17 @@ class Office < ApplicationRecord
   SEARCH_ASSOCIATIONS = [:manager, :staffs, { office_images: { image_attachment: :blob } }].freeze
 
   # アドレスによる前方一致検索を実行する
-  # @param [String] area 都道府県及び市区町村
+  # @param [Array[String]] areas 都道府県及び市区町村
   # @example
   #   Office.search_by_area("東京都新宿区市谷")
-  scope :search_by_area, lambda { |area|
+  scope :search_by_area, lambda { |areas|
+    sanitized_areas = areas.map { |area| "#{sanitize_sql_like(area)}%" }
+
     eager_load(SEARCH_ASSOCIATIONS)
       .where(
-        'users.address LIKE ?',
+        'users.address LIKE ANY(ARRAY[?])',
         # 参考: https://railsguides.jp/active_record_querying.html#%E6%9D%A1%E4%BB%B6%E3%81%A7like%E3%82%92%E4%BD%BF%E3%81%86
-        "#{sanitize_sql_like(area)}%"
+        sanitized_areas
       )
       .order(:created_at)
   }
