@@ -34,17 +34,10 @@ RSpec.describe "Api::V1::Client::Reserves", type: :request do
     let(:client) { create(:client) }
     let(:manager) { create(:manager) }
 
-    it '自分の事業所の、スタッフを作成できること' do
-      reserve = create(:reserve)
+    it '事業所利用者が特定の事務所との面談予約を作成できること' do
+      office = create(:office)
       login client
-      reserve_params = { office_id: reserve.office_id,
-                         interview_begin_at: reserve.interview_begin_at,
-                         interview_end_at: reserve.interview_end_at,
-                         user_name: reserve.user_name,
-                         user_age: reserve.user_age,
-                         contact_tel: reserve.contact_tel,
-                         note: reserve.note
-                       }
+      reserve_params = attributes_for(:reserve, office_id: office.id)
       expect { post api_v1_client_reserves_path, params: reserve_params }.to change(client.reserves, :count).by(1)
       expect(response).to have_http_status(:success)
     end
