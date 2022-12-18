@@ -951,7 +951,7 @@ paths:
                         - $ref: '#/components/schemas/OfficeStaff'
                         - type: object
                           properties:
-                            user_comments:
+                            thanks_messages:
                               type: array
                               description: ユーザーからのお礼コメント一覧
                               example:
@@ -961,7 +961,7 @@ paths:
                               items:
                                 type: string
                           required:
-                            - user_comments
+                            - thanks_messages
                   carousel_images:
                     type: array
                     description: 最大5枚のカルーセル画像
@@ -1002,21 +1002,22 @@ paths:
                       feature_title: 事業所紹介タイトル
                       feature_detail: ここに事業所の特徴テキストが入ります
                       is_bookmark: true
-                    carousel_images:
-                      - id: 1
-                        caption: 画像の説明テキストが入ります
-                        role: thumbnail
-                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
                     staffs:
                       - id: 1
                         name: 田中　太郎
                         furigana: たなか　たろう
                         introduction: スタッフ紹介テキストが入ります
                         role: worker
-                        user_comments:
+                        avatar_url: 'https://gravatar.com/avatar/3f01516b4a15256a7499653db6b9f27e?s=400&d=robohash&r=x'
+                        thanks_messages:
                           - リハビリのノウハウがあり、足の悪い父のお世話も安心して任せられました。
                           - とても親切な対応で、またお世話にさせていただこうと思いました！
                           - 感謝感激です。毎回お世話になってます。
+                    carousel_images:
+                      - id: 1
+                        caption: 画像の説明テキストが入ります
+                        role: thumbnail
+                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
                     feature_images:
                       - id: 1
                         caption: 画像の説明テキストが入ります
@@ -1492,18 +1493,155 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  office_id:
+                    type: integer
+                  client_id:
+                    type: integer
+                  interview_begin_at:
+                    type: string
+                  interview_end_at:
+                    type: string
+                  user_name:
+                    type: string
+                  user_age:
+                    type: integer
+                  contact_tel:
+                    type: string
+                  note:
+                    type: string
+                  is_contacted:
+                    type: boolean
+                required:
+                  - office_id
+                  - client_id
+                  - interview_begin_at
+                  - interview_end_at
+                  - user_name
+                  - user_age
+                  - contact_tel
+                  - note
+                  - is_contacted
+              examples:
+                Example 1:
+                  value:
+                    office_id: 1
+                    client_id: 1
+                    interview_begin_at: 'Sun, 22 Jan 2023 12:43:45.053459000 JST +09:00'
+                    interview_end_at: 'Sat, 17 Dec 2022 19:10:42.053173000 JST +09:00'
+                    user_name: サンプル太郎
+                    user_age: 50
+                    contact_tel: 000-0000-0000
+                    note: 予約の概要がはいります。
+                    is_contacted: false
       description: ホームケアを予約する
       tags:
         - reserve
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                office_id:
+                  type: integer
+                interview_begin_at:
+                  type: string
+                interview_end_at:
+                  type: string
+                user_name:
+                  type: string
+                user_age:
+                  type: integer
+                contact_tel:
+                  type: string
+                note:
+                  type: string
+              required:
+                - office_id
+                - interview_begin_at
+                - interview_end_at
+                - user_name
+                - user_age
+                - contact_tel
+                - note
+            examples:
+              Example 1:
+                value:
+                  office_id: 1
+                  interview_begin_at: 'Sun, 22 Jan 2023 12:43:45.053459000 JST +09:00'
+                  interview_end_at: 'Sat, 17 Dec 2022 19:10:42.053173000 JST +09:00'
+                  user_name: サンプル太郎
+                  user_age: 50
+                  contact_tel: 000-0000-0000
+                  note: 予約の概要がはいります。
     get:
       summary: 予約一覧取得(事業所利用者)
       operationId: getClientReserves
       responses:
         '200':
           description: OK
-      description: 予約一覧を取得する
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  office_id:
+                    type: integer
+                  client_id:
+                    type: integer
+                  interview_begin_at:
+                    type: string
+                  interview_end_at:
+                    type: string
+                  user_name:
+                    type: string
+                  user_age:
+                    type: integer
+                  contact_tel:
+                    type: string
+                  note:
+                    type: string
+                  is_contacted:
+                    type: boolean
+                required:
+                  - office_id
+                  - client_id
+                  - interview_begin_at
+                  - interview_end_at
+                  - user_name
+                  - user_age
+                  - contact_tel
+                  - is_contacted
+              examples:
+                Example 1:
+                  value:
+                    office_id: 0
+                    client_id: 0
+                    interview_begin_at: string
+                    interview_end_at: string
+                    user_name: string
+                    user_age: 0
+                    contact_tel: string
+                    note: string
+                    is_contacted: true
+      description: 事業所利用者が予約一覧を取得する
       tags:
         - reserve
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
     parameters: []
   /api/v1/manager/reserves:
     get:
@@ -1512,9 +1650,58 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  office_id:
+                    type: integer
+                  client_id:
+                    type: integer
+                  interview_begin_at:
+                    type: string
+                  interview_end_at:
+                    type: string
+                  user_name:
+                    type: string
+                  user_age:
+                    type: integer
+                  contact_tel:
+                    type: string
+                  note:
+                    type: string
+                  is_contacted:
+                    type: boolean
+              examples:
+                Example 1:
+                  value:
+                    - office_id: 0
+                      client_id: 0
+                      interview_begin_at: 'Sun, 22 Jan 2023 12:43:45.053459000 JST +09:00'
+                      interview_end_at: 'Sun, 22 Jan 2023 12:43:45.053459000 JST +09:00'
+                      user_name: サンプル太郎
+                      user_age: 50
+                      contact_tel: 000-0000-0000
+                      note: 予約の概要が入ります。
+                      is_contacted: false
+                    - office_id: 1
+                      client_id: 1
+                      interview_begin_at: 'Sun, 22 Jan 2023 12:43:45.053459000 JST +09:00'
+                      interview_end_at: 'Sun, 22 Jan 2023 12:43:45.053459000 JST +09:00'
+                      user_name: サンプル花子
+                      user_age: 100
+                      contact_tel: 111-1111-1111
+                      note: 予約の概要が入ります。
+                      is_contacted: true
       description: 予約一覧を取得する
       tags:
         - reserve
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
     parameters: []
   '/api/v1/manager/reserve/{id}':
     parameters:
@@ -1532,9 +1719,49 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  is_contacted:
+                    type: integer
+              examples:
+                Example 1:
+                  value:
+                    is_contacted: true
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  is_contacted:
+                    type: boolean
+              examples:
+                Example 1:
+                  value: |-
+                    {
+                      is_contacted: true
+                    }
       description: 予約を更新する
       tags:
         - reserve
+      parameters:
+        - $ref: '#/components/parameters/access-token'
+        - $ref: '#/components/parameters/client'
+        - $ref: '#/components/parameters/expiry'
+        - $ref: '#/components/parameters/uid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ' id':
+                  type: integer
+                is_contacted:
+                  type: boolean
+              required:
+                - ' id'
   /api/v1/client/thanks:
     post:
       summary: お礼投稿(事業所利用者)
@@ -2385,6 +2612,7 @@ components:
           furigana: たなか　たろう
           introduction: スタッフ紹介テキストが入ります
           role: worker
+          avatar_url: 'https://gravatar.com/avatar/3f01516b4a15256a7499653db6b9f27e?s=400&d=robohash&r=x'
       properties:
         id:
           type: integer
@@ -2410,6 +2638,11 @@ components:
             - worker
             - care_manager
           description: スタッフロール
+        avatar_url:
+          type: string
+          description: 事業所スタッフの画像url
+          example: 'https://gravatar.com/avatar/3f01516b4a15256a7499653db6b9f27e?s=400&d=robohash&r=x'
+          nullable: true
       required:
         - id
         - name
@@ -2580,10 +2813,9 @@ components:
         - feature_title
         - workday
         - thumbnail_image
-  x-examples:
-    Example 1:
-      offices:
-        - id: 1
+      x-examples:
+        Example 1:
+          id: 1
           name: 祖師谷ホームケアそよ風
           nearest_station: 札幌市南北線 北12条駅
           stuff_count: 30
