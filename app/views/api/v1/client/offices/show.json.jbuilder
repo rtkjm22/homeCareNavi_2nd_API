@@ -18,9 +18,12 @@ carousel_images = @office.office_images.filter(&:carousel?)
 
 feature_images = @office.office_images.filter(&:feature?)
 
-staffs = @office.staffs.map do |staff|
-  attrs = staff.attributes
-  attrs.merge(user_comments: %w[ダミーテキスト１ ダミーテキスト２])
+staffs = @office.staffs.with_attached_avatar.map do |staff|
+  staff_attrs = staff.attributes
+  staff_attrs.merge(
+    thanks_messages: %w[ダミーテキスト１ ダミーテキスト２], # TODO: thanksテーブル追加後機能修正
+    avatar_url: staff.avatar_url
+  )
 end
 
 office_overview = @office.office_overview
