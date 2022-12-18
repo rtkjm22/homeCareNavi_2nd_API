@@ -24,6 +24,7 @@ interface _RbsRailsPathHelpers
   def api_v1_manager_staff_path: (*untyped) -> String
   def api_v1_manager_office_clients_path: (*untyped) -> String
   def api_v1_manager_office_client_path: (*untyped) -> String
+  def api_v1_client_reserves_path: (*untyped) -> String
   def area_search_api_v1_client_offices_path: (*untyped) -> String
   def nearest_search_api_v1_client_offices_path: (*untyped) -> String
   def word_search_api_v1_client_offices_path: (*untyped) -> String
@@ -66,6 +67,7 @@ interface _RbsRailsPathHelpers
   def api_v1_manager_staff_url: (*untyped) -> String
   def api_v1_manager_office_clients_url: (*untyped) -> String
   def api_v1_manager_office_client_url: (*untyped) -> String
+  def api_v1_client_reserves_url: (*untyped) -> String
   def area_search_api_v1_client_offices_url: (*untyped) -> String
   def nearest_search_api_v1_client_offices_url: (*untyped) -> String
   def word_search_api_v1_client_offices_url: (*untyped) -> String

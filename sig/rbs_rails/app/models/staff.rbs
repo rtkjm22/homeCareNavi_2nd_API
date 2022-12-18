@@ -295,7 +295,18 @@ class Staff < ::ApplicationRecord
   def office_clients=: (OfficeClient::ActiveRecord_Associations_CollectionProxy | Array[OfficeClient]) -> (OfficeClient::ActiveRecord_Associations_CollectionProxy | Array[OfficeClient])
   def office_client_ids: () -> Array[Integer]
   def office_client_ids=: (Array[Integer]) -> Array[Integer]
-
+  def avatar_attachment: () -> ActiveStorage::Attachment?
+  def avatar_attachment=: (ActiveStorage::Attachment?) -> ActiveStorage::Attachment?
+  def build_avatar_attachment: (untyped) -> ActiveStorage::Attachment
+  def create_avatar_attachment: (untyped) -> ActiveStorage::Attachment
+  def create_avatar_attachment!: (untyped) -> ActiveStorage::Attachment
+  def reload_avatar_attachment: () -> ActiveStorage::Attachment?
+  def avatar_blob: () -> ActiveStorage::Blob?
+  def avatar_blob=: (ActiveStorage::Blob?) -> ActiveStorage::Blob?
+  def build_avatar_blob: (untyped) -> ActiveStorage::Blob
+  def create_avatar_blob: (untyped) -> ActiveStorage::Blob
+  def create_avatar_blob!: (untyped) -> ActiveStorage::Blob
+  def reload_avatar_blob: () -> ActiveStorage::Blob?
   def office: () -> Office
   def office=: (Office?) -> Office?
   def reload_office: () -> Office?
@@ -303,6 +314,14 @@ class Staff < ::ApplicationRecord
   def create_office: (untyped) -> Office
   def create_office!: (untyped) -> Office
   module GeneratedAssociationMethods
+    def avatar: () -> ActiveStorage::Attached::One
+
+    def avatar=: (ActionDispatch::Http::UploadedFile) -> ActionDispatch::Http::UploadedFile
+               | (Rack::Test::UploadedFile) -> Rack::Test::UploadedFile
+               | (ActiveStorage::Blob) -> ActiveStorage::Blob
+               | (String) -> String
+               | ({ io: IO, filename: String, content_type: String? }) -> { io: IO, filename: String, content_type: String? }
+               | (nil) -> nil
   end
   include GeneratedAssociationMethods
 
@@ -312,11 +331,14 @@ class Staff < ::ApplicationRecord
   def role_care_manager?: () -> bool
   def self.role_worker: () -> ActiveRecord_Relation
   def self.role_care_manager: () -> ActiveRecord_Relation
+  def self.with_attached_avatar: () -> ActiveRecord_Relation
 
   module GeneratedRelationMethods
     def role_worker: () -> ActiveRecord_Relation
 
     def role_care_manager: () -> ActiveRecord_Relation
+
+    def with_attached_avatar: () -> ActiveRecord_Relation
   end
 
   class ActiveRecord_Relation < ::ActiveRecord::Relation
