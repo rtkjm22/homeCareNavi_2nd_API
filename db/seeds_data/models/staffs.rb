@@ -41,5 +41,19 @@ module Seed
       puts "-----スタッフ作成完了-----"
     end
 
+    # 現在作成されているStaffにアバター画像を添付する。Staffは非常に多いため、Officeに存在するStaff1名のみ画像添付する。
+    def self.attach_avatar
+      puts "-----事業所1件につき1人のスタッフに対し、画像添付-----"
+      offices = ::Office.all
+      offices.each do |office|
+        office.staffs.first.avatar.attach(
+          io: File.open("#{Rails.root}/db/seeds_data/images/staff_avatar.jpg"),
+          filename: 'staff_avatar.jpg',
+          content_type: 'image/jpg'
+        )
+      end
+      puts "-----スタッフ画像添付終了-----"
+    end
+
   end
 end

@@ -14,8 +14,15 @@ module Seed
       office_array = managers.map do |manager|
         # managerと一致するアドレスのcsv行取得
         row = user_csv_table.find { |user| user['address'] == manager.address }
-        row.to_h.symbolize_keys => { lat:, lng: }
-        FactoryBot.attributes_for(:office, lat:, lng:, manager_id: manager.id, workday: 62) # 62は平日全部
+        row.to_h.symbolize_keys => { lat:, lng:, address: }
+        FactoryBot.attributes_for(
+          :office,
+          lat:,
+          lng:,
+          name: "#{address}_ホームケア",
+          manager_id: manager.id,
+          workday: 62 # 62は平日全部
+        )
       end
 
       ::Office.insert_all!(office_array)
