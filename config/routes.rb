@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         resources :office_images, only: [:create, :update]
         resources :staffs, only: [:index, :create, :update, :destroy]
         resources :office_clients
+        resources :reserves, only: [:index]
       end
 
       namespace :client do
