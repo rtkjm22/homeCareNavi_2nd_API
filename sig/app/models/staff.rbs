@@ -1,0 +1,4 @@
+class Staff < ApplicationRecord
+  # スタッフのアバター画像のURLを返す
+  def avatar_url: () -> ::String?
+end
