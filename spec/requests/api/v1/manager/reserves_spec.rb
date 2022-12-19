@@ -29,4 +29,39 @@ RSpec.describe "Api::V1::Manager::Reserves" do
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end
+
+  describe "POST /api/v1/manager/reserve/:id" do
+    let(:office) { create(:office) }
+    let(:manager) { office.manager }
+    let(:client) { create(:client) }
+    let(:reserve) { office.reserve }
+    let!(:update_params) do
+      attrs = reserve.attributes
+      attrs['is_contacted'] = true
+      attrs
+    end
+
+    it "事業所は、自身の事業所のの予約を更新できる" do
+      login manager
+      expect do
+        patch api_v1_manager_reserve_path(reserve),
+              params: update_params,
+              headers: { ContentType: 'multipart/form-data' }
+        reserve.reload
+      end.to change(reserve, :is_contacted).to(true)
+    end
+
+    it '事業所は、他の事業所の予約を更新ができない' do
+      another_reserve = create(:reserve)
+      update_params = another_reserve.attributes
+      update_params['is_contacted'] = true
+      login manager
+      expect do
+        patch api_v1_manager_reserve_path(another_reserve),
+              params: update_params,
+              headers: { ContentType: 'multipart/form-data' }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+  end
 end
