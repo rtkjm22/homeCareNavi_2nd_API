@@ -1,0 +1,11 @@
+module Api
+  module V1
+    module Overrides
+      class RegistrationsController < DeviseTokenAuth::RegistrationsController
+        # 論理削除するためdevise_token_authのdestroyアクションを上書き
+        # @see https://github.com/lynndylanhurley/devise_token_auth/blob/master/app/controllers/devise_token_auth/registrations_controller.rb#L81
+        def destroy: () { (untyped) -> untyped } -> untyped
+      end
+    end
+  end
+end

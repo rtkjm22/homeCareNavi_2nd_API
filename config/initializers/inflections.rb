@@ -14,3 +14,8 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym "RESTful"
 # end
+
+# reservesが自動でreserfに変換されてしまうため
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+  inflect.irregular "reserve", "reserves"
+end

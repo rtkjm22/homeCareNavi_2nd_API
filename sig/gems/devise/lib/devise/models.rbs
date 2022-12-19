@@ -1,0 +1,43 @@
+module Devise
+  module Models
+    class MissingAttribute < StandardError
+      def initialize: (untyped attributes) -> void
+
+      def message: () -> ::String
+    end
+
+    # Creates configuration values for Devise and for the given module.
+    #
+    #   Devise::Models.config(Devise::Models::DatabaseAuthenticatable, :stretches)
+    #
+    # The line above creates:
+    #
+    #   1) An accessor called Devise.stretches, which value is used by default;
+    #
+    #   2) Some class methods for your model Model.stretches and Model.stretches=
+    #      which have higher priority than Devise.stretches;
+    #
+    #   3) And an instance method stretches.
+    #
+    # To add the class methods you need to have a module ClassMethods defined
+    # inside the given class.
+    #
+    def self.config: (untyped mod, *untyped accessors) -> untyped
+
+    def self.check_fields!: (untyped klass) -> untyped
+
+    # Include the chosen devise modules in your model:
+    #
+    #   devise :database_authenticatable, :confirmable, :recoverable
+    #
+    # You can also give any of the devise configuration values in form of a hash,
+    # with specific values for this model. Please check your Devise initializer
+    # for a complete description on those values.
+    #
+    def devise: (*untyped modules) -> untyped
+
+    # The hook which is called inside devise.
+    # So your ORM can include devise compatibility stuff.
+    def devise_modules_hook!: () { () -> untyped } -> untyped
+  end
+end

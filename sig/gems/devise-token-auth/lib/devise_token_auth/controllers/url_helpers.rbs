@@ -1,0 +1,7 @@
+module DeviseTokenAuth
+  module Controllers
+    module UrlHelpers
+      def self.define_helpers: (untyped mapping) -> nil
+    end
+  end
+end

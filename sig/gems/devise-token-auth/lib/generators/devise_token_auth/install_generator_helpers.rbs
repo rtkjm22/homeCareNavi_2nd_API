@@ -1,0 +1,5 @@
+module DeviseTokenAuth
+  module InstallGeneratorHelpers
+    def self.included: (untyped mod) -> untyped
+  end
+end

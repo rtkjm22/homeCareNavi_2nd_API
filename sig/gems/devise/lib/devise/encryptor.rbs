@@ -1,0 +1,7 @@
+module Devise
+  module Encryptor
+    def self.digest: (untyped klass, untyped password) -> untyped
+
+    def self.compare: (untyped klass, untyped hashed_password, untyped password) -> (false | untyped)
+  end
+end

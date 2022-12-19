@@ -1,0 +1,45 @@
+module DeviseTokenAuth
+  class RegistrationsController < DeviseTokenAuth::ApplicationController
+    def create: () { (untyped) -> untyped } -> untyped
+
+    def update: () { (untyped) -> untyped } -> untyped
+
+    def destroy: () { (untyped) -> untyped } -> untyped
+
+    def sign_up_params: () -> untyped
+
+    def account_update_params: () -> untyped
+
+    def build_resource: () -> untyped
+
+    def render_create_error_missing_confirm_success_url: () -> untyped
+
+    def render_create_error_redirect_url_not_allowed: () -> untyped
+
+    def render_create_success: () -> untyped
+
+    def render_create_error: () -> untyped
+
+    def render_update_success: () -> untyped
+
+    def render_update_error: () -> untyped
+
+    def render_update_error_user_not_found: () -> untyped
+
+    def render_destroy_success: () -> untyped
+
+    def render_destroy_error: () -> untyped
+
+    private
+
+    def resource_update_method: () -> ("update_with_password" | "update_with_password" | "update_with_password" | "update")
+
+    def validate_sign_up_params: () -> untyped
+
+    def validate_account_update_params: () -> untyped
+
+    def validate_post_data: (untyped which, untyped message) -> (untyped | nil)
+
+    def active_for_authentication?: () -> untyped
+  end
+end

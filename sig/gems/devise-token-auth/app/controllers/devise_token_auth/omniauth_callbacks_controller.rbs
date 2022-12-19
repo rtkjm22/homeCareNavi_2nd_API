@@ -1,0 +1,85 @@
+module DeviseTokenAuth
+  class OmniauthCallbacksController < DeviseTokenAuth::ApplicationController
+    attr_reader auth_params: untyped
+
+    # intermediary route for successful omniauth authentication. omniauth does
+    # not support multiple models, so we must resort to this terrible hack.
+    def redirect_callbacks: () -> untyped
+
+    def get_redirect_route: (untyped devise_mapping) -> untyped
+
+    def get_devise_mapping: () -> untyped
+
+    # This method will only be called if `get_devise_mapping` cannot
+    # find the mapping in `omniauth.params`.
+    #
+    # One example use-case here is for IDP-initiated SAML login.  In that
+    # case, there will have been no initial request in which to save
+    # the devise mapping.  If you are in a situation like that, and
+    # your app allows for you to determine somehow what the devise
+    # mapping should be (because, for example, it is always the same),
+    # then you can handle it by overriding this method.
+    def default_devise_mapping: () -> untyped
+
+    def omniauth_success: () { (untyped) -> untyped } -> untyped
+
+    def omniauth_failure: () -> untyped
+
+    def validate_auth_origin_url_param: () -> (untyped | nil)
+
+    # this will be determined differently depending on the action that calls
+    # it. redirect_callbacks is called upon returning from successful omniauth
+    # authentication, and the target params live in an omniauth-specific
+    # request.env variable. this variable is then persisted thru the redirect
+    # using our own dta.omniauth.params session var. the omniauth_success
+    # method will access that session var and then destroy it immediately
+    # after use.  In the failure case, finally, the omniauth params
+    # are added as query params in our monkey patch to OmniAuth in engine.rb
+    def omniauth_params: () -> untyped
+
+    # break out provider attribute assignment for easy method extension
+    def assign_provider_attrs: (untyped user, untyped auth_hash) -> untyped
+
+    # derive allowed params from the standard devise parameter sanitizer
+    def whitelisted_params: () -> untyped
+
+    def resource_class: (?untyped? mapping) -> untyped
+
+    def resource_name: () -> untyped
+
+    def omniauth_window_type: () -> untyped
+
+    def unsafe_auth_origin_url: () -> untyped
+
+    def auth_origin_url: () -> (nil | untyped)
+
+    # this sesison value is set by the redirect_callbacks method. its purpose
+    # is to persist the omniauth auth hash value thru a redirect. the value
+    # must be destroyed immediatly after it is accessed by omniauth_success
+    def auth_hash: () -> untyped
+
+    # ensure that this controller responds to :devise_controller? conditionals.
+    # this is used primarily for access to the parameter sanitizers.
+    def assert_is_devise_resource!: () -> true
+
+    def set_random_password: () -> untyped
+
+    def create_auth_params: () -> untyped
+
+    def set_token_on_resource: () -> untyped
+
+    def render_error_not_allowed_auth_origin_url: () -> untyped
+
+    def render_data: (untyped message, untyped data) -> untyped
+
+    def render_data_or_redirect: (untyped message, untyped data, ?::Hash[untyped, untyped] user_data) -> untyped
+
+    def fallback_render: (untyped text) -> untyped
+
+    def handle_new_resource: () -> untyped
+
+    def assign_whitelisted_params?: () -> true
+
+    def get_resource_from_auth_hash: () -> untyped
+  end
+end

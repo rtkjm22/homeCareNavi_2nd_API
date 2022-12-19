@@ -1,0 +1,9 @@
+module Api
+  module V1
+    module Manager
+      class StaffsController < ApplicationController
+        def index: () -> void
+      end
+    end
+  end
+end

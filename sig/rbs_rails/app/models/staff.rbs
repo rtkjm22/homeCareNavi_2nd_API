@@ -1,0 +1,354 @@
+class Staff < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Staff, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def office_id: () -> Integer
+
+    def office_id=: (Integer) -> Integer
+
+    def office_id?: () -> bool
+
+    def office_id_changed?: () -> bool
+
+    def office_id_change: () -> [ Integer?, Integer? ]
+
+    def office_id_will_change!: () -> void
+
+    def office_id_was: () -> Integer?
+
+    def office_id_previously_changed?: () -> bool
+
+    def office_id_previous_change: () -> Array[Integer?]?
+
+    def office_id_previously_was: () -> Integer?
+
+    def office_id_before_last_save: () -> Integer?
+
+    def office_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def office_id_in_database: () -> Integer?
+
+    def saved_change_to_office_id: () -> Array[Integer?]?
+
+    def saved_change_to_office_id?: () -> bool
+
+    def will_save_change_to_office_id?: () -> bool
+
+    def restore_office_id!: () -> void
+
+    def clear_office_id_change: () -> void
+
+    def name: () -> String
+
+    def name=: (String) -> String
+
+    def name?: () -> bool
+
+    def name_changed?: () -> bool
+
+    def name_change: () -> [ String?, String? ]
+
+    def name_will_change!: () -> void
+
+    def name_was: () -> String?
+
+    def name_previously_changed?: () -> bool
+
+    def name_previous_change: () -> Array[String?]?
+
+    def name_previously_was: () -> String?
+
+    def name_before_last_save: () -> String?
+
+    def name_change_to_be_saved: () -> Array[String?]?
+
+    def name_in_database: () -> String?
+
+    def saved_change_to_name: () -> Array[String?]?
+
+    def saved_change_to_name?: () -> bool
+
+    def will_save_change_to_name?: () -> bool
+
+    def restore_name!: () -> void
+
+    def clear_name_change: () -> void
+
+    def furigana: () -> String
+
+    def furigana=: (String) -> String
+
+    def furigana?: () -> bool
+
+    def furigana_changed?: () -> bool
+
+    def furigana_change: () -> [ String?, String? ]
+
+    def furigana_will_change!: () -> void
+
+    def furigana_was: () -> String?
+
+    def furigana_previously_changed?: () -> bool
+
+    def furigana_previous_change: () -> Array[String?]?
+
+    def furigana_previously_was: () -> String?
+
+    def furigana_before_last_save: () -> String?
+
+    def furigana_change_to_be_saved: () -> Array[String?]?
+
+    def furigana_in_database: () -> String?
+
+    def saved_change_to_furigana: () -> Array[String?]?
+
+    def saved_change_to_furigana?: () -> bool
+
+    def will_save_change_to_furigana?: () -> bool
+
+    def restore_furigana!: () -> void
+
+    def clear_furigana_change: () -> void
+
+    def introduction: () -> String?
+
+    def introduction=: (String?) -> String?
+
+    def introduction?: () -> bool
+
+    def introduction_changed?: () -> bool
+
+    def introduction_change: () -> [ String?, String? ]
+
+    def introduction_will_change!: () -> void
+
+    def introduction_was: () -> String?
+
+    def introduction_previously_changed?: () -> bool
+
+    def introduction_previous_change: () -> Array[String?]?
+
+    def introduction_previously_was: () -> String?
+
+    def introduction_before_last_save: () -> String?
+
+    def introduction_change_to_be_saved: () -> Array[String?]?
+
+    def introduction_in_database: () -> String?
+
+    def saved_change_to_introduction: () -> Array[String?]?
+
+    def saved_change_to_introduction?: () -> bool
+
+    def will_save_change_to_introduction?: () -> bool
+
+    def restore_introduction!: () -> void
+
+    def clear_introduction_change: () -> void
+
+    def role: () -> String?
+
+    def role=: (String?) -> String?
+
+    def role?: () -> bool
+
+    def role_changed?: () -> bool
+
+    def role_change: () -> [ String?, String? ]
+
+    def role_will_change!: () -> void
+
+    def role_was: () -> String?
+
+    def role_previously_changed?: () -> bool
+
+    def role_previous_change: () -> Array[String?]?
+
+    def role_previously_was: () -> String?
+
+    def role_before_last_save: () -> String?
+
+    def role_change_to_be_saved: () -> Array[String?]?
+
+    def role_in_database: () -> String?
+
+    def saved_change_to_role: () -> Array[String?]?
+
+    def saved_change_to_role?: () -> bool
+
+    def will_save_change_to_role?: () -> bool
+
+    def restore_role!: () -> void
+
+    def clear_role_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone
+
+    def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone
+
+    def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+  end
+  include GeneratedAttributeMethods
+  def office_clients: () -> OfficeClient::ActiveRecord_Associations_CollectionProxy
+  def office_clients=: (OfficeClient::ActiveRecord_Associations_CollectionProxy | Array[OfficeClient]) -> (OfficeClient::ActiveRecord_Associations_CollectionProxy | Array[OfficeClient])
+  def office_client_ids: () -> Array[Integer]
+  def office_client_ids=: (Array[Integer]) -> Array[Integer]
+  def avatar_attachment: () -> ActiveStorage::Attachment?
+  def avatar_attachment=: (ActiveStorage::Attachment?) -> ActiveStorage::Attachment?
+  def build_avatar_attachment: (untyped) -> ActiveStorage::Attachment
+  def create_avatar_attachment: (untyped) -> ActiveStorage::Attachment
+  def create_avatar_attachment!: (untyped) -> ActiveStorage::Attachment
+  def reload_avatar_attachment: () -> ActiveStorage::Attachment?
+  def avatar_blob: () -> ActiveStorage::Blob?
+  def avatar_blob=: (ActiveStorage::Blob?) -> ActiveStorage::Blob?
+  def build_avatar_blob: (untyped) -> ActiveStorage::Blob
+  def create_avatar_blob: (untyped) -> ActiveStorage::Blob
+  def create_avatar_blob!: (untyped) -> ActiveStorage::Blob
+  def reload_avatar_blob: () -> ActiveStorage::Blob?
+  def office: () -> Office
+  def office=: (Office?) -> Office?
+  def reload_office: () -> Office?
+  def build_office: (untyped) -> Office
+  def create_office: (untyped) -> Office
+  def create_office!: (untyped) -> Office
+  module GeneratedAssociationMethods
+    def avatar: () -> ActiveStorage::Attached::One
+
+    def avatar=: (ActionDispatch::Http::UploadedFile) -> ActionDispatch::Http::UploadedFile
+               | (Rack::Test::UploadedFile) -> Rack::Test::UploadedFile
+               | (ActiveStorage::Blob) -> ActiveStorage::Blob
+               | (String) -> String
+               | ({ io: IO, filename: String, content_type: String? }) -> { io: IO, filename: String, content_type: String? }
+               | (nil) -> nil
+  end
+  include GeneratedAssociationMethods
+
+  def role_worker!: () -> bool
+  def role_worker?: () -> bool
+  def role_care_manager!: () -> bool
+  def role_care_manager?: () -> bool
+  def self.role_worker: () -> ActiveRecord_Relation
+  def self.role_care_manager: () -> ActiveRecord_Relation
+  def self.with_attached_avatar: () -> ActiveRecord_Relation
+
+  module GeneratedRelationMethods
+    def role_worker: () -> ActiveRecord_Relation
+
+    def role_care_manager: () -> ActiveRecord_Relation
+
+    def with_attached_avatar: () -> ActiveRecord_Relation
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Staff, Integer]
+    include Enumerable[Staff]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Staff, Integer]
+  end
+end

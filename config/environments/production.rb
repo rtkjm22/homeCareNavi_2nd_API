@@ -31,13 +31,16 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  config.active_storage.service = :amazon
+  Rails.application.routes.default_url_options[:protocol] = 'https'
+  Rails.application.routes.default_url_options[:host] = 'api.home-care-navi-second-api.fun'
+  Rails.application.routes.default_url_options[:port] = ENV['SERVER_PORT']
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
   config.ssl_options = { redirect: { exclude: ->(request) { /health_check/.match?(request.path) } } }
 
-  config.hosts << 'api.home-care-navi-second.work'
+  config.hosts << 'api.home-care-navi-second-api.fun'
   config.hosts << IPAddr.new('10.0.0.0/16')
 
   # Include generic and useful information about system operation, but avoid logging too much
@@ -82,4 +85,15 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = {  host: 'https://api.home-care-navi-second-api.fun', port: ENV['SERVER_PORT'] }
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    domain: 'gmail.com',
+    port: 587,
+    user_name: Rails.application.credentials.gmail[:user_name],
+    password: Rails.application.credentials.gmail[:password],
+    authentication: :login
+  }
 end

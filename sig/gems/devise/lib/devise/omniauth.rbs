@@ -1,0 +1,4 @@
+module Devise
+  module OmniAuth
+  end
+end

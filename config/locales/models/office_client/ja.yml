@@ -1,0 +1,14 @@
+ja:
+  activerecord:
+    models:
+      office_client: '事業所管理クライアント'
+
+    attributes:
+      office_client:
+        name: '名前'
+        age: '年齢'
+        furigana: '名前のふりがな'
+        postal: '郵便番号'
+        address: '住所'
+        family: '家族情報'
+        avatar: 'アバター画像'

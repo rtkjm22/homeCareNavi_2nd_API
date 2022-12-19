@@ -1,0 +1,15 @@
+module Api
+  module V1
+    module Manager
+      class OfficeOverviewsController < ApplicationController
+        def show: () -> untyped
+
+        def update: () -> untyped
+
+        private
+
+        def office_overview_params: () -> ActionController::Parameters
+      end
+    end
+  end
+end

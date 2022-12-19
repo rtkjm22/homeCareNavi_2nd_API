@@ -1,0 +1,30 @@
+class Devise::SessionsController < DeviseController
+  # GET /resource/sign_in
+  def new: () { (untyped) -> untyped } -> untyped
+
+  # POST /resource/sign_in
+  def create: () { (untyped) -> untyped } -> untyped
+
+  # DELETE /resource/sign_out
+  def destroy: () { () -> untyped } -> untyped
+
+  def sign_in_params: () -> untyped
+
+  def serialize_options: (untyped resource) -> { methods: untyped, only: ::Array[:password] }
+
+  def auth_options: () -> { scope: untyped, recall: ::String }
+
+  def translation_scope: () -> "devise.sessions"
+
+  private
+
+  # Check if there is no signed in user before doing the sign out.
+  #
+  # If there is no signed in user, it will set the flash message and redirect
+  # to the after_sign_out path.
+  def verify_signed_out_user: () -> (untyped | nil)
+
+  def all_signed_out?: () -> untyped
+
+  def respond_to_on_destroy: () -> untyped
+end

@@ -1,0 +1,13 @@
+module Devise
+  class TokenGenerator
+    def initialize: (untyped key_generator, ?::String digest) -> void
+
+    def digest: (untyped klass, untyped column, untyped value) -> untyped
+
+    def generate: (untyped klass, untyped column) -> untyped
+
+    private
+
+    def key_for: (untyped column) -> untyped
+  end
+end

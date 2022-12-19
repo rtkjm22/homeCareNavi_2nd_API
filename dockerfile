@@ -18,4 +18,4 @@ RUN apk update && \
     apk del build-dependencies && \
     rm -f ${HOME}/tmp/pids/server.pid
 
-EXPOSE 3000
+EXPOSE 3000 4000

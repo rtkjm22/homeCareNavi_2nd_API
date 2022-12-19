@@ -1,0 +1,71 @@
+{
+  "containerDefinitions": [
+    {
+      "name": "home_care_navi_second_api",
+      "image": "299271904246.dkr.ecr.ap-northeast-1.amazonaws.com/home-care-navi-second-api:latest",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "containerPort": 4000,
+          "hostPort": 4000,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "command": [
+        "rake",
+        "production:start"
+      ],
+      "environment": [
+        {
+          "name": "RAILS_LOG_TO_STDOUT",
+          "value": "enabled"
+        },
+        {
+          "name": "RAILS_ENV",
+          "value": "production"
+        },
+        {
+          "name": "CORS_URL",
+          "value": "https://www.home-care-navi-second-stg.fun"
+        },
+        {
+          "name": "DATABASE_NAME",
+          "value": "home_care_navi_second_staging"
+        },
+        {
+          "name": "SERVER_PORT",
+          "value": "4000"
+        }
+      ],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "secrets": [
+        {
+          "name": "RAILS_MASTER_KEY",
+          "valueFrom": "/api/rails-master-key"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/api_dev",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "ecs-api-dev"
+        }
+      }
+    }
+  ],
+  "family": "home_care_navi_second_api_dev",
+  "taskRoleArn": "arn:aws:iam::299271904246:role/ecs-for-exec",
+  "executionRoleArn": "arn:aws:iam::299271904246:role/ecs-task-execution",
+  "networkMode": "awsvpc",
+  "volumes": [],
+  "placementConstraints": [],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "512",
+  "tags": []
+}

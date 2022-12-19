@@ -1,0 +1,11 @@
+class DeviseTokenAuthEmailValidator < ActiveModel::EachValidator
+  EMAIL_REGEXP: ::Regexp
+
+  def self.validate?: (untyped email) -> untyped
+
+  def validate_each: (untyped record, untyped attribute, untyped value) -> (untyped | nil)
+
+  private
+
+  def email_invalid_message: () -> untyped
+end

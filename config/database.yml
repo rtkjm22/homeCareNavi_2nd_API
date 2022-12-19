@@ -84,6 +84,6 @@ test:
 #
 production:
   <<: *default
-  database: home_care_navi_second_production
+  database: <%= ENV['DATABASE_NAME'] %>
   password: <%= Rails.application.credentials.dig(:db, :password) %>
   host: <%= Rails.application.credentials.dig(:db, :host) %>

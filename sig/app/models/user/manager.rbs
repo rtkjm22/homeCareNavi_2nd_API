@@ -1,0 +1,21 @@
+class Manager < User
+  include HeartRailsGeoApi
+  extend Discard::Model::ClassMethods[::Manager, Integer]
+  def office: () -> Office
+  def office=: (Office?) -> Office?
+  def reload_office: () -> Office?
+  def build_office: (untyped) -> Office
+  def create_office: (untyped) -> Office
+  def create_office!: (untyped) -> Office
+
+  # オフィスの経度緯度及び最寄り駅を埋めた上でbuildする
+  # 郵便番号によってはヒットしないこともあるので、その場合はエラーにせず、
+  # 登録後に編集画面でユーザーに手入力してもらう
+  def build_office_with_location: () -> Office
+
+  # 郵便番号から緯度経度を取得する
+  private def fetch_lat_lng: (String) -> { x: Float?, y: Float? }
+
+  # 郵便番号から最寄り駅名と距離を取得する
+  private def fetch_station: (String) -> { name: String?, distance: String? }
+end

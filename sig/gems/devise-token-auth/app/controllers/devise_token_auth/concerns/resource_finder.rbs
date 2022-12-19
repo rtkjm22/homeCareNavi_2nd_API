@@ -1,0 +1,15 @@
+module DeviseTokenAuth::Concerns::ResourceFinder
+  extend ActiveSupport::Concern
+
+  include DeviseTokenAuth::Controllers::Helpers
+
+  def get_case_insensitive_field_from_resource_params: (untyped field) -> untyped
+
+  def find_resource: (untyped field, untyped value) -> untyped
+
+  def database_adapter: () -> untyped
+
+  def resource_class: (?untyped? m) -> untyped
+
+  def provider: () -> "email"
+end

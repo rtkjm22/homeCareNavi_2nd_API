@@ -30,6 +30,17 @@ module HomeCareNaviSecond
 
     config.generators do |g|
       g.test_framework :rspec
+      g.skip_routes
     end
+
+    # STI設定のディレクトリ設定
+    config.autoload_paths += %W[#{config.root}/app/models/user]
+
+    # パスワードリセット時のリダイレクトでエラーが発生するため、下記の設定を追加
+    # @see https://github.com/lynndylanhurley/devise_token_auth/issues/1536
+    config.action_controller.raise_on_open_redirects = false
+
+    # active storageの非推奨の拡張子で警告を出さない。これを有効にしないと、何故かimage/pngで警告が出てしまう
+    config.active_storage.silence_invalid_content_types_warning = true
   end
 end

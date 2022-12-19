@@ -1,0 +1,100 @@
+module Devise
+  # Responsible for handling devise mappings and routes configuration. Each
+  # resource configured by devise_for in routes is actually creating a mapping
+  # object. You can refer to devise_for in routes for usage options.
+  #
+  # The required value in devise_for is actually not used internally, but it's
+  # inflected to find all other values.
+  #
+  #   map.devise_for :users
+  #   mapping = Devise.mappings[:user]
+  #
+  #   mapping.name #=> :user
+  #   # is the scope used in controllers and warden, given in the route as :singular.
+  #
+  #   mapping.as   #=> "users"
+  #   # how the mapping should be search in the path, given in the route as :as.
+  #
+  #   mapping.to   #=> User
+  #   # is the class to be loaded from routes, given in the route as :class_name.
+  #
+  #   mapping.modules  #=> [:authenticatable]
+  #   # is the modules included in the class
+  #
+  class Mapping
+    attr_reader singular: untyped
+
+    attr_reader scoped_path: untyped
+
+    attr_reader path: untyped
+
+    attr_reader controllers: untyped
+
+    attr_reader path_names: untyped
+
+    attr_reader class_name: untyped
+
+    attr_reader sign_out_via: untyped
+
+    attr_reader format: untyped
+
+    attr_reader used_routes: untyped
+
+    attr_reader used_helpers: untyped
+
+    attr_reader failure_app: untyped
+
+    attr_reader router_name: untyped
+
+    alias name singular
+
+    # Receives an object and find a scope for it. If a scope cannot be found,
+    # raises an error. If a symbol is given, it's considered to be the scope.
+    def self.find_scope!: (untyped obj) -> untyped
+
+    def self.find_by_path!: (untyped path, ?::Symbol path_type) -> untyped
+
+    def initialize: (untyped name, untyped options) -> void
+
+    # Return modules for the mapping.
+    def modules: () -> untyped
+
+    # Gives the class the mapping points to.
+    def to: () -> untyped
+
+    def strategies: () -> untyped
+
+    def no_input_strategies: () -> untyped
+
+    def routes: () -> untyped
+
+    def authenticatable?: () -> untyped
+
+    def fullpath: () -> untyped
+
+    # Create magic predicates for verifying what module is activated by this map.
+    # Example:
+    #
+    #   def confirmable?
+    #     self.modules.include?(:confirmable)
+    #   end
+    #
+    def self.add_module: (untyped m) -> untyped
+
+    private
+
+    def default_failure_app: (untyped options) -> untyped
+
+    def default_controllers: (untyped options) -> untyped
+
+    def default_path_names: (untyped options) -> untyped
+
+    def default_constraints: (untyped options) -> untyped
+
+    def default_defaults: (untyped options) -> untyped
+
+    def default_used_route: (untyped options) -> untyped
+
+    def default_used_helpers: (untyped options) -> untyped
+  end
+end

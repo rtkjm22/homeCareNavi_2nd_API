@@ -1,0 +1,144 @@
+# How to use with rbs
+#
+# Write the rbs file as follows:
+#
+# ==== Examples
+#
+#   class User < ApplicationRecord
+#     include Discard::Model
+#     extend Discard::Model::ClassMethods[::User, Integer]
+#   end
+#
+module Discard
+  # Handles soft deletes of records.
+  #
+  # Options:
+  #
+  # - :discard_column - The columns used to track soft delete, defaults to `:discarded_at`.
+  module Model
+    extend ActiveSupport::Concern
+
+    # :nodoc:
+    module ClassMethods[Model, PrimaryKey]
+      def discard_column: () -> untyped
+      def discard_column=: (untyped) -> untyped
+      def discard_column?: () -> bool
+      def kept: () -> _ActiveRecord_Relation[Model, PrimaryKey]
+      def undiscarded: () -> _ActiveRecord_Relation[Model, PrimaryKey]
+      def discarded: () -> _ActiveRecord_Relation[Model, PrimaryKey]
+      def with_discarded: () -> _ActiveRecord_Relation[Model, PrimaryKey]
+
+      # Discards the records by instantiating each
+      # record and calling its {#discard} method.
+      # Each object's callbacks are executed.
+      # Returns the collection of objects that were discarded.
+      #
+      # Note: Instantiation, callback execution, and update of each
+      # record can be time consuming when you're discarding many records at
+      # once. It generates at least one SQL +UPDATE+ query per record (or
+      # possibly more, to enforce your callbacks). If you want to discard many
+      # rows quickly, without concern for their associations or callbacks, use
+      # #update_all(discarded_at: Time.current) instead.
+      #
+      # ==== Examples
+      #
+      #   Person.where(age: 0..18).discard_all
+      def discard_all: () -> Array[Model?]
+
+      # Discards the records by instantiating each
+      # record and calling its {#discard!} method.
+      # Each object's callbacks are executed.
+      # Returns the collection of objects that were discarded.
+      #
+      # Note: Instantiation, callback execution, and update of each
+      # record can be time consuming when you're discarding many records at
+      # once. It generates at least one SQL +UPDATE+ query per record (or
+      # possibly more, to enforce your callbacks). If you want to discard many
+      # rows quickly, without concern for their associations or callbacks, use
+      # #update_all!(discarded_at: Time.current) instead.
+      #
+      # ==== Examples
+      #
+      #   Person.where(age: 0..18).discard_all!
+      def discard_all!: () -> Array[Model?]
+
+      # Undiscards the records by instantiating each
+      # record and calling its {#undiscard} method.
+      # Each object's callbacks are executed.
+      # Returns the collection of objects that were undiscarded.
+      #
+      # Note: Instantiation, callback execution, and update of each
+      # record can be time consuming when you're undiscarding many records at
+      # once. It generates at least one SQL +UPDATE+ query per record (or
+      # possibly more, to enforce your callbacks). If you want to undiscard many
+      # rows quickly, without concern for their associations or callbacks, use
+      # #update_all(discarded_at: nil) instead.
+      #
+      # ==== Examples
+      #
+      #   Person.where(age: 0..18).undiscard_all
+      def undiscard_all: () -> Array[Model?]
+
+      # Undiscards the records by instantiating each
+      # record and calling its {#undiscard!} method.
+      # Each object's callbacks are executed.
+      # Returns the collection of objects that were undiscarded.
+      #
+      # Note: Instantiation, callback execution, and update of each
+      # record can be time consuming when you're undiscarding many records at
+      # once. It generates at least one SQL +UPDATE+ query per record (or
+      # possibly more, to enforce your callbacks). If you want to undiscard many
+      # rows quickly, without concern for their associations or callbacks, use
+      # #update_all!(discarded_at: nil) instead.
+      #
+      # ==== Examples
+      #
+      #   Person.where(age: 0..18).undiscard_all!
+      def undiscard_all!: () -> Array[Model?]
+    end
+
+    # @return [Boolean] true if this record has been discarded, otherwise false
+    def discarded?: () -> bool
+
+    # @return [Boolean] false if this record has been discarded, otherwise true
+    def undiscarded?: () -> bool
+
+    alias kept? undiscarded?
+
+    # Discard the record in the database
+    #
+    # @return [Boolean] true if successful, otherwise false
+    def discard: () -> bool
+
+    # Discard the record in the database
+    #
+    # There's a series of callbacks associated with #discard!. If the
+    # <tt>before_discard</tt> callback throws +:abort+ the action is cancelled
+    # and #discard! raises {Discard::RecordNotDiscarded}.
+    #
+    # @return [Boolean] true if successful
+    # @raise {Discard::RecordNotDiscarded}
+    def discard!: () -> void
+
+    # Undiscard the record in the database
+    #
+    # @return [Boolean] true if successful, otherwise false
+    def undiscard: () -> bool
+
+    # Discard the record in the database
+    #
+    # There's a series of callbacks associated with #undiscard!. If the
+    # <tt>before_undiscard</tt> callback throws +:abort+ the action is cancelled
+    # and #undiscard! raises {Discard::RecordNotUndiscarded}.
+    #
+    # @return [Boolean] true if successful
+    # @raise {Discard::RecordNotUndiscarded}
+    def undiscard!: () -> void
+
+    private
+
+    def _raise_record_not_discarded: () -> untyped
+
+    def _raise_record_not_undiscarded: () -> untyped
+  end
+end

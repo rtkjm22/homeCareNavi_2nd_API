@@ -1,0 +1,21 @@
+module Discard
+  # = Discard Errors
+  #
+  # Generic exception class.
+  class DiscardError < StandardError
+  end
+
+  # Raised by {Discard::Model#discard!}
+  class RecordNotDiscarded < DiscardError
+    attr_reader record: untyped
+
+    def initialize: (?untyped? message, ?untyped? record) -> void
+  end
+
+  # Raised by {Discard::Model#undiscard!}
+  class RecordNotUndiscarded < DiscardError
+    attr_reader record: untyped
+
+    def initialize: (?untyped? message, ?untyped? record) -> void
+  end
+end

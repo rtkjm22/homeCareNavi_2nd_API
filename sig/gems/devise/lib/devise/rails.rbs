@@ -1,0 +1,4 @@
+module Devise
+  class Engine < ::Rails::Engine
+  end
+end
