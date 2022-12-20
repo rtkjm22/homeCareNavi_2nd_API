@@ -34,32 +34,24 @@ RSpec.describe "Api::V1::Manager::Reserves" do
     let(:office) { create(:office) }
     let(:manager) { office.manager }
     let(:client) { create(:client) }
-    let(:reserve) { office.reserve }
-    let!(:update_params) do
-      attrs = reserve.attributes
-      attrs['is_contacted'] = true
-      attrs
-    end
 
-    it "事業所は、自身の事業所のの予約を更新できる" do
+    it "事業所は、自身の事業所の予約を更新できる" do
+      reserve = create(:reserve, office:)
+
       login manager
-      expect do
-        patch api_v1_manager_reserve_path(reserve),
-              params: update_params,
-              headers: { ContentType: 'multipart/form-data' }
-        reserve.reload
-      end.to change(reserve, :is_contacted).to(true)
+
+      patch api_v1_manager_reserve_path(reserve)
+      expect(response).to have_http_status(200)
+      expect(reserve.reload.is_contacted).to eq true
     end
 
     it '事業所は、他の事業所の予約を更新ができない' do
-      another_reserve = create(:reserve)
-      update_params = another_reserve.attributes
-      update_params['is_contacted'] = true
+      reserve = create(:reserve)
+
       login manager
+
       expect do
-        patch api_v1_manager_reserve_path(another_reserve),
-              params: update_params,
-              headers: { ContentType: 'multipart/form-data' }
+        patch api_v1_manager_reserve_path(reserve)
       end.to raise_error(ActiveRecord::RecordNotFound)
     end
 
