@@ -29,4 +29,31 @@ RSpec.describe "Api::V1::Manager::Reserves" do
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end
+
+  describe "POST /api/v1/manager/reserve/:id" do
+    let(:office) { create(:office) }
+    let(:manager) { office.manager }
+    let(:client) { create(:client) }
+
+    it "事業所は、自身の事業所の予約を更新できる" do
+      reserve = create(:reserve, office:)
+
+      login manager
+
+      patch api_v1_manager_reserve_path(reserve)
+      expect(response).to have_http_status(200)
+      expect(reserve.reload.is_contacted).to eq true
+    end
+
+    it '事業所は、他の事業所の予約を更新ができない' do
+      reserve = create(:reserve)
+
+      login manager
+
+      expect do
+        patch api_v1_manager_reserve_path(reserve)
+      end.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+  end
 end
