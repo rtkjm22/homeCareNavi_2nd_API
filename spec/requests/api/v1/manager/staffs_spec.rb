@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Manager::Staffs' do
-
   let(:office) { create(:office) } # create(:staff) → create(:office)
   let(:manager) { office.manager }
   let(:client) { create(:client) }
@@ -89,7 +88,6 @@ RSpec.describe 'Api::V1::Manager::Staffs' do
   end
 
   describe 'DELETE /api/v1/manager/staffs/:id' do
-
     before do
       @staff = create(:staff, office:)
     end
@@ -105,10 +103,10 @@ RSpec.describe 'Api::V1::Manager::Staffs' do
     it '自分の事業所に所属していないスタッフを削除するとき、エラーが返ること' do
       another_staff = create(:staff)
       login office.manager
-      expect {
+      expect do
         delete api_v1_manager_staff_path(another_staff)
         response
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      end.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it 'ログインしていない場合、エラーが返ってくること' do
