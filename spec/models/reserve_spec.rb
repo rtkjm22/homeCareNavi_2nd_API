@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Reserve do
   describe 'バリデーション' do
     context '関連付け' do
-      it { is_expected.to belong_to(:office)}
-      it { is_expected.to belong_to(:client)}
+      it { is_expected.to belong_to(:office) }
+      it { is_expected.to belong_to(:client) }
     end
 
     context 'interview_begin_at' do

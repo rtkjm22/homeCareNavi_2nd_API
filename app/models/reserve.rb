@@ -8,5 +8,4 @@ class Reserve < ApplicationRecord
   validates :user_age, presence: true
   validates :contact_tel, presence: true
   validates :is_contacted, inclusion: [true, false]
-
 end

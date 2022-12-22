@@ -7,8 +7,8 @@ module Api
         before_action :authenticate_api_v1_manager!
 
         def index
-          belong_staffs = current_api_v1_user.office.staffs
-          render json: belong_staffs, status: :ok
+          staffs = current_api_v1_user.office.staffs
+          render json: staffs, status: :ok
         end
 
         def create

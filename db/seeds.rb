@@ -4,6 +4,7 @@ Dir[File.dirname(__FILE__) + '/seeds_data/models/*.rb'].each do |file|
 end
 
 Seed::Manager.create_managers
+Seed::Client.create_clients
 
 Seed::Office.create_offices
 
@@ -13,3 +14,4 @@ Seed::OfficeImage.create_carousels
 Seed::OfficeImage.create_features
 Seed::Staffs.create_staffs
 Seed::OfficeClient.create_office_clients
+Seed::Reserve.create_reserves
