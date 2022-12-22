@@ -18,6 +18,7 @@ module Api
         end
 
         private
+
         def reserve_params
           params.permit(:office_id, :interview_begin_at, :interview_end_at, :user_name, :user_age, :contact_tel, :note)
         end

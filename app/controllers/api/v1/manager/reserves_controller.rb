@@ -19,10 +19,7 @@ module Api
             render json: reserve_to_update.as_error_json, status: :bad_request
           end
         end
-
       end
     end
   end
 end
-
-

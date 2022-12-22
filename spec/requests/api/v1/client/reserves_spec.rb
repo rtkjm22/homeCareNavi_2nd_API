@@ -1,12 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe "Api::V1::Client::Reserves", type: :request do
-
-  describe "GET /api/v1/client/reserves" do
+RSpec.describe 'Api::V1::Client::Reserves' do
+  describe 'GET /api/v1/client/reserves' do
     let(:client) { create(:client) }
     let(:manager) { create(:manager) }
 
-    it "事業所利用者が、自身の予約一覧を取得できること" do
+    it '事業所利用者が、自身の予約一覧を取得できること' do
       create_list(:reserve, 5, client:)
       create_list(:reserve, 3)
 
