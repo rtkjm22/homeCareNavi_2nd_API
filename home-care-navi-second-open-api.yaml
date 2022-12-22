@@ -1012,17 +1012,51 @@ paths:
                         thanks_messages:
                           - リハビリのノウハウがあり、足の悪い父のお世話も安心して任せられました。
                           - とても親切な対応で、またお世話にさせていただこうと思いました！
+                      - id: 2
+                        name: 田中　次郎
+                        furigana: たなか　じろう
+                        introduction: スタッフ紹介テキストが入ります
+                        role: worker
+                        avatar_url: 'https://gravatar.com/avatar/3f01516b4a15256a7499653db6b9f27e?s=400&d=robohash&r=x'
+                        thanks_messages:
                           - 感謝感激です。毎回お世話になってます。
+                      - id: 3
+                        name: 田中　三郎
+                        furigana: たなか　さぶろう
+                        introduction: スタッフ紹介テキストが入ります
+                        role: worker
+                        avatar_url: 'https://gravatar.com/avatar/3f01516b4a15256a7499653db6b9f27e?s=400&d=robohash&r=x'
+                      - id: 4
+                        name: 田中　四郎
+                        furigana: たなか　しろう
+                        introduction: スタッフ紹介テキストが入ります
+                        role: worker
+                        avatar_url: 'https://gravatar.com/avatar/3f01516b4a15256a7499653db6b9f27e?s=400&d=robohash&r=x'
                     carousel_images:
                       - id: 1
-                        caption: 画像の説明テキストが入ります
-                        role: thumbnail
-                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                        role: carousel
+                        image_url: 'https://picsum.photos/200/300'
+                      - id: 2
+                        role: carousel
+                        image_url: 'https://picsum.photos/200/300'
+                      - id: 3
+                        role: carousel
+                        image_url: 'https://picsum.photos/200/300'
+                      - id: 4
+                        role: carousel
+                        image_url: 'https://picsum.photos/200/300'
+                      - id: 5
+                        role: carousel
+                        image_url: 'https://picsum.photos/200/300'
                     feature_images:
-                      - id: 1
+                      - id: 6
                         caption: 画像の説明テキストが入ります
-                        role: thumbnail
-                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                        role: feature
+                        image_url: 'https://picsum.photos/200/300'
+                      - id: 7
+                        caption: 画像の説明テキストが入ります
+                        role: feature
+                        image_url: 'https://picsum.photos/200/300'
                     office_overview:
                       id: 1
                       classify: 介護付きホーム（サービス付き高齢者向け住宅　特定施設）
@@ -1031,7 +1065,7 @@ paths:
                       requirements: 満60歳以上の方、入居時自立・要支援・要介護
                       shared_facilities: エントランス、食堂兼機能訓練室、個浴、大浴場、特殊浴槽、和室、談話室、シアタールーム、屋上庭園
                       business_entity: 株式会社ユニマット　リタイアメント・コミュニティ
-                      official_site_url: 'https://www.unimat-rc.co.jp/shisetsu/sosigaya_871/index.html'
+                      official_site_url: 'https://example.com'
       operationId: getClientOffice
       description: 単一の事務所の詳細を取得する
     parameters:
@@ -1054,7 +1088,7 @@ paths:
           content:
             application/json:
               examples:
-                全画像作成済みパターン:
+                Example 1:
                   value:
                     id: 1
                     name: ホームケア事務所_1
@@ -1073,53 +1107,19 @@ paths:
                     nearest_station: 北12条駅 徒歩5分
                     thumbnail_image:
                       id: 1
+                      caption: 画像の説明テキストが入ります
                       role: thumbnail
-                      image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                      image_url: 'https://picsum.photos/200/300'
                     feature_images:
-                      - id: 2
-                        caption: 画像の特徴テキストが入ります1
-                        role: feature
-                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
-                      - id: 3
-                        caption: 画像の特徴テキストが入ります2
-                        role: feature
-                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+                      - id: 1
+                        caption: 画像の説明テキストが入ります
+                        role: thumbnail
+                        image_url: 'https://picsum.photos/200/300'
                     carousel_images:
-                      - id: 4
-                        role: carousel
-                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
-                      - id: 5
-                        role: carousel
-                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
-                      - id: 6
-                        role: carousel
-                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
-                      - id: 7
-                        role: carousel
-                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
-                      - id: 8
-                        role: carousel
-                        image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
-                全画像未作成パターン:
-                  value:
-                    id: 1
-                    name: ホームケア事務所_1
-                    feature_title: 事業所紹介タイトル
-                    feature_detail: ここに事業所の特徴テキストが入ります
-                    workday:
-                      - mon
-                      - tue
-                      - wed
-                      - thu
-                      - fri
-                    workday_detail: 営業日時についてのテキストが入ります
-                    lat: '43.073211'
-                    lng: '41.350427'
-                    fax: 111-2222-3333
-                    nearest_station: 北12条駅 徒歩5分
-                    thumbnail_image: null
-                    feature_images: []
-                    carousel_images: []
+                      - id: 1
+                        caption: 画像の説明テキストが入ります
+                        role: thumbnail
+                        image_url: 'https://picsum.photos/200/300'
               schema:
                 allOf:
                   - $ref: '#/components/schemas/Office'
@@ -1653,47 +1653,42 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  office_id:
-                    type: integer
-                  client_id:
-                    type: integer
-                  interview_begin_at:
-                    type: string
-                  interview_end_at:
-                    type: string
-                  user_name:
-                    type: string
-                  user_age:
-                    type: integer
-                  contact_tel:
-                    type: string
-                  note:
-                    type: string
-                  is_contacted:
-                    type: boolean
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reserve'
               examples:
                 Example 1:
                   value:
-                    - office_id: 0
-                      client_id: 0
-                      interview_begin_at: 'Sun, 22 Jan 2023 12:43:45.053459000 JST +09:00'
-                      interview_end_at: 'Sun, 22 Jan 2023 12:43:45.053459000 JST +09:00'
-                      user_name: サンプル太郎
-                      user_age: 50
-                      contact_tel: 000-0000-0000
-                      note: 予約の概要が入ります。
-                      is_contacted: false
-                    - office_id: 1
+                    - id: 1
+                      office_id: 1
                       client_id: 1
-                      interview_begin_at: 'Sun, 22 Jan 2023 12:43:45.053459000 JST +09:00'
-                      interview_end_at: 'Sun, 22 Jan 2023 12:43:45.053459000 JST +09:00'
-                      user_name: サンプル花子
-                      user_age: 100
+                      interview_begin_at: '2022-12-22T10:00:35.956+09:00'
+                      interview_end_at: '2022-12-22T10:30:35.956+09:00'
+                      user_name: 田中　太郎
+                      user_age: 60
                       contact_tel: 111-1111-1111
-                      note: 予約の概要が入ります。
+                      note: ''
                       is_contacted: true
+                    - id: 2
+                      office_id: 1
+                      client_id: 2
+                      interview_begin_at: '2022-12-23T12:00:35.956+09:00'
+                      interview_end_at: '2022-12-23T13:00:35.956+09:00'
+                      user_name: 田中　次郎
+                      user_age: 70
+                      contact_tel: 222-2222-2222
+                      note: 足が痛いので歩行時にサポートしていただけると助かります。
+                      is_contacted: false
+                    - id: 3
+                      office_id: 1
+                      client_id: 3
+                      interview_begin_at: '2022-12-24T15:00:35.956+09:00'
+                      interview_end_at: '2022-12-24T18:00:35.956+09:00'
+                      user_name: 田中　三郎
+                      user_age: 80
+                      contact_tel: 333-3333-3333
+                      note: ''
+                      is_contacted: false
       description: 予約一覧を取得する
       tags:
         - reserve
@@ -1703,7 +1698,7 @@ paths:
         - $ref: '#/components/parameters/expiry'
         - $ref: '#/components/parameters/uid'
     parameters: []
-  '/api/v1/manager/reserve/{id}':
+  '/api/v1/manager/reserves/{id}':
     parameters:
       - name: id
         in: path
@@ -1750,18 +1745,6 @@ paths:
         - $ref: '#/components/parameters/client'
         - $ref: '#/components/parameters/expiry'
         - $ref: '#/components/parameters/uid'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                ' id':
-                  type: integer
-                is_contacted:
-                  type: boolean
-              required:
-                - ' id'
   /api/v1/client/thanks:
     post:
       summary: お礼投稿(事業所利用者)
@@ -2514,7 +2497,7 @@ components:
           requirements: 満60歳以上の方、入居時自立・要支援・要介護
           shared_facilities: エントランス、食堂兼機能訓練室、個浴、大浴場、特殊浴槽、和室、談話室、シアタールーム、屋上庭園
           business_entity: 株式会社ユニマット　リタイアメント・コミュニティ
-          official_site_url: 'https://www.unimat-rc.co.jp/shisetsu/sosigaya_871/index.html'
+          official_site_url: 'https://example.com'
       title: OfficeOverview
       description: 施設概要
       properties:
@@ -2550,8 +2533,8 @@ components:
         official_site_url:
           type: string
           description: 公式サイトのURL
-          example: 'https://www.unimat-rc.co.jp/shisetsu/sosigaya_871/index.html'
           format: uri
+          example: 'https://example.com'
       required:
         - id
         - classify
@@ -2572,7 +2555,7 @@ components:
           id: 1
           caption: 画像の説明テキストが入ります
           role: thumbnail
-          image_url: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+          image_url: 'https://picsum.photos/200/300'
       properties:
         id:
           type: integer
@@ -2594,7 +2577,7 @@ components:
           type: string
           description: 画像URL
           format: uri
-          example: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+          example: 'https://picsum.photos/200/300'
       required:
         - id
         - role
@@ -2829,6 +2812,74 @@ components:
             - thu
             - fri
           thumbnail_image: 'http://localhost:3000/rails/active_storage/disk/eyJfcmF/test_image.jpg'
+    Reserve:
+      title: Reserve
+      x-stoplight:
+        id: rj3fz9shn2foq
+      type: object
+      x-examples:
+        Example 1:
+          id: 1
+          office_id: 1
+          client_id: 1
+          interview_begin_at: '2022-12-22T10:04:35.956+09:00'
+          interview_end_at: '2022-12-22T10:04:35.956+09:00'
+          user_name: 田中　太郎
+          user_age: 60
+          contact_tel: 111-1111-1111
+          note: string
+          is_contacted: true
+      properties:
+        id:
+          type: integer
+          example: 1
+          description: 主キー
+        office_id:
+          type: integer
+          description: 予約を受けた事業所のid
+          example: 1
+        client_id:
+          type: integer
+          description: 予約したクライアントのid
+          example: 1
+        interview_begin_at:
+          type: string
+          description: 開始時間
+          format: date-time
+          example: '2022-12-22T10:04:35.956+09:00'
+        interview_end_at:
+          type: string
+          description: 終了時間
+          format: date-time
+          example: '2022-12-22T10:04:35.956+09:00'
+        user_name:
+          type: string
+          description: 予約したクライアント名
+          example: 田中　太郎
+        user_age:
+          type: integer
+          description: 予約したクライアントの年齢
+          example: 60
+        contact_tel:
+          type: string
+          description: クライアントの電話番号
+          example: 111-1111-1111
+        note:
+          type: string
+          description: お困りごと
+        is_contacted:
+          type: boolean
+          description: 事業所がクライアントに連絡済みかどうか
+      required:
+        - office_id
+        - client_id
+        - interview_begin_at
+        - interview_end_at
+        - user_name
+        - user_age
+        - contact_tel
+        - note
+        - is_contacted
   responses:
     AuthSuccess:
       description: ''

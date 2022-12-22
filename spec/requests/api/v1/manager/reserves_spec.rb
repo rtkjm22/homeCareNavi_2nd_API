@@ -14,7 +14,7 @@ RSpec.describe 'Api::V1::Manager::Reserves' do
 
       get api_v1_manager_reserves_path
       expect(response.parsed_body.length).to eq 5
-      expect(response).to have_http_status(:success)
+      assert_response_schema_confirm(200)
     end
 
     it 'ログインしていない場合、エラーが返ってくること' do
