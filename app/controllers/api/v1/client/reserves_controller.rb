@@ -4,8 +4,8 @@ module Api
       class ReservesController < ApplicationController
         before_action :authenticate_api_v1_client!
         def index
-          my_reserves = current_api_v1_client.reserves
-          render json: my_reserves, status: :ok
+          reserves = current_api_v1_client.reserves
+          render json: reserves, status: :ok
         end
 
         def create
